@@ -1391,6 +1391,10 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Точек</div></div>
       <div class="dev-stat"><div class="n" id="devSession">—</div><div class="l">Сессия</div></div>
       <div class="dev-stat"><div class="n" id="devLastSrc">—</div><div class="l">Последний src</div></div>
+      <div class="dev-stat"><div class="n" id="devToday">0</div><div class="l">Сегодня</div></div>
+      <div class="dev-stat"><div class="n" id="dev7d">0</div><div class="l">7 дней</div></div>
+      <div class="dev-stat"><div class="n" id="dev30d">0</div><div class="l">30 дней</div></div>
+      <div class="dev-stat"><div class="n" id="devSource">лок.</div><div class="l">Источник данных</div></div>
     </div>
     <div class="section-label">По точкам (src)</div>
     <table class="dev-table" id="devSrcTable">
@@ -1400,11 +1404,11 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
     <div class="section-label">Последние события</div>
     <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
     <div class="dev-placeholder">
-      <b>После выкладки на GitHub / хостинг</b><br>
-      • QR вида <span style="font-family:var(--mono);color:var(--accent)">?src=t1</span>, <span style="font-family:var(--mono);color:var(--accent)">?src=bar</span><br>
-      • Запись на сервер (Worker / Supabase)<br>
-      • Сводка по залу в реальном времени<br>
-      Сейчас события копятся <b>локально на этом устройстве</b> — для проверки цепочки.
+      <b>QR-аналитика</b><br>
+      • Ссылки: <span style="font-family:var(--mono);color:var(--accent)">?src=t1</span>, <span style="font-family:var(--mono);color:var(--accent)">?src=t2</span>, <span style="font-family:var(--mono);color:var(--accent)">?src=bar</span><br>
+      • Общая статистика — из Supabase (все устройства)<br>
+      • Локальный лог — резерв, если сеть недоступна<br>
+      <span id="devSbStatus" style="opacity:0.85">Статус Supabase: не настроен</span>
     </div>
     <div class="dev-actions">
       <button type="button" class="nav-btn" id="devClearLog">Очистить локальный лог</button>
@@ -2096,9 +2100,30 @@ applyTheme(state.theme || "dark");
 // ===================== DEV MODE =====================
 const DEV_KEY = "cocktail365_dev_v1";
 const QR_LOG_KEY = "cocktail365_qr_log_v1";
+const SESSION_KEY = "cocktail365_session_id";
 const DEV_PIN = "1337";
 let devUnlocked = false;
 try { devUnlocked = localStorage.getItem(DEV_KEY) === "1"; } catch (e) {}
+
+// --- Supabase (вставь свои значения; anon key только публичный) ---
+// Пример URL: https://xxxxxxxx.supabase.co
+const SUPABASE_URL = ""; // ← вставь Project URL
+const SUPABASE_ANON_KEY = ""; // ← вставь anon public key
+const SB_CONFIGURED = !!(SUPABASE_URL && SUPABASE_ANON_KEY &&
+  SUPABASE_URL.indexOf("http") === 0 &&
+  SUPABASE_ANON_KEY.length > 20);
+
+function getOrCreateSessionId() {
+  try {
+    var id = localStorage.getItem(SESSION_KEY);
+    if (id && /^[a-z0-9-]{8,64}$/i.test(id)) return id;
+    id = "s_" + Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+    localStorage.setItem(SESSION_KEY, id);
+    return id;
+  } catch (e) {
+    return "s_tmp_" + Date.now().toString(36);
+  }
+}
 
 function getQrLog() {
   try {
@@ -2110,32 +2135,144 @@ function getQrLog() {
 function saveQrLog(arr) {
   try { localStorage.setItem(QR_LOG_KEY, JSON.stringify(arr.slice(-500))); } catch (e) {}
 }
-function trackQrOpen(src) {
-  if (!src || typeof src !== "string") return;
-  const clean = src.trim().slice(0, 40);
-  if (!clean) return;
+
+function pushLocalQrEvent(source, sessionId) {
   const log = getQrLog();
   log.push({
-    src: clean,
+    src: source,
+    source: source,
+    session_id: sessionId || null,
+    event_type: "scan",
     ts: Date.now(),
-    path: (location.pathname || "/") + (location.search || ""),
-    ua: (navigator.userAgent || "").slice(0, 120),
   });
   saveQrLog(log);
-  try { sessionStorage.setItem("cocktail365_last_src", clean); } catch (e) {}
 }
+
+async function sendQrToSupabase(source, sessionId) {
+  if (!SB_CONFIGURED) return false;
+  try {
+    const res = await fetch(SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/qr_events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Prefer": "return=minimal",
+      },
+      body: JSON.stringify({
+        source: source,
+        session_id: sessionId || null,
+        event_type: "scan",
+      }),
+    });
+    return res.ok || res.status === 201;
+  } catch (e) {
+    return false;
+  }
+}
+
+/** Один QR-переход = одно событие (защита от повторного вызова). */
+function trackQrOpen(src) {
+  if (!src || typeof src !== "string") return;
+  const clean = src.trim().slice(0, 40).replace(/[^\w\-.:]/g, "");
+  if (!clean) return;
+  // анти-дубль на эту вкладку
+  try {
+    const flag = "cocktail365_qr_once_" + clean;
+    if (sessionStorage.getItem(flag) === "1") return;
+    sessionStorage.setItem(flag, "1");
+  } catch (e) {}
+
+  const sessionId = getOrCreateSessionId();
+  try { sessionStorage.setItem("cocktail365_last_src", clean); } catch (e) {}
+
+  // локальный резерв (без UA / path)
+  pushLocalQrEvent(clean, sessionId);
+
+  // облако — тихо, сайт не ломаем
+  sendQrToSupabase(clean, sessionId).catch(function () {});
+}
+
 (function captureSrcOnLoad() {
   try {
     const src = new URLSearchParams(location.search).get("src");
     if (src) {
       trackQrOpen(src);
-      // чистим URL, чтобы не мешал шарингу
       const u = new URL(location.href);
       u.searchParams.delete("src");
       history.replaceState({}, "", u.pathname + u.search + u.hash);
     }
   } catch (e) {}
 })();
+
+async function fetchQrEventsFromSupabase(limit) {
+  if (!SB_CONFIGURED) return null;
+  const lim = Math.min(limit || 1000, 5000);
+  try {
+    const url = SUPABASE_URL.replace(/\/$/, "") +
+      "/rest/v1/qr_events?select=source,session_id,event_type,created_at&event_type=eq.scan&order=created_at.desc&limit=" + lim;
+    const res = await fetch(url, {
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+      },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return Array.isArray(data) ? data : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function normalizeEvents(rows, fromLocal) {
+  if (!rows || !rows.length) return [];
+  if (fromLocal) {
+    return rows.map(function (e) {
+      return {
+        source: e.src || e.source || "?",
+        created_at: e.ts ? new Date(e.ts).toISOString() : null,
+        ts: e.ts || (e.created_at ? Date.parse(e.created_at) : 0),
+      };
+    });
+  }
+  return rows.map(function (e) {
+    const ts = e.created_at ? Date.parse(e.created_at) : 0;
+    return {
+      source: e.source || "?",
+      created_at: e.created_at || null,
+      ts: ts,
+    };
+  });
+}
+
+function computeQrStats(events) {
+  const bySrc = {};
+  let today = 0, d7 = 0, d30 = 0;
+  const now = new Date();
+  const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const ms7 = 7 * 24 * 60 * 60 * 1000;
+  const ms30 = 30 * 24 * 60 * 60 * 1000;
+  const tNow = now.getTime();
+  events.forEach(function (e) {
+    const src = e.source || "?";
+    bySrc[src] = (bySrc[src] || 0) + 1;
+    const t = e.ts || 0;
+    if (t >= startToday) today++;
+    if (tNow - t <= ms7) d7++;
+    if (tNow - t <= ms30) d30++;
+  });
+  return {
+    total: events.length,
+    points: Object.keys(bySrc).length,
+    bySrc: bySrc,
+    today: today,
+    d7: d7,
+    d30: d30,
+    lastSrc: events.length ? events[0].source : "—",
+    recent: events.slice(0, 40),
+  };
+}
 
 function setDevUnlocked(on) {
   devUnlocked = !!on;
@@ -2204,38 +2341,67 @@ function enterDevScreen() {
   });
   renderDev();
 }
-function renderDev() {
-  const log = getQrLog();
-  const bySrc = {};
-  log.forEach(e => { bySrc[e.src] = (bySrc[e.src] || 0) + 1; });
-  const points = Object.keys(bySrc).length;
-  document.getElementById("devQrTotal").textContent = String(log.length);
-  document.getElementById("devQrPoints").textContent = String(points);
+function applyDevStats(stats, sourceLabel) {
+  const el = function (id) { return document.getElementById(id); };
+  if (el("devQrTotal")) el("devQrTotal").textContent = String(stats.total);
+  if (el("devQrPoints")) el("devQrPoints").textContent = String(stats.points);
   let session = "—";
   try { session = sessionStorage.getItem("cocktail365_last_src") || "—"; } catch (e) {}
-  document.getElementById("devSession").textContent = session;
-  document.getElementById("devLastSrc").textContent = log.length ? log[log.length - 1].src : "—";
+  if (el("devSession")) el("devSession").textContent = session;
+  if (el("devLastSrc")) el("devLastSrc").textContent = stats.lastSrc || "—";
+  if (el("devToday")) el("devToday").textContent = String(stats.today || 0);
+  if (el("dev7d")) el("dev7d").textContent = String(stats.d7 || 0);
+  if (el("dev30d")) el("dev30d").textContent = String(stats.d30 || 0);
+  if (el("devSource")) el("devSource").textContent = sourceLabel || "—";
 
-  const body = document.getElementById("devSrcBody");
-  const rows = Object.entries(bySrc).sort((a, b) => b[1] - a[1]);
-  if (!rows.length) {
-    body.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — открой приложение с ?src=t1</td></tr>';
-  } else {
-    body.innerHTML = rows.map(([src, n]) =>
-      '<tr><td><span style="font-family:var(--mono);color:var(--accent)">' + src + '</span></td><td>' + n + '</td></tr>'
-    ).join("");
+  const body = el("devSrcBody");
+  if (body) {
+    const rows = Object.entries(stats.bySrc || {}).sort(function (a, b) { return b[1] - a[1]; });
+    if (!rows.length) {
+      body.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — открой с ?src=t1</td></tr>';
+    } else {
+      body.innerHTML = rows.map(function (r) {
+        return '<tr><td><span style="font-family:var(--mono);color:var(--accent)">' + r[0] + '</span></td><td>' + r[1] + '</td></tr>';
+      }).join("");
+    }
   }
 
-  const logEl = document.getElementById("devLog");
-  const recent = log.slice().reverse().slice(0, 40);
-  if (!recent.length) {
-    logEl.innerHTML = '<div class="empty-hint" style="padding:12px">Событий ещё нет</div>';
+  const logEl = el("devLog");
+  if (logEl) {
+    const recent = stats.recent || [];
+    if (!recent.length) {
+      logEl.innerHTML = '<div class="empty-hint" style="padding:12px">Событий ещё нет</div>';
+    } else {
+      logEl.innerHTML = recent.map(function (e) {
+        const d = new Date(e.ts || e.created_at || 0);
+        const ts = isNaN(d.getTime()) ? "—" : d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+        return '<div class="dev-log-item"><span class="src">' + (e.source || "?") + '</span><span class="ts">' + ts + '</span></div>';
+      }).join("");
+    }
+  }
+
+  const st = el("devSbStatus");
+  if (st) {
+    if (!SB_CONFIGURED) st.textContent = "Статус Supabase: не настроен (вставь URL и anon key)";
+    else if (sourceLabel === "supabase") st.textContent = "Статус Supabase: данные загружены";
+    else if (sourceLabel === "локально") st.textContent = "Статус Supabase: нет ответа, показан локальный лог";
+    else st.textContent = "Статус Supabase: " + (sourceLabel || "—");
+  }
+}
+
+async function renderDev() {
+  // сначала быстрый локальный кадр
+  const localEvents = normalizeEvents(getQrLog().slice().reverse(), true);
+  applyDevStats(computeQrStats(localEvents), SB_CONFIGURED ? "…" : "локально");
+
+  if (!SB_CONFIGURED) return;
+
+  const remote = await fetchQrEventsFromSupabase(2000);
+  if (remote && remote.length >= 0) {
+    const events = normalizeEvents(remote, false);
+    applyDevStats(computeQrStats(events), "supabase");
   } else {
-    logEl.innerHTML = recent.map(e => {
-      const d = new Date(e.ts);
-      const ts = d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-      return '<div class="dev-log-item"><span class="src">' + e.src + '</span><span class="ts">' + ts + '</span></div>';
-    }).join("");
+    applyDevStats(computeQrStats(localEvents), "локально");
   }
 }
 
