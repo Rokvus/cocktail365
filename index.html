@@ -224,6 +224,62 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
 }
 .dev-placeholder b { color: var(--text-secondary); font-weight: 600; }
 .dev-actions { display: flex; flex-direction: column; gap: 8px; }
+
+/* Heatmap */
+.heatmap-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+.heatmap-tab {
+  flex: 1;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+}
+.heatmap-tab.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.heatmap-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.heat-dot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width .35s ease, height .35s ease, background .35s ease, box-shadow .35s ease;
+}
+.heat-dot span {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(10,10,10,0.85);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.heatmap-legend {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--muted); margin-bottom: 10px;
+}
+.heatmap-legend .bar {
+  flex: 1; height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, hsl(200,80%,50%), hsl(100,80%,50%), hsl(0,80%,50%));
+}
+.heatmap-foot {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.heatmap-foot .ts { font-size: 11px; color: var(--muted); }
+
 .screen-dev-enter {
   animation: devEnter .45s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1401,6 +1457,27 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       <thead><tr><th>Точка</th><th>Сканы</th></tr></thead>
       <tbody id="devSrcBody"><tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто</td></tr></tbody>
     </table>
+
+    <div class="section-label">Тепловая карта</div>
+    <div class="heatmap-tabs">
+      <button type="button" class="heatmap-tab active" data-zone="hall">Основной зал</button>
+      <button type="button" class="heatmap-tab" data-zone="terrace">Терраса</button>
+    </div>
+    <div class="heatmap-stage" id="heatmapStage"></div>
+    <div class="heatmap-legend">
+      <span>мало</span><div class="bar"></div><span>много</span>
+    </div>
+    <div class="heatmap-foot">
+      <span class="ts" id="heatmapUpdated">Обновлено: —</span>
+      <button type="button" class="nav-btn" id="heatmapRefreshBtn" style="padding:6px 12px;">↻ Обновить</button>
+    </div>
+    <div class="dev-placeholder" style="margin-top:-6px">
+      Карта строится по количеству сканов QR за каждым столом — это не датчик движения и не факт присутствия гостей,
+      а показатель того, за каким столом чаще открывали меню. Расположение точек примерное (снято со схемы терминала) —
+      если какая-то точка стоит не на своём месте, поправь координаты в <span style="font-family:var(--mono);color:var(--accent)">HEATMAP_ZONES</span> в коде.
+      Обновляется каждые 30 сек, пока открыт этот экран, либо по кнопке.
+    </div>
+
     <div class="section-label">Последние сканы</div>
     <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
     <div class="dev-placeholder">
@@ -2332,6 +2409,107 @@ function computeQrStats(events) {
   };
 }
 
+// ===================== ТЕПЛОВАЯ КАРТА =====================
+// Координаты столов (в % от ширины/высоты схемы, 0 = слева/сверху).
+// Сняты приблизительно со схемы зала на терминале — если точка стоит не на
+// своём месте, просто подвинь x/y для нужного id ниже.
+const HEATMAP_ZONES = {
+  hall: {
+    label: "Основной зал",
+    tables: [
+      { id: "t4",   x: 10, y: 9  },
+      { id: "t5",   x: 25, y: 9  },
+      { id: "t6",   x: 39, y: 9  },
+      { id: "t7",   x: 63, y: 7  },
+      { id: "t3",   x: 10, y: 22 },
+      { id: "t8",   x: 74, y: 21 },
+      { id: "t2",   x: 10, y: 41 },
+      { id: "t14",  x: 44, y: 40 },
+      { id: "t13",  x: 57, y: 39 },
+      { id: "t9",   x: 84, y: 37 },
+      { id: "t1",   x: 10, y: 57 },
+      { id: "t12",  x: 43, y: 55 },
+      { id: "t11",  x: 55, y: 54 },
+      { id: "t10",  x: 88, y: 51 },
+      { id: "bar2", x: 31, y: 73 }, // "16 БАР" на схеме терминала
+      { id: "bar1", x: 44, y: 73 }, // "15 БАР" на схеме терминала
+      { id: "staff",x: 77, y: 71 }  // "27 Персонал" на схеме терминала
+    ]
+  },
+  terrace: {
+    label: "Терраса",
+    tables: [
+      { id: "t26", x: 46, y: 14 },
+      { id: "t27", x: 60, y: 11 },
+      { id: "t28", x: 74, y: 11 },
+      { id: "t25", x: 34, y: 24 },
+      { id: "t24", x: 25, y: 33 },
+      { id: "t34", x: 76, y: 33 },
+      { id: "t23", x: 15, y: 41 },
+      { id: "t33", x: 65, y: 45 },
+      { id: "t22", x: 8,  y: 48 },
+      { id: "t32", x: 55, y: 53 },
+      { id: "t31", x: 46, y: 62 }
+    ]
+  }
+};
+let heatmapZone = "hall";
+let heatmapTimer = null;
+let lastHeatmapCounts = {};
+
+function renderHeatmap(bySrc) {
+  lastHeatmapCounts = bySrc || lastHeatmapCounts || {};
+  const stage = document.getElementById("heatmapStage");
+  if (!stage) return;
+  const zone = HEATMAP_ZONES[heatmapZone];
+  if (!zone) return;
+  const counts = zone.tables.map(function (t) { return lastHeatmapCounts[t.id] || 0; });
+  const max = Math.max(1, Math.max.apply(null, counts));
+  stage.innerHTML = zone.tables.map(function (t) {
+    const n = lastHeatmapCounts[t.id] || 0;
+    const intensity = n / max; // 0..1
+    const hue = Math.round(200 - intensity * 200); // 200 синий -> 0 красный
+    const size = Math.round(28 + intensity * 34);  // 28..62px
+    const glow = Math.round(8 + intensity * 24);
+    const color = "hsl(" + hue + ",80%,50%)";
+    const label = getSourceLabel(t.id).replace(/^Стол\s*/i, "");
+    return (
+      '<div class="heat-dot" style="left:' + t.x + '%;top:' + t.y + '%;width:' + size + 'px;height:' + size + 'px;' +
+      'background:' + color + ';box-shadow:0 0 ' + glow + 'px ' + Math.round(glow * 0.6) + 'px ' + color + ';" title="' +
+      label + ': ' + n + ' скан(ов)">' +
+      '<span>' + label + '</span></div>'
+    );
+  }).join("");
+  const upd = document.getElementById("heatmapUpdated");
+  if (upd) upd.textContent = "Обновлено: " + new Date().toLocaleTimeString("ru-RU");
+}
+
+function bindHeatmapTabs() {
+  document.querySelectorAll(".heatmap-tab").forEach(function (btn) {
+    btn.onclick = function () {
+      document.querySelectorAll(".heatmap-tab").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      heatmapZone = btn.getAttribute("data-zone");
+      renderHeatmap(lastHeatmapCounts);
+    };
+  });
+  const refreshBtn = document.getElementById("heatmapRefreshBtn");
+  if (refreshBtn) refreshBtn.onclick = function () { renderDev(); };
+}
+
+function startHeatmapAutoRefresh() {
+  if (heatmapTimer) clearInterval(heatmapTimer);
+  heatmapTimer = setInterval(function () {
+    const scr = document.getElementById("screen-dev");
+    if (!scr || !scr.classList.contains("active")) {
+      clearInterval(heatmapTimer);
+      heatmapTimer = null;
+      return;
+    }
+    renderDev();
+  }, 30000);
+}
+
 function setDevUnlocked(on) {
   devUnlocked = !!on;
   try {
@@ -2398,6 +2576,7 @@ function enterDevScreen() {
     t.classList.toggle("active", t.dataset.screen === "dev");
   });
   renderDev();
+  startHeatmapAutoRefresh();
 }
 function applyDevStats(stats, sourceLabel) {
   const el = function (id) { return document.getElementById(id); };
@@ -2427,6 +2606,8 @@ function applyDevStats(stats, sourceLabel) {
       }).join("");
     }
   }
+
+  renderHeatmap(stats.bySrc || {});
 
   const logEl = el("devLog");
   if (logEl) {
@@ -2471,6 +2652,8 @@ function bindDevMode() {
   if (window.__devBound) return;
   window.__devBound = true;
 
+  bindHeatmapTabs();
+
   var chip = document.getElementById("headerProgress");
   if (chip) {
     // прямой обработчик на чипе "N / 365"
@@ -2508,6 +2691,7 @@ function bindDevMode() {
   if (exit) exit.onclick = function () {
     setDevUnlocked(false);
     forceClosePinModal();
+    if (heatmapTimer) { clearInterval(heatmapTimer); heatmapTimer = null; }
     switchScreen("home");
     showToast("Режим разработчика выключен");
   };
@@ -2622,7 +2806,7 @@ function switchScreen(name) {
     if (name === "collection") renderCollection();
     if (name === "discover") renderDiscover();
     if (name === "year") renderYear();
-    if (name === "dev") renderDev();
+    if (name === "dev") { renderDev(); startHeatmapAutoRefresh(); }
     return;
   }
   const activate = () => {
@@ -2643,6 +2827,7 @@ function switchScreen(name) {
       void next.offsetWidth;
       next.classList.add("screen-dev-enter");
       renderDev();
+      startHeatmapAutoRefresh();
     }
   };
   if (current) {
