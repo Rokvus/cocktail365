@@ -2107,8 +2107,8 @@ try { devUnlocked = localStorage.getItem(DEV_KEY) === "1"; } catch (e) {}
 
 // --- Supabase (вставь свои значения; anon key только публичный) ---
 // Пример URL: https://xxxxxxxx.supabase.co
-const SUPABASE_URL = ""; // ← вставь Project URL
-const SUPABASE_ANON_KEY = ""; // ← вставь anon public key
+const SUPABASE_URL = "https://nyjbrklsgiwvfudmhpon.supabase.co"; // ← вставь Project URL
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55amJya2xzZ2l3dmZ1ZG1ocG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MjkyMTYsImV4cCI6MjEwMzUwNTIxNn0.opti6Xoor4H2iLKPes3s-RhNKOUnVxqktGKimQ5wOAs"; // ← вставь anon public key
 const SB_CONFIGURED = !!(SUPABASE_URL && SUPABASE_ANON_KEY &&
   SUPABASE_URL.indexOf("http") === 0 &&
   SUPABASE_ANON_KEY.length > 20);
