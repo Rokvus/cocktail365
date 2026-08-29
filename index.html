@@ -2108,7 +2108,10 @@ const DEV_PIN = "1337";
 let devUnlocked = false;
 try { devUnlocked = localStorage.getItem(DEV_KEY) === "1"; } catch (e) {}
 
-// Разрешённые коды столов (белый список)
+// Разрешённые коды столов (белый список).
+// ВАЖНО: этот же список продублирован в Supabase как CHECK-constraint на таблице qr_events —
+// меняешь список тут, обязательно поменяй и constraint в базе, иначе новые точки будут
+// приниматься на сайте, но отклоняться при записи в облако.
 const ALLOWED_SOURCES = [
   "t1","t2","t3","t4","t5","t6","t7","t8","t9","t10",
   "t11","t12","t13","t14","t15","t16",
@@ -2135,12 +2138,18 @@ function getSourceLabel(code) {
 }
 
 function isWhitelistEnabled() {
-  try { return localStorage.getItem(WHITELIST_KEY) === "1"; } catch (e) { return false; }
+  // По умолчанию ВКЛЮЧЁН (раньше был выключен — любой ?src= проходил и логировался).
+  // Явное значение в localStorage переопределяет дефолт (можно выключить кнопкой в Dev-режиме).
+  try {
+    const v = localStorage.getItem(WHITELIST_KEY);
+    if (v === "1") return true;
+    if (v === "0") return false;
+    return true; // дефолт
+  } catch (e) { return true; }
 }
 function setWhitelistEnabled(on) {
   try {
-    if (on) localStorage.setItem(WHITELIST_KEY, "1");
-    else localStorage.removeItem(WHITELIST_KEY);
+    localStorage.setItem(WHITELIST_KEY, on ? "1" : "0");
   } catch (e) {}
 }
 
@@ -2254,13 +2263,17 @@ async function fetchQrEventsFromSupabase(limit) {
   if (!SB_CONFIGURED) return null;
   const lim = Math.min(limit || 1000, 5000);
   try {
-    const url = SUPABASE_URL.replace(/\/$/, "") +
-      "/rest/v1/qr_events?select=source,session_id,event_type,created_at&event_type=eq.scan&order=created_at.desc&limit=" + lim;
+    // Читаем через RPC-функцию (SECURITY DEFINER), а не напрямую из таблицы:
+    // так anon-ключу не нужен прямой SELECT на qr_events (нет анонимного чтения сырых событий/session_id).
+    const url = SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/rpc/get_recent_qr_scans";
     const res = await fetch(url, {
+      method: "POST",
       headers: {
+        "Content-Type": "application/json",
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": "Bearer " + SUPABASE_ANON_KEY,
       },
+      body: JSON.stringify({ lim: lim }),
     });
     if (!res.ok) return null;
     const data = await res.json();
