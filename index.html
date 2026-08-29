@@ -169,61 +169,107 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
   margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5;
 }
 .dev-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
 }
 .dev-stat {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 12px;
+  padding: 12px 10px;
   text-align: center;
 }
 .dev-stat .n {
   font-size: 22px; font-weight: 800; color: var(--accent); font-family: var(--mono);
+  letter-spacing: -0.02em;
 }
 .dev-stat .l {
   font-size: 10px; color: var(--muted); text-transform: uppercase;
   letter-spacing: 0.06em; margin-top: 4px; font-family: var(--mono);
 }
+.dev-compare {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  background: var(--overlay-soft);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.dev-compare .up { color: var(--success); font-weight: 600; }
+.dev-compare .down { color: var(--danger); font-weight: 600; }
+.dev-compare .flat { color: var(--muted); }
+.dev-zones {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px;
+}
+.dev-zone {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.dev-zone .zn { font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--text); }
+.dev-zone .zl { font-size: 10px; color: var(--muted); margin-top: 3px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
 .dev-table {
   width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px;
 }
 .dev-table th, .dev-table td {
-  text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line);
+  text-align: left; padding: 9px 6px; border-bottom: 1px solid var(--line);
+  vertical-align: middle;
 }
 .dev-table th {
   font-family: var(--mono); font-size: 10px; color: var(--muted);
   text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
 }
 .dev-table td:last-child, .dev-table th:last-child { text-align: right; }
+.dev-table .bar-cell { width: 42%; }
+.dev-bar {
+  height: 5px; border-radius: 3px; background: var(--surface-3);
+  overflow: hidden; margin-top: 4px;
+}
+.dev-bar > i {
+  display: block; height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  min-width: 2px;
+}
+.dev-table .name { font-weight: 600; color: var(--text); }
+.dev-table .meta { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 1px; }
 .dev-log {
-  max-height: 220px; overflow-y: auto;
+  max-height: 240px; overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 8px 10px;
+  padding: 6px 10px;
   margin-bottom: 14px;
 }
 .dev-log-item {
-  display: flex; justify-content: space-between; gap: 10px;
-  padding: 7px 2px; border-bottom: 1px dotted var(--line);
-  font-size: 12px;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  padding: 8px 2px; border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
 }
 .dev-log-item:last-child { border-bottom: none; }
-.dev-log-item .src { color: var(--accent); font-family: var(--mono); font-weight: 600; }
-.dev-log-item .ts { color: var(--muted); font-size: 11px; font-family: var(--mono); }
+.dev-log-item .src { color: var(--text); font-weight: 600; }
+.dev-log-item .path { color: var(--text-secondary); font-size: 12px; font-weight: 500; }
+.dev-log-item .ts { color: var(--muted); font-size: 11px; font-family: var(--mono); flex-shrink: 0; }
 .dev-placeholder {
   background: var(--overlay-soft);
-  border: 1px dashed var(--line);
+  border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 14px;
-  font-size: 12.5px;
+  padding: 12px 14px;
+  font-size: 12px;
   color: var(--muted);
-  line-height: 1.55;
-  margin-bottom: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 .dev-placeholder b { color: var(--text-secondary); font-weight: 600; }
-.dev-actions { display: flex; flex-direction: column; gap: 8px; }
+.dev-legend-item { margin-bottom: 8px; }
+.dev-legend-item:last-child { margin-bottom: 0; }
+.dev-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.dev-status-line {
+  font-size: 11.5px; color: var(--muted); text-align: center;
+  margin-bottom: 10px; font-family: var(--mono);
+}
 
 /* Heatmap */
 .heatmap-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
@@ -237,48 +283,107 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
   font-size: 12.5px;
   font-weight: 600;
   text-align: center;
+  transition: border-color .2s, color .2s, background .2s;
 }
 .heatmap-tab.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 .heatmap-stage {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  background: var(--surface);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(110,200,224,0.04), transparent 70%),
+    var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+}
+.heatmap-stage::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 20% 20%;
+  pointer-events: none;
+  opacity: 0.7;
 }
 .heat-dot {
   position: absolute;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: width .35s ease, height .35s ease, background .35s ease, box-shadow .35s ease;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .3s ease;
+  z-index: 2;
 }
-.heat-dot span {
+.heat-dot:active { transform: translate(-50%, -50%) scale(1.08); }
+.heat-dot .ring {
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  pointer-events: none;
+}
+.heat-dot .core {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1px;
+}
+.heat-dot .lbl {
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 700;
-  color: rgba(10,10,10,0.85);
-  pointer-events: none;
-  white-space: nowrap;
+  color: rgba(255,255,255,0.92);
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.45);
 }
+.heat-dot .cnt {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  line-height: 1;
+}
+.heatmap-tip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 8px 11px;
+  font-size: 12px;
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -120%);
+  transition: opacity .15s ease;
+}
+.heatmap-tip.show { opacity: 1; }
+.heatmap-tip b { color: var(--accent); font-family: var(--mono); }
 .heatmap-legend {
   display: flex; align-items: center; gap: 8px;
   font-size: 11px; color: var(--muted); margin-bottom: 10px;
 }
 .heatmap-legend .bar {
-  flex: 1; height: 6px; border-radius: 3px;
-  background: linear-gradient(90deg, hsl(200,80%,50%), hsl(100,80%,50%), hsl(0,80%,50%));
+  flex: 1; height: 5px; border-radius: 3px;
+  background: linear-gradient(90deg,
+    rgba(110,200,224,0.25),
+    rgba(110,200,224,0.55),
+    rgba(224,176,122,0.7),
+    rgba(208,112,112,0.85));
 }
 .heatmap-foot {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
-.heatmap-foot .ts { font-size: 11px; color: var(--muted); }
+.heatmap-foot .ts { font-size: 11px; color: var(--muted); font-family: var(--mono); }
 
 .dev-subtabs { display: flex; gap: 6px; margin: 14px 0 10px; }
 .dev-subtab {
@@ -291,10 +396,11 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
   font-size: 12.5px;
   font-weight: 600;
   text-align: center;
+  transition: border-color .2s, color .2s, background .2s;
 }
 .dev-subtab.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
-.range-pills { display: flex; gap: 6px; margin-bottom: 16px; }
+.range-pills { display: flex; gap: 6px; margin-bottom: 14px; }
 .range-pill {
   flex: 1;
   padding: 7px 4px;
@@ -305,13 +411,14 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
   font-size: 11.5px;
   font-weight: 600;
   text-align: center;
+  transition: border-color .2s, color .2s, background .2s;
 }
 .range-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
 .dev-panel { min-height: 40px; }
 
-.heatmap-dots { position: absolute; inset: 0; }
-.heatmap-paths { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.heatmap-dots { position: absolute; inset: 0; z-index: 2; }
+.heatmap-paths { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
 .path-toggle {
   display: flex; align-items: center; gap: 7px;
@@ -1499,30 +1606,43 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
     <!-- ===== Панель: Обзор ===== -->
     <div class="dev-panel screen-dev-enter" id="devPanelOverview" data-panel="overview">
       <div class="dev-grid">
-        <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Всего сканов</div></div>
-        <div class="dev-stat"><div class="n" id="devUniqueGuests">0</div><div class="l">Уникальных гостей</div></div>
-        <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Точек с сканами</div></div>
-        <div class="dev-stat"><div class="n" id="devAvgTables">0</div><div class="l">Ср. столов / гость</div></div>
-        <div class="dev-stat"><div class="n" id="devLastSrc">—</div><div class="l">Последняя точка</div></div>
-        <div class="dev-stat"><div class="n" id="devSource">—</div><div class="l">Источник данных</div></div>
+        <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Сканов</div></div>
+        <div class="dev-stat"><div class="n" id="devUniqueGuests">0</div><div class="l">Гостей</div></div>
+        <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Столов</div></div>
+        <div class="dev-stat"><div class="n" id="devAvgTables">0</div><div class="l">Столов за визит</div></div>
+        <div class="dev-stat"><div class="n" id="devPeakHour">—</div><div class="l">Пик нагрузки</div></div>
+        <div class="dev-stat"><div class="n" id="devMultiShare">0%</div><div class="l">С пересадкой</div></div>
       </div>
-      <div class="dev-placeholder">
-        <b>Что такое "уникальный гость"</b><br>
-        Одно устройство, отсканировавшее хотя бы один QR. Если то же устройство сканирует ещё раз в течение 18 часов
-        с первого скана — это тот же гость (например, пересел за другой стол). Если пришло больше 18 часов спустя
-        (например, на следующий день) — считается новым гостём. "Точек с сканами" — это про столы, а не про открытые вкладки:
-        просто сколько разных QR-точек хотя бы раз отсканировали за выбранный период.
+      <div class="dev-compare" id="devCompare">—</div>
+      <div class="dev-zones">
+        <div class="dev-zone"><div class="zn" id="devZoneHall">0</div><div class="zl">Зал</div></div>
+        <div class="dev-zone"><div class="zn" id="devZoneTerrace">0</div><div class="zl">Терраса</div></div>
+        <div class="dev-zone"><div class="zn" id="devZoneBar">0</div><div class="zl">Бар</div></div>
+      </div>
+      <div class="dev-placeholder dev-legend" style="margin-top:2px;margin-bottom:10px;font-size:11.5px">
+        <div class="dev-legend-item"><b>Сканы</b> — сколько раз всего открыли любой QR за период. Одно и то же устройство может сканировать много раз, поэтому сканов почти всегда больше, чем гостей.</div>
+        <div class="dev-legend-item"><b>Гость</b> — уникальное устройство. Первый скан открывает окно в 18 часов: всё, что это же устройство сканирует в эти 18 часов, — тот же гость. Если следующий скан приходит позже 18 часов — это уже новый гость.</div>
+        <div class="dev-legend-item">Скан из камеры телефона, Instagram или Telegram часто открывает «чистый» браузер без истории — тогда одно и то же устройство может по ошибке засчитаться новым гостем.</div>
+        <div class="dev-legend-item"><b>Столов</b> — сколько разных QR-точек открыли хотя бы раз за период.</div>
+        <div class="dev-legend-item"><b>Столов за визит</b> — среднее число разных столов у одного гостя за один визит.</div>
+        <div class="dev-legend-item"><b>С пересадкой</b> — доля гостей, которые за визит отсканировали 2 и больше разных стола.</div>
       </div>
     </div>
 
     <!-- ===== Панель: По точкам ===== -->
     <div class="dev-panel" id="devPanelPoints" data-panel="points" style="display:none">
-      <div class="section-label">По точкам</div>
       <table class="dev-table" id="devSrcTable">
-        <thead><tr><th>Точка</th><th>Сканы</th></tr></thead>
-        <tbody id="devSrcBody"><tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто</td></tr></tbody>
+        <thead>
+          <tr>
+            <th>Точка</th>
+            <th class="bar-cell"></th>
+            <th>Сканы</th>
+            <th>%</th>
+          </tr>
+        </thead>
+        <tbody id="devSrcBody"><tr><td colspan="4" style="text-align:center;color:var(--muted)">Пока пусто</td></tr></tbody>
       </table>
-      <div class="section-label">Последние сканы</div>
+      <div class="section-label">Последние визиты</div>
       <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
     </div>
 
@@ -1535,32 +1655,21 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       <div class="heatmap-stage" id="heatmapStage">
         <svg class="heatmap-paths" id="heatmapPaths" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
         <div class="heatmap-dots" id="heatmapDots"></div>
+        <div class="heatmap-tip" id="heatmapTip"></div>
       </div>
       <div class="heatmap-legend">
-        <span>мало</span><div class="bar"></div><span>много</span>
+        <span>меньше</span><div class="bar"></div><span>больше</span>
       </div>
       <label class="path-toggle">
-        <input type="checkbox" id="heatmapPathsToggle" checked> Показывать маршруты гостей
+        <input type="checkbox" id="heatmapPathsToggle" checked> Маршруты гостей
       </label>
       <div class="heatmap-foot">
         <span class="ts" id="heatmapUpdated">Обновлено: —</span>
         <button type="button" class="nav-btn" id="heatmapRefreshBtn" style="padding:6px 12px;">↻ Обновить</button>
       </div>
-      <div class="dev-placeholder" style="margin-top:-6px">
-        Точки — по количеству сканов QR за столом (не датчик движения, а то, где чаще открывали меню).
-        Линии — путь одного и того же устройства между столами за один визит (окно визита — 18 часов от первого скана).
-        Показаны последние 40 визитов за выбранный период, чтобы карта не превращалась в кашу.
-      </div>
     </div>
 
-    <div class="dev-placeholder">
-      <b>Как это работает</b><br>
-      • Каждый QR ведёт на ссылку вида <span style="font-family:var(--mono);color:var(--accent)">?src=t14</span><br>
-      • Статистика общая для всех устройств (Supabase)<br>
-      • Если сети нет — используется локальный резерв<br>
-      • Белый список защищает от левых точек (кнопка ниже)<br>
-      <span id="devSbStatus" style="opacity:0.85">Статус Supabase: не настроен</span>
-    </div>
+    <div class="dev-status-line" id="devSbStatus">Статус: —</div>
     <div class="dev-actions">
       <button type="button" class="nav-btn" id="devWhitelistBtn">Белый список: Выкл</button>
       <button type="button" class="nav-btn" id="devClearLog">Очистить локальный лог</button>
@@ -2428,6 +2537,23 @@ function getRangeBounds(range) {
   return { start: start, end: now };
 }
 
+/** Предыдущий период той же длины (для сравнения). */
+function getPrevRangeBounds(range) {
+  const { start, end } = getRangeBounds(range);
+  const len = end.getTime() - start.getTime();
+  return { start: new Date(start.getTime() - len), end: new Date(start.getTime() - 1) };
+}
+
+function countEventsInBounds(events, bounds) {
+  const a = bounds.start.getTime(), b = bounds.end.getTime();
+  let n = 0;
+  (events || []).forEach(function (e) {
+    const t = e.ts || 0;
+    if (t >= a && t <= b) n++;
+  });
+  return n;
+}
+
 function getLocalEventsForRange(range) {
   const { start, end } = getRangeBounds(range);
   return getQrLog()
@@ -2486,65 +2612,129 @@ function buildVisits(events) {
 
 function computeDevStats(events, visits) {
   const bySrc = {};
+  const bySrcSessions = {};
+  const byHour = {};
+  let hall = 0, terrace = 0, bar = 0;
+  const HALL = { t1:1,t2:1,t3:1,t4:1,t5:1,t6:1,t7:1,t8:1,t9:1,t10:1,t11:1,t12:1,t13:1,t14:1,t15:1,t16:1,staff:1 };
+  const TERRACE = { t22:1,t23:1,t24:1,t25:1,t26:1,t27:1,t28:1,t31:1,t32:1,t33:1,t34:1 };
+  const BAR = { bar1:1, bar2:1 };
+
   events.forEach(function (e) {
     const src = e.source || "?";
     bySrc[src] = (bySrc[src] || 0) + 1;
+    if (e.session_id) {
+      if (!bySrcSessions[src]) bySrcSessions[src] = {};
+      bySrcSessions[src][e.session_id] = 1;
+    }
+    if (HALL[src]) hall++;
+    else if (TERRACE[src]) terrace++;
+    else if (BAR[src]) bar++;
+    if (e.ts) {
+      const h = new Date(e.ts).getHours();
+      byHour[h] = (byHour[h] || 0) + 1;
+    }
   });
+
+  let peakHour = null, peakCount = 0;
+  Object.keys(byHour).forEach(function (h) {
+    if (byHour[h] > peakCount) { peakCount = byHour[h]; peakHour = +h; }
+  });
+
+  let multiTableVisits = 0;
   const avgTables = visits.length
-    ? visits.reduce(function (sum, v) { return sum + new Set(v.map(function (e) { return e.source; })).size; }, 0) / visits.length
+    ? visits.reduce(function (sum, v) {
+        const n = new Set(v.map(function (e) { return e.source; })).size;
+        if (n >= 2) multiTableVisits++;
+        return sum + n;
+      }, 0) / visits.length
     : 0;
+  const multiShare = visits.length ? Math.round((multiTableVisits / visits.length) * 100) : 0;
+
+  const uniqueBySrc = {};
+  Object.keys(bySrcSessions).forEach(function (src) {
+    uniqueBySrc[src] = Object.keys(bySrcSessions[src]).length;
+  });
+
+  // Группируем последние визиты для ленты (не сырые события)
+  const recentVisits = visits.slice().sort(function (a, b) {
+    return (b[b.length - 1].ts || 0) - (a[a.length - 1].ts || 0);
+  }).slice(0, 25).map(function (v) {
+    const sources = [];
+    v.forEach(function (e) {
+      if (!sources.length || sources[sources.length - 1] !== e.source) sources.push(e.source);
+    });
+    return {
+      sources: sources,
+      ts: v[v.length - 1].ts || 0,
+      start: v[0].ts || 0
+    };
+  });
+
   return {
     total: events.length,
     points: Object.keys(bySrc).length,
     bySrc: bySrc,
+    uniqueBySrc: uniqueBySrc,
     uniqueGuests: visits.length,
     avgTables: avgTables,
+    multiShare: multiShare,
+    peakHour: peakHour,
+    hall: hall,
+    terrace: terrace,
+    bar: bar,
     lastSrc: events.length ? events[events.length - 1].source : "—",
-    recent: events.slice().reverse().slice(0, 60),
+    recentVisits: recentVisits,
   };
 }
 
 // ===================== ТЕПЛОВАЯ КАРТА =====================
-// Координаты столов (в % от ширины/высоты схемы, 0 = слева/сверху).
-// Сняты приблизительно со схемы зала на терминале — если точка стоит не на
-// своём месте, просто подвинь x/y для нужного id ниже.
+// Координаты строго по схеме терминала (фото). 0% = левый/верхний край карты.
+// На схеме зала POS есть клетка «28», но QR t28 у нас — терраса, поэтому в зале не рисуем.
 const HEATMAP_ZONES = {
   hall: {
     label: "Основной зал",
     tables: [
-      { id: "t4",   x: 10, y: 9  },
-      { id: "t5",   x: 25, y: 9  },
-      { id: "t6",   x: 39, y: 9  },
-      { id: "t7",   x: 63, y: 7  },
-      { id: "t3",   x: 10, y: 22 },
-      { id: "t8",   x: 74, y: 21 },
-      { id: "t2",   x: 10, y: 41 },
-      { id: "t14",  x: 44, y: 40 },
-      { id: "t13",  x: 57, y: 39 },
-      { id: "t9",   x: 84, y: 37 },
-      { id: "t1",   x: 10, y: 57 },
-      { id: "t12",  x: 43, y: 55 },
-      { id: "t11",  x: 55, y: 54 },
-      { id: "t10",  x: 88, y: 51 },
-      { id: "bar2", x: 31, y: 73 }, // "16 БАР" на схеме терминала
-      { id: "bar1", x: 44, y: 73 }, // "15 БАР" на схеме терминала
-      { id: "staff",x: 77, y: 71 }  // "27 Персонал" на схеме терминала
+      // верхний ряд: 4 5 6 · 7 · (28 на POS — не наш QR)
+      { id: "t4",   x: 10, y: 12 },
+      { id: "t5",   x: 26, y: 12 },
+      { id: "t6",   x: 42, y: 12 },
+      { id: "t7",   x: 64, y: 11 },
+      // левая колонка: 3, 2, 1
+      { id: "t3",   x: 10, y: 26 },
+      { id: "t2",   x: 10, y: 48 },
+      { id: "t1",   x: 10, y: 64 },
+      // правый блок: 8, 9, 10 — на одной прямой с 7 (ровная диагональ, линейная интерполяция)
+      { id: "t8",   x: 71.3, y: 25.3 },
+      { id: "t9",   x: 78.7, y: 39.7 },
+      { id: "t10",  x: 86,   y: 54 },
+      // центр: 14, 13 · 12, 11
+      { id: "t14",  x: 46, y: 40 },
+      { id: "t13",  x: 60, y: 40 },
+      { id: "t12",  x: 44, y: 56 },
+      { id: "t11",  x: 58, y: 56 },
+      // низ: 16 БАР, 15 БАР, 27 Персонал
+      { id: "bar2", x: 34, y: 78 },
+      { id: "bar1", x: 48, y: 78 },
+      { id: "staff",x: 80, y: 76 }
     ]
   },
   terrace: {
     label: "Терраса",
     tables: [
-      { id: "t26", x: 46, y: 14 },
-      { id: "t27", x: 60, y: 11 },
-      { id: "t28", x: 74, y: 11 },
-      { id: "t25", x: 34, y: 24 },
-      { id: "t24", x: 25, y: 33 },
-      { id: "t34", x: 76, y: 33 },
-      { id: "t23", x: 15, y: 41 },
-      { id: "t33", x: 65, y: 45 },
-      { id: "t22", x: 8,  y: 48 },
-      { id: "t32", x: 55, y: 53 },
-      { id: "t31", x: 46, y: 62 }
+      // верх: 26 27 28
+      { id: "t26", x: 48, y: 14 },
+      { id: "t27", x: 62, y: 12 },
+      { id: "t28", x: 78, y: 12 },
+      // диагональ слева: 25 24 23 22 (ровная линия от 25 до 22)
+      { id: "t25", x: 36,   y: 26   },
+      { id: "t24", x: 27.3, y: 36.7 },
+      { id: "t23", x: 18.7, y: 47.3 },
+      { id: "t22", x: 10,   y: 58   },
+      // справа: 34 33 32 31 (ровная линия от 34 до 31)
+      { id: "t34", x: 80,   y: 36 },
+      { id: "t33", x: 68.7, y: 48 },
+      { id: "t32", x: 57.3, y: 60 },
+      { id: "t31", x: 46,   y: 72 }
     ]
   }
 };
@@ -2564,23 +2754,55 @@ function renderHeatmap(bySrc) {
   if (!zone) return;
   const counts = zone.tables.map(function (t) { return lastHeatmapCounts[t.id] || 0; });
   const max = Math.max(1, Math.max.apply(null, counts));
+
   dots.innerHTML = zone.tables.map(function (t) {
     const n = lastHeatmapCounts[t.id] || 0;
     const intensity = n / max; // 0..1
-    const hue = Math.round(200 - intensity * 200); // 200 синий -> 0 красный
-    const size = Math.round(28 + intensity * 34);  // 28..62px
-    const glow = Math.round(8 + intensity * 24);
-    const color = "hsl(" + hue + ",80%,50%)";
-    const label = getSourceLabel(t.id).replace(/^Стол\s*/i, "");
+    // Мягкая палитра: холодный акцент → тёплый → коралл
+    const r = Math.round(110 + intensity * 100);
+    const g = Math.round(200 - intensity * 90);
+    const b = Math.round(224 - intensity * 140);
+    const size = 38; // фиксированный размер — интенсивность передаём только цветом и свечением
+    const glow = Math.round(6 + intensity * 16);
+    const bg = "rgba(" + r + "," + g + "," + b + "," + (0.35 + intensity * 0.5).toFixed(2) + ")";
+    const shadow = "0 0 " + glow + "px rgba(" + r + "," + g + "," + b + "," + (0.25 + intensity * 0.35).toFixed(2) + ")";
+    const label = getSourceLabel(t.id).replace(/^Стол\s*/i, "").replace(/^Бар\s*/i, "Б");
     return (
-      '<div class="heat-dot" style="left:' + t.x + '%;top:' + t.y + '%;width:' + size + 'px;height:' + size + 'px;' +
-      'background:' + color + ';box-shadow:0 0 ' + glow + 'px ' + Math.round(glow * 0.6) + 'px ' + color + ';" title="' +
-      label + ': ' + n + ' скан(ов)">' +
-      '<span>' + label + '</span></div>'
+      '<div class="heat-dot" data-id="' + t.id + '" data-n="' + n + '" style="left:' + t.x + '%;top:' + t.y +
+      '%;width:' + size + 'px;height:' + size + 'px;">' +
+      '<div class="ring"></div>' +
+      '<div class="core" style="background:' + bg + ';box-shadow:' + shadow + ';">' +
+      '<span class="lbl">' + label + '</span>' +
+      (n > 0 ? '<span class="cnt">' + n + '</span>' : '') +
+      '</div></div>'
     );
   }).join("");
+
+  // Тап по точке — подсказка
+  const tip = document.getElementById("heatmapTip");
+  const stage = document.getElementById("heatmapStage");
+  dots.querySelectorAll(".heat-dot").forEach(function (dot) {
+    dot.onclick = function (e) {
+      e.stopPropagation();
+      if (!tip || !stage) return;
+      const id = dot.getAttribute("data-id");
+      const n = dot.getAttribute("data-n") || "0";
+      const name = getSourceLabel(id);
+      tip.innerHTML = "<b>" + name + "</b> · " + n + " скан.";
+      const rect = stage.getBoundingClientRect();
+      const dr = dot.getBoundingClientRect();
+      const x = dr.left + dr.width / 2 - rect.left;
+      const y = dr.top - rect.top;
+      tip.style.left = x + "px";
+      tip.style.top = Math.max(8, y - 4) + "px";
+      tip.classList.add("show");
+      clearTimeout(tip._hide);
+      tip._hide = setTimeout(function () { tip.classList.remove("show"); }, 2200);
+    };
+  });
+
   const upd = document.getElementById("heatmapUpdated");
-  if (upd) upd.textContent = "Обновлено: " + new Date().toLocaleTimeString("ru-RU");
+  if (upd) upd.textContent = "Обновлено: " + new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
 }
 
 const MAX_RENDERED_PATHS = 40;
@@ -2610,10 +2832,11 @@ function renderVisitPaths(visits) {
     .filter(function (seq) { return seq.length >= 2; })
     .slice(-MAX_RENDERED_PATHS);
 
-  svg.innerHTML = sequences.map(function (seq) {
+  svg.innerHTML = sequences.map(function (seq, i) {
     const pts = seq.map(function (p) { return p.x + "," + p.y; }).join(" ");
-    return '<polyline points="' + pts + '" fill="none" stroke="var(--accent)" stroke-width="0.6" ' +
-      'stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>';
+    const op = (0.18 + (i / Math.max(1, sequences.length)) * 0.22).toFixed(2);
+    return '<polyline points="' + pts + '" fill="none" stroke="rgba(110,200,224,0.7)" stroke-width="0.55" ' +
+      'stroke-linecap="round" stroke-linejoin="round" opacity="' + op + '"/>';
   }).join("");
 }
 
@@ -2725,16 +2948,41 @@ function renderOverview(stats, sourceLabel) {
   if (el("devUniqueGuests")) el("devUniqueGuests").textContent = String(stats.uniqueGuests);
   if (el("devQrPoints")) el("devQrPoints").textContent = String(stats.points);
   if (el("devAvgTables")) el("devAvgTables").textContent = stats.avgTables ? stats.avgTables.toFixed(1) : "0";
-  if (el("devLastSrc")) el("devLastSrc").textContent = getSourceLabel(stats.lastSrc);
-  if (el("devSource")) {
-    var srcMap = { "supabase": "облако", "локально": "локально", "…": "…" };
-    el("devSource").textContent = srcMap[sourceLabel] || sourceLabel || "—";
+  if (el("devMultiShare")) el("devMultiShare").textContent = (stats.multiShare != null ? stats.multiShare : 0) + "%";
+  if (el("devPeakHour")) {
+    if (stats.peakHour != null) {
+      var h = stats.peakHour;
+      var h2 = (h + 1) % 24;
+      el("devPeakHour").textContent =
+        String(h).padStart(2, "0") + "–" + String(h2).padStart(2, "0");
+    } else {
+      el("devPeakHour").textContent = "—";
+    }
   }
+  if (el("devZoneHall")) el("devZoneHall").textContent = String(stats.hall || 0);
+  if (el("devZoneTerrace")) el("devZoneTerrace").textContent = String(stats.terrace || 0);
+  if (el("devZoneBar")) el("devZoneBar").textContent = String(stats.bar || 0);
+
+  // Сравнение с предыдущим периодом той же длины (если есть данные)
+  const cmp = el("devCompare");
+  if (cmp) {
+    if (stats.prevTotal == null) {
+      cmp.innerHTML = "Нет данных для сравнения с прошлым периодом";
+    } else {
+      const diff = stats.total - stats.prevTotal;
+      const pct = stats.prevTotal > 0 ? Math.round((diff / stats.prevTotal) * 100) : (stats.total > 0 ? 100 : 0);
+      const cls = diff > 0 ? "up" : (diff < 0 ? "down" : "flat");
+      const arrow = diff > 0 ? "↑" : (diff < 0 ? "↓" : "·");
+      const sign = diff > 0 ? "+" : "";
+      cmp.innerHTML = "К прошлому периоду: <span class=\"" + cls + "\">" + arrow + " " + sign + diff + " (" + sign + pct + "%)</span>";
+    }
+  }
+
   const st = el("devSbStatus");
   if (st) {
     if (!SB_CONFIGURED) st.textContent = "Статус: Supabase не настроен";
-    else if (sourceLabel === "supabase") st.textContent = "Статус: данные загружены из облака";
-    else if (sourceLabel === "локально") st.textContent = "Статус: нет ответа облака, показан локальный лог";
+    else if (sourceLabel === "supabase") st.textContent = "Данные из облака · обновлено " + new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+    else if (sourceLabel === "локально") st.textContent = "Локальный лог · облако недоступно";
     else st.textContent = "Статус: " + (sourceLabel || "—");
   }
 }
@@ -2743,18 +2991,36 @@ function renderPointsTab(stats) {
   const body = document.getElementById("devSrcBody");
   if (body) {
     const rows = Object.entries(stats.bySrc || {}).sort(function (a, b) { return b[1] - a[1]; });
+    const max = rows.length ? rows[0][1] : 1;
+    const total = stats.total || 1;
     body.innerHTML = rows.length
-      ? rows.map(function (r) { return '<tr><td>' + getSourceLabel(r[0]) + '</td><td>' + r[1] + '</td></tr>'; }).join("")
-      : '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — отсканируйте любой QR</td></tr>';
+      ? rows.map(function (r) {
+          const pct = Math.round((r[1] / total) * 100);
+          const w = Math.max(4, Math.round((r[1] / max) * 100));
+          const uniq = (stats.uniqueBySrc && stats.uniqueBySrc[r[0]]) || 0;
+          return '<tr>' +
+            '<td><div class="name">' + getSourceLabel(r[0]) + '</div>' +
+            (uniq ? '<div class="meta">' + uniq + ' гост.</div>' : '') +
+            '</td>' +
+            '<td class="bar-cell"><div class="dev-bar"><i style="width:' + w + '%"></i></div></td>' +
+            '<td>' + r[1] + '</td>' +
+            '<td>' + pct + '%</td>' +
+            '</tr>';
+        }).join("")
+      : '<tr><td colspan="4" style="text-align:center;color:var(--muted)">Пока пусто</td></tr>';
   }
   const logEl = document.getElementById("devLog");
   if (logEl) {
-    const recent = stats.recent || [];
+    const recent = stats.recentVisits || [];
     logEl.innerHTML = recent.length
-      ? recent.map(function (e) {
-          const d = new Date(e.ts || 0);
+      ? recent.map(function (v) {
+          const d = new Date(v.ts || 0);
           const ts = isNaN(d.getTime()) ? "—" : d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-          return '<div class="dev-log-item"><span class="src">' + getSourceLabel(e.source || "?") + '</span><span class="ts">' + ts + '</span></div>';
+          const labels = (v.sources || []).map(getSourceLabel);
+          const path = labels.length > 1
+            ? '<span class="path">' + labels.join(" → ") + '</span>'
+            : '<span class="src">' + (labels[0] || "—") + '</span>';
+          return '<div class="dev-log-item">' + path + '<span class="ts">' + ts + '</span></div>';
         }).join("")
       : '<div class="empty-hint" style="padding:12px">Событий ещё нет</div>';
   }
@@ -2764,6 +3030,16 @@ function paintDev(events, sourceLabel) {
   devEventsRaw = events;
   devVisits = buildVisits(events);
   const stats = computeDevStats(events, devVisits);
+  // Сравнение с прошлым периодом — по локальному логу (быстро и без лишнего запроса)
+  try {
+    const prevBounds = getPrevRangeBounds(devRange);
+    const localAll = getQrLog().map(function (e) {
+      return { ts: e.ts || 0 };
+    });
+    stats.prevTotal = countEventsInBounds(localAll, prevBounds);
+  } catch (e) {
+    stats.prevTotal = null;
+  }
   renderOverview(stats, sourceLabel);
   renderPointsTab(stats);
   renderHeatmap(stats.bySrc);
