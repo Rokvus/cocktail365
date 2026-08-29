@@ -1384,33 +1384,35 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
     <div class="dev-hero">
       <div class="dev-badge">Developer</div>
       <h2>Режим разработчика</h2>
-      <p>Статистика QR, точки входа и заготовки под аналитику</p>
+      <p>Статистика сканирований QR и точки входа гостей</p>
     </div>
     <div class="dev-grid">
-      <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Переходов QR</div></div>
-      <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Точек</div></div>
-      <div class="dev-stat"><div class="n" id="devSession">—</div><div class="l">Сессия</div></div>
-      <div class="dev-stat"><div class="n" id="devLastSrc">—</div><div class="l">Последний src</div></div>
+      <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Всего сканов</div></div>
+      <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Активных точек</div></div>
+      <div class="dev-stat"><div class="n" id="devSession">—</div><div class="l">Текущая сессия</div></div>
+      <div class="dev-stat"><div class="n" id="devLastSrc">—</div><div class="l">Последняя точка</div></div>
       <div class="dev-stat"><div class="n" id="devToday">0</div><div class="l">Сегодня</div></div>
-      <div class="dev-stat"><div class="n" id="dev7d">0</div><div class="l">7 дней</div></div>
-      <div class="dev-stat"><div class="n" id="dev30d">0</div><div class="l">30 дней</div></div>
-      <div class="dev-stat"><div class="n" id="devSource">лок.</div><div class="l">Источник данных</div></div>
+      <div class="dev-stat"><div class="n" id="dev7d">0</div><div class="l">За 7 дней</div></div>
+      <div class="dev-stat"><div class="n" id="dev30d">0</div><div class="l">За 30 дней</div></div>
+      <div class="dev-stat"><div class="n" id="devSource">—</div><div class="l">Источник данных</div></div>
     </div>
-    <div class="section-label">По точкам (src)</div>
+    <div class="section-label">По точкам</div>
     <table class="dev-table" id="devSrcTable">
-      <thead><tr><th>Точка</th><th>Переходы</th></tr></thead>
+      <thead><tr><th>Точка</th><th>Сканы</th></tr></thead>
       <tbody id="devSrcBody"><tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто</td></tr></tbody>
     </table>
-    <div class="section-label">Последние события</div>
+    <div class="section-label">Последние сканы</div>
     <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
     <div class="dev-placeholder">
-      <b>QR-аналитика</b><br>
-      • Ссылки: <span style="font-family:var(--mono);color:var(--accent)">?src=t1</span>, <span style="font-family:var(--mono);color:var(--accent)">?src=t2</span>, <span style="font-family:var(--mono);color:var(--accent)">?src=bar</span><br>
-      • Общая статистика — из Supabase (все устройства)<br>
-      • Локальный лог — резерв, если сеть недоступна<br>
+      <b>Как это работает</b><br>
+      • Каждый QR ведёт на ссылку вида <span style="font-family:var(--mono);color:var(--accent)">?src=t14</span><br>
+      • Статистика общая для всех устройств (Supabase)<br>
+      • Если сети нет — используется локальный резерв<br>
+      • Белый список защищает от левых точек (кнопка ниже)<br>
       <span id="devSbStatus" style="opacity:0.85">Статус Supabase: не настроен</span>
     </div>
     <div class="dev-actions">
+      <button type="button" class="nav-btn" id="devWhitelistBtn">Белый список: Выкл</button>
       <button type="button" class="nav-btn" id="devClearLog">Очистить локальный лог</button>
       <button type="button" class="nav-btn" id="devExportLog">Экспорт лога JSON</button>
       <button type="button" class="share-btn" id="devExitBtn" style="margin-top:4px">Выйти из режима разработчика</button>
@@ -2101,9 +2103,46 @@ applyTheme(state.theme || "dark");
 const DEV_KEY = "cocktail365_dev_v1";
 const QR_LOG_KEY = "cocktail365_qr_log_v1";
 const SESSION_KEY = "cocktail365_session_id";
+const WHITELIST_KEY = "cocktail365_whitelist_on";
 const DEV_PIN = "1337";
 let devUnlocked = false;
 try { devUnlocked = localStorage.getItem(DEV_KEY) === "1"; } catch (e) {}
+
+// Разрешённые коды столов (белый список)
+const ALLOWED_SOURCES = [
+  "t1","t2","t3","t4","t5","t6","t7","t8","t9","t10",
+  "t11","t12","t13","t14","t15","t16",
+  "bar1","bar2","staff",
+  "t22","t23","t24","t25","t26","t27","t28",
+  "t31","t32","t33","t34"
+];
+
+// Красивые названия для статистики
+const SOURCE_LABELS = {
+  t1: "Стол 1", t2: "Стол 2", t3: "Стол 3", t4: "Стол 4",
+  t5: "Стол 5", t6: "Стол 6", t7: "Стол 7", t8: "Стол 8",
+  t9: "Стол 9", t10: "Стол 10", t11: "Стол 11", t12: "Стол 12",
+  t13: "Стол 13", t14: "Стол 14", t15: "Стол 15", t16: "Стол 16",
+  bar1: "Бар 1", bar2: "Бар 2", staff: "Персонал",
+  t22: "Стол 22", t23: "Стол 23", t24: "Стол 24", t25: "Стол 25",
+  t26: "Стол 26", t27: "Стол 27", t28: "Стол 28",
+  t31: "Стол 31", t32: "Стол 32", t33: "Стол 33", t34: "Стол 34"
+};
+
+function getSourceLabel(code) {
+  if (!code) return "—";
+  return SOURCE_LABELS[code] || code;
+}
+
+function isWhitelistEnabled() {
+  try { return localStorage.getItem(WHITELIST_KEY) === "1"; } catch (e) { return false; }
+}
+function setWhitelistEnabled(on) {
+  try {
+    if (on) localStorage.setItem(WHITELIST_KEY, "1");
+    else localStorage.removeItem(WHITELIST_KEY);
+  } catch (e) {}
+}
 
 // --- Supabase (вставь свои значения; anon key только публичный) ---
 // Пример URL: https://xxxxxxxx.supabase.co
@@ -2176,6 +2215,12 @@ function trackQrOpen(src) {
   if (!src || typeof src !== "string") return;
   const clean = src.trim().slice(0, 40).replace(/[^\w\-.:]/g, "");
   if (!clean) return;
+
+  // Белый список (если включён в Dev Mode)
+  if (isWhitelistEnabled() && ALLOWED_SOURCES.indexOf(clean) === -1) {
+    return; // неизвестный стол — игнорируем
+  }
+
   // анти-дубль на эту вкладку
   try {
     const flag = "cocktail365_qr_once_" + clean;
@@ -2346,22 +2391,26 @@ function applyDevStats(stats, sourceLabel) {
   if (el("devQrTotal")) el("devQrTotal").textContent = String(stats.total);
   if (el("devQrPoints")) el("devQrPoints").textContent = String(stats.points);
   let session = "—";
-  try { session = sessionStorage.getItem("cocktail365_last_src") || "—"; } catch (e) {}
+  try { session = getSourceLabel(sessionStorage.getItem("cocktail365_last_src") || ""); } catch (e) {}
   if (el("devSession")) el("devSession").textContent = session;
-  if (el("devLastSrc")) el("devLastSrc").textContent = stats.lastSrc || "—";
+  if (el("devLastSrc")) el("devLastSrc").textContent = getSourceLabel(stats.lastSrc);
   if (el("devToday")) el("devToday").textContent = String(stats.today || 0);
   if (el("dev7d")) el("dev7d").textContent = String(stats.d7 || 0);
   if (el("dev30d")) el("dev30d").textContent = String(stats.d30 || 0);
-  if (el("devSource")) el("devSource").textContent = sourceLabel || "—";
+  if (el("devSource")) {
+    var srcMap = { "supabase": "облако", "локально": "локально", "…": "…" };
+    el("devSource").textContent = srcMap[sourceLabel] || sourceLabel || "—";
+  }
 
   const body = el("devSrcBody");
   if (body) {
     const rows = Object.entries(stats.bySrc || {}).sort(function (a, b) { return b[1] - a[1]; });
     if (!rows.length) {
-      body.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — открой с ?src=t1</td></tr>';
+      body.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — отсканируйте любой QR</td></tr>';
     } else {
       body.innerHTML = rows.map(function (r) {
-        return '<tr><td><span style="font-family:var(--mono);color:var(--accent)">' + r[0] + '</span></td><td>' + r[1] + '</td></tr>';
+        var name = getSourceLabel(r[0]);
+        return '<tr><td>' + name + '</td><td>' + r[1] + '</td></tr>';
       }).join("");
     }
   }
@@ -2375,17 +2424,17 @@ function applyDevStats(stats, sourceLabel) {
       logEl.innerHTML = recent.map(function (e) {
         const d = new Date(e.ts || e.created_at || 0);
         const ts = isNaN(d.getTime()) ? "—" : d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-        return '<div class="dev-log-item"><span class="src">' + (e.source || "?") + '</span><span class="ts">' + ts + '</span></div>';
+        return '<div class="dev-log-item"><span class="src">' + getSourceLabel(e.source || "?") + '</span><span class="ts">' + ts + '</span></div>';
       }).join("");
     }
   }
 
   const st = el("devSbStatus");
   if (st) {
-    if (!SB_CONFIGURED) st.textContent = "Статус Supabase: не настроен (вставь URL и anon key)";
-    else if (sourceLabel === "supabase") st.textContent = "Статус Supabase: данные загружены";
-    else if (sourceLabel === "локально") st.textContent = "Статус Supabase: нет ответа, показан локальный лог";
-    else st.textContent = "Статус Supabase: " + (sourceLabel || "—");
+    if (!SB_CONFIGURED) st.textContent = "Статус: Supabase не настроен";
+    else if (sourceLabel === "supabase") st.textContent = "Статус: данные загружены из облака";
+    else if (sourceLabel === "локально") st.textContent = "Статус: нет ответа облака, показан локальный лог";
+    else st.textContent = "Статус: " + (sourceLabel || "—");
   }
 }
 
@@ -2449,6 +2498,23 @@ function bindDevMode() {
     switchScreen("home");
     showToast("Режим разработчика выключен");
   };
+  var wlBtn = document.getElementById("devWhitelistBtn");
+  if (wlBtn) {
+    function updateWlBtn() {
+      var on = isWhitelistEnabled();
+      wlBtn.textContent = on ? "Белый список: Вкл" : "Белый список: Выкл";
+      wlBtn.style.borderColor = on ? "var(--accent)" : "";
+      wlBtn.style.color = on ? "var(--accent)" : "";
+    }
+    updateWlBtn();
+    wlBtn.onclick = function () {
+      var next = !isWhitelistEnabled();
+      setWhitelistEnabled(next);
+      updateWlBtn();
+      showToast(next ? "Белый список включён — только разрешённые столы" : "Белый список выключен — принимаются любые src");
+    };
+  }
+
   var clearBtn = document.getElementById("devClearLog");
   if (clearBtn) clearBtn.onclick = function () {
     saveQrLog([]);
