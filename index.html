@@ -280,6 +280,46 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
 }
 .heatmap-foot .ts { font-size: 11px; color: var(--muted); }
 
+.dev-subtabs { display: flex; gap: 6px; margin: 14px 0 10px; }
+.dev-subtab {
+  flex: 1;
+  padding: 9px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+}
+.dev-subtab.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+.range-pills { display: flex; gap: 6px; margin-bottom: 16px; }
+.range-pill {
+  flex: 1;
+  padding: 7px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+}
+.range-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+.dev-panel { min-height: 40px; }
+
+.heatmap-dots { position: absolute; inset: 0; }
+.heatmap-paths { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.path-toggle {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.path-toggle input { accent-color: var(--accent); width: 15px; height: 15px; }
+
 .screen-dev-enter {
   animation: devEnter .45s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1442,44 +1482,77 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       <h2>Режим разработчика</h2>
       <p>Статистика сканирований QR и точки входа гостей</p>
     </div>
-    <div class="dev-grid">
-      <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Всего сканов</div></div>
-      <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Активных точек</div></div>
-      <div class="dev-stat"><div class="n" id="devSession">—</div><div class="l">Текущая сессия</div></div>
-      <div class="dev-stat"><div class="n" id="devLastSrc">—</div><div class="l">Последняя точка</div></div>
-      <div class="dev-stat"><div class="n" id="devToday">0</div><div class="l">Сегодня</div></div>
-      <div class="dev-stat"><div class="n" id="dev7d">0</div><div class="l">За 7 дней</div></div>
-      <div class="dev-stat"><div class="n" id="dev30d">0</div><div class="l">За 30 дней</div></div>
-      <div class="dev-stat"><div class="n" id="devSource">—</div><div class="l">Источник данных</div></div>
-    </div>
-    <div class="section-label">По точкам</div>
-    <table class="dev-table" id="devSrcTable">
-      <thead><tr><th>Точка</th><th>Сканы</th></tr></thead>
-      <tbody id="devSrcBody"><tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто</td></tr></tbody>
-    </table>
 
-    <div class="section-label">Тепловая карта</div>
-    <div class="heatmap-tabs">
-      <button type="button" class="heatmap-tab active" data-zone="hall">Основной зал</button>
-      <button type="button" class="heatmap-tab" data-zone="terrace">Терраса</button>
-    </div>
-    <div class="heatmap-stage" id="heatmapStage"></div>
-    <div class="heatmap-legend">
-      <span>мало</span><div class="bar"></div><span>много</span>
-    </div>
-    <div class="heatmap-foot">
-      <span class="ts" id="heatmapUpdated">Обновлено: —</span>
-      <button type="button" class="nav-btn" id="heatmapRefreshBtn" style="padding:6px 12px;">↻ Обновить</button>
-    </div>
-    <div class="dev-placeholder" style="margin-top:-6px">
-      Карта строится по количеству сканов QR за каждым столом — это не датчик движения и не факт присутствия гостей,
-      а показатель того, за каким столом чаще открывали меню. Расположение точек примерное (снято со схемы терминала) —
-      если какая-то точка стоит не на своём месте, поправь координаты в <span style="font-family:var(--mono);color:var(--accent)">HEATMAP_ZONES</span> в коде.
-      Обновляется каждые 30 сек, пока открыт этот экран, либо по кнопке.
+    <div class="dev-subtabs">
+      <button type="button" class="dev-subtab active" data-devtab="overview">Обзор</button>
+      <button type="button" class="dev-subtab" data-devtab="points">По точкам</button>
+      <button type="button" class="dev-subtab" data-devtab="map">Карта</button>
     </div>
 
-    <div class="section-label">Последние сканы</div>
-    <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
+    <div class="range-pills">
+      <button type="button" class="range-pill active" data-range="day">День</button>
+      <button type="button" class="range-pill" data-range="week">Неделя</button>
+      <button type="button" class="range-pill" data-range="month">Месяц</button>
+      <button type="button" class="range-pill" data-range="year">Год</button>
+    </div>
+
+    <!-- ===== Панель: Обзор ===== -->
+    <div class="dev-panel screen-dev-enter" id="devPanelOverview" data-panel="overview">
+      <div class="dev-grid">
+        <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Всего сканов</div></div>
+        <div class="dev-stat"><div class="n" id="devUniqueGuests">0</div><div class="l">Уникальных гостей</div></div>
+        <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Точек с сканами</div></div>
+        <div class="dev-stat"><div class="n" id="devAvgTables">0</div><div class="l">Ср. столов / гость</div></div>
+        <div class="dev-stat"><div class="n" id="devLastSrc">—</div><div class="l">Последняя точка</div></div>
+        <div class="dev-stat"><div class="n" id="devSource">—</div><div class="l">Источник данных</div></div>
+      </div>
+      <div class="dev-placeholder">
+        <b>Что такое "уникальный гость"</b><br>
+        Одно устройство, отсканировавшее хотя бы один QR. Если то же устройство сканирует ещё раз в течение 18 часов
+        с первого скана — это тот же гость (например, пересел за другой стол). Если пришло больше 18 часов спустя
+        (например, на следующий день) — считается новым гостём. "Точек с сканами" — это про столы, а не про открытые вкладки:
+        просто сколько разных QR-точек хотя бы раз отсканировали за выбранный период.
+      </div>
+    </div>
+
+    <!-- ===== Панель: По точкам ===== -->
+    <div class="dev-panel" id="devPanelPoints" data-panel="points" style="display:none">
+      <div class="section-label">По точкам</div>
+      <table class="dev-table" id="devSrcTable">
+        <thead><tr><th>Точка</th><th>Сканы</th></tr></thead>
+        <tbody id="devSrcBody"><tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто</td></tr></tbody>
+      </table>
+      <div class="section-label">Последние сканы</div>
+      <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
+    </div>
+
+    <!-- ===== Панель: Карта ===== -->
+    <div class="dev-panel" id="devPanelMap" data-panel="map" style="display:none">
+      <div class="heatmap-tabs">
+        <button type="button" class="heatmap-tab active" data-zone="hall">Основной зал</button>
+        <button type="button" class="heatmap-tab" data-zone="terrace">Терраса</button>
+      </div>
+      <div class="heatmap-stage" id="heatmapStage">
+        <svg class="heatmap-paths" id="heatmapPaths" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+        <div class="heatmap-dots" id="heatmapDots"></div>
+      </div>
+      <div class="heatmap-legend">
+        <span>мало</span><div class="bar"></div><span>много</span>
+      </div>
+      <label class="path-toggle">
+        <input type="checkbox" id="heatmapPathsToggle" checked> Показывать маршруты гостей
+      </label>
+      <div class="heatmap-foot">
+        <span class="ts" id="heatmapUpdated">Обновлено: —</span>
+        <button type="button" class="nav-btn" id="heatmapRefreshBtn" style="padding:6px 12px;">↻ Обновить</button>
+      </div>
+      <div class="dev-placeholder" style="margin-top:-6px">
+        Точки — по количеству сканов QR за столом (не датчик движения, а то, где чаще открывали меню).
+        Линии — путь одного и того же устройства между столами за один визит (окно визита — 18 часов от первого скана).
+        Показаны последние 40 визитов за выбранный период, чтобы карта не превращалась в кашу.
+      </div>
+    </div>
+
     <div class="dev-placeholder">
       <b>Как это работает</b><br>
       • Каждый QR ведёт на ссылку вида <span style="font-family:var(--mono);color:var(--accent)">?src=t14</span><br>
@@ -1496,6 +1569,7 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
     </div>
   </section>
 </div>
+
 
 <div class="modal-overlay" id="pinModal">
   <div class="pin-modal-card" role="dialog" aria-label="PIN">
@@ -2336,13 +2410,37 @@ function trackQrOpen(src) {
   } catch (e) {}
 })();
 
-async function fetchQrEventsFromSupabase(limit) {
+// ===================== ПЕРИОДЫ И ВИЗИТЫ =====================
+const SESSION_GAP_MS = 18 * 60 * 60 * 1000; // окно визита: 18 часов с первого скана
+
+function getRangeBounds(range) {
+  const now = new Date();
+  let start;
+  if (range === "day") {
+    start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  } else if (range === "week") {
+    start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  } else if (range === "month") {
+    start = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  } else {
+    start = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+  }
+  return { start: start, end: now };
+}
+
+function getLocalEventsForRange(range) {
+  const { start, end } = getRangeBounds(range);
+  return getQrLog()
+    .filter(function (e) { return (e.ts || 0) >= start.getTime() && (e.ts || 0) <= end.getTime(); })
+    .map(function (e) { return { source: e.src || e.source || "?", session_id: e.session_id || null, ts: e.ts || 0 }; })
+    .sort(function (a, b) { return a.ts - b.ts; });
+}
+
+async function fetchRemoteEventsForRange(range) {
   if (!SB_CONFIGURED) return null;
-  const lim = Math.min(limit || 1000, 5000);
+  const { start, end } = getRangeBounds(range);
   try {
-    // Читаем через RPC-функцию (SECURITY DEFINER), а не напрямую из таблицы:
-    // так anon-ключу не нужен прямой SELECT на qr_events (нет анонимного чтения сырых событий/session_id).
-    const url = SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/rpc/get_recent_qr_scans";
+    const url = SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/rpc/get_qr_events_range";
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -2350,62 +2448,59 @@ async function fetchQrEventsFromSupabase(limit) {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": "Bearer " + SUPABASE_ANON_KEY,
       },
-      body: JSON.stringify({ lim: lim }),
+      body: JSON.stringify({ start_ts: start.toISOString(), end_ts: end.toISOString(), lim: 5000 }),
     });
     if (!res.ok) return null;
     const data = await res.json();
-    return Array.isArray(data) ? data : null;
+    if (!Array.isArray(data)) return null;
+    return data
+      .map(function (e) { return { source: e.source || "?", session_id: e.session_id || null, ts: e.created_at ? Date.parse(e.created_at) : 0 }; })
+      .sort(function (a, b) { return a.ts - b.ts; });
   } catch (e) {
     return null;
   }
 }
 
-function normalizeEvents(rows, fromLocal) {
-  if (!rows || !rows.length) return [];
-  if (fromLocal) {
-    return rows.map(function (e) {
-      return {
-        source: e.src || e.source || "?",
-        created_at: e.ts ? new Date(e.ts).toISOString() : null,
-        ts: e.ts || (e.created_at ? Date.parse(e.created_at) : 0),
-      };
-    });
-  }
-  return rows.map(function (e) {
-    const ts = e.created_at ? Date.parse(e.created_at) : 0;
-    return {
-      source: e.source || "?",
-      created_at: e.created_at || null,
-      ts: ts,
-    };
+/** Группирует события по session_id, разбивая на отдельные "визиты" по разрыву в 18ч. */
+function buildVisits(events) {
+  const bySession = {};
+  events.forEach(function (e) {
+    const sid = e.session_id || ("anon_" + e.ts);
+    (bySession[sid] = bySession[sid] || []).push(e);
   });
+  const visits = [];
+  Object.keys(bySession).forEach(function (sid) {
+    const list = bySession[sid].slice().sort(function (a, b) { return a.ts - b.ts; });
+    let current = [list[0]];
+    for (let i = 1; i < list.length; i++) {
+      if (list[i].ts - list[i - 1].ts > SESSION_GAP_MS) {
+        visits.push(current);
+        current = [];
+      }
+      current.push(list[i]);
+    }
+    if (current.length) visits.push(current);
+  });
+  return visits;
 }
 
-function computeQrStats(events) {
+function computeDevStats(events, visits) {
   const bySrc = {};
-  let today = 0, d7 = 0, d30 = 0;
-  const now = new Date();
-  const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const ms7 = 7 * 24 * 60 * 60 * 1000;
-  const ms30 = 30 * 24 * 60 * 60 * 1000;
-  const tNow = now.getTime();
   events.forEach(function (e) {
     const src = e.source || "?";
     bySrc[src] = (bySrc[src] || 0) + 1;
-    const t = e.ts || 0;
-    if (t >= startToday) today++;
-    if (tNow - t <= ms7) d7++;
-    if (tNow - t <= ms30) d30++;
   });
+  const avgTables = visits.length
+    ? visits.reduce(function (sum, v) { return sum + new Set(v.map(function (e) { return e.source; })).size; }, 0) / visits.length
+    : 0;
   return {
     total: events.length,
     points: Object.keys(bySrc).length,
     bySrc: bySrc,
-    today: today,
-    d7: d7,
-    d30: d30,
-    lastSrc: events.length ? events[0].source : "—",
-    recent: events.slice(0, 40),
+    uniqueGuests: visits.length,
+    avgTables: avgTables,
+    lastSrc: events.length ? events[events.length - 1].source : "—",
+    recent: events.slice().reverse().slice(0, 60),
   };
 }
 
@@ -2456,16 +2551,20 @@ const HEATMAP_ZONES = {
 let heatmapZone = "hall";
 let heatmapTimer = null;
 let lastHeatmapCounts = {};
+let devTab = "overview";
+let devRange = "day";
+let devEventsRaw = [];
+let devVisits = [];
 
 function renderHeatmap(bySrc) {
   lastHeatmapCounts = bySrc || lastHeatmapCounts || {};
-  const stage = document.getElementById("heatmapStage");
-  if (!stage) return;
+  const dots = document.getElementById("heatmapDots");
+  if (!dots) return;
   const zone = HEATMAP_ZONES[heatmapZone];
   if (!zone) return;
   const counts = zone.tables.map(function (t) { return lastHeatmapCounts[t.id] || 0; });
   const max = Math.max(1, Math.max.apply(null, counts));
-  stage.innerHTML = zone.tables.map(function (t) {
+  dots.innerHTML = zone.tables.map(function (t) {
     const n = lastHeatmapCounts[t.id] || 0;
     const intensity = n / max; // 0..1
     const hue = Math.round(200 - intensity * 200); // 200 синий -> 0 красный
@@ -2484,6 +2583,40 @@ function renderHeatmap(bySrc) {
   if (upd) upd.textContent = "Обновлено: " + new Date().toLocaleTimeString("ru-RU");
 }
 
+const MAX_RENDERED_PATHS = 40;
+let devShowPaths = true;
+
+/** Рисует линии перемещения гостей между столами (одна ломаная = один визит одного устройства). */
+function renderVisitPaths(visits) {
+  const svg = document.getElementById("heatmapPaths");
+  if (!svg) return;
+  if (!devShowPaths) { svg.innerHTML = ""; return; }
+  const zone = HEATMAP_ZONES[heatmapZone];
+  if (!zone) { svg.innerHTML = ""; return; }
+  const posById = {};
+  zone.tables.forEach(function (t) { posById[t.id] = t; });
+
+  const sequences = (visits || [])
+    .map(function (v) {
+      const seq = [];
+      v.forEach(function (e) {
+        const p = posById[e.source];
+        if (!p) return;
+        const last = seq[seq.length - 1];
+        if (!last || last.id !== p.id) seq.push(p);
+      });
+      return seq;
+    })
+    .filter(function (seq) { return seq.length >= 2; })
+    .slice(-MAX_RENDERED_PATHS);
+
+  svg.innerHTML = sequences.map(function (seq) {
+    const pts = seq.map(function (p) { return p.x + "," + p.y; }).join(" ");
+    return '<polyline points="' + pts + '" fill="none" stroke="var(--accent)" stroke-width="0.6" ' +
+      'stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>';
+  }).join("");
+}
+
 function bindHeatmapTabs() {
   document.querySelectorAll(".heatmap-tab").forEach(function (btn) {
     btn.onclick = function () {
@@ -2491,10 +2624,18 @@ function bindHeatmapTabs() {
       btn.classList.add("active");
       heatmapZone = btn.getAttribute("data-zone");
       renderHeatmap(lastHeatmapCounts);
+      renderVisitPaths(devVisits);
     };
   });
   const refreshBtn = document.getElementById("heatmapRefreshBtn");
   if (refreshBtn) refreshBtn.onclick = function () { renderDev(); };
+  const pathsToggle = document.getElementById("heatmapPathsToggle");
+  if (pathsToggle) {
+    pathsToggle.onchange = function () {
+      devShowPaths = pathsToggle.checked;
+      renderVisitPaths(devVisits);
+    };
+  }
 }
 
 function startHeatmapAutoRefresh() {
@@ -2578,51 +2719,17 @@ function enterDevScreen() {
   renderDev();
   startHeatmapAutoRefresh();
 }
-function applyDevStats(stats, sourceLabel) {
+function renderOverview(stats, sourceLabel) {
   const el = function (id) { return document.getElementById(id); };
   if (el("devQrTotal")) el("devQrTotal").textContent = String(stats.total);
+  if (el("devUniqueGuests")) el("devUniqueGuests").textContent = String(stats.uniqueGuests);
   if (el("devQrPoints")) el("devQrPoints").textContent = String(stats.points);
-  let session = "—";
-  try { session = getSourceLabel(sessionStorage.getItem("cocktail365_last_src") || ""); } catch (e) {}
-  if (el("devSession")) el("devSession").textContent = session;
+  if (el("devAvgTables")) el("devAvgTables").textContent = stats.avgTables ? stats.avgTables.toFixed(1) : "0";
   if (el("devLastSrc")) el("devLastSrc").textContent = getSourceLabel(stats.lastSrc);
-  if (el("devToday")) el("devToday").textContent = String(stats.today || 0);
-  if (el("dev7d")) el("dev7d").textContent = String(stats.d7 || 0);
-  if (el("dev30d")) el("dev30d").textContent = String(stats.d30 || 0);
   if (el("devSource")) {
     var srcMap = { "supabase": "облако", "локально": "локально", "…": "…" };
     el("devSource").textContent = srcMap[sourceLabel] || sourceLabel || "—";
   }
-
-  const body = el("devSrcBody");
-  if (body) {
-    const rows = Object.entries(stats.bySrc || {}).sort(function (a, b) { return b[1] - a[1]; });
-    if (!rows.length) {
-      body.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — отсканируйте любой QR</td></tr>';
-    } else {
-      body.innerHTML = rows.map(function (r) {
-        var name = getSourceLabel(r[0]);
-        return '<tr><td>' + name + '</td><td>' + r[1] + '</td></tr>';
-      }).join("");
-    }
-  }
-
-  renderHeatmap(stats.bySrc || {});
-
-  const logEl = el("devLog");
-  if (logEl) {
-    const recent = stats.recent || [];
-    if (!recent.length) {
-      logEl.innerHTML = '<div class="empty-hint" style="padding:12px">Событий ещё нет</div>';
-    } else {
-      logEl.innerHTML = recent.map(function (e) {
-        const d = new Date(e.ts || e.created_at || 0);
-        const ts = isNaN(d.getTime()) ? "—" : d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-        return '<div class="dev-log-item"><span class="src">' + getSourceLabel(e.source || "?") + '</span><span class="ts">' + ts + '</span></div>';
-      }).join("");
-    }
-  }
-
   const st = el("devSbStatus");
   if (st) {
     if (!SB_CONFIGURED) st.textContent = "Статус: Supabase не настроен";
@@ -2632,20 +2739,75 @@ function applyDevStats(stats, sourceLabel) {
   }
 }
 
+function renderPointsTab(stats) {
+  const body = document.getElementById("devSrcBody");
+  if (body) {
+    const rows = Object.entries(stats.bySrc || {}).sort(function (a, b) { return b[1] - a[1]; });
+    body.innerHTML = rows.length
+      ? rows.map(function (r) { return '<tr><td>' + getSourceLabel(r[0]) + '</td><td>' + r[1] + '</td></tr>'; }).join("")
+      : '<tr><td colspan="2" style="text-align:center;color:var(--muted)">Пока пусто — отсканируйте любой QR</td></tr>';
+  }
+  const logEl = document.getElementById("devLog");
+  if (logEl) {
+    const recent = stats.recent || [];
+    logEl.innerHTML = recent.length
+      ? recent.map(function (e) {
+          const d = new Date(e.ts || 0);
+          const ts = isNaN(d.getTime()) ? "—" : d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+          return '<div class="dev-log-item"><span class="src">' + getSourceLabel(e.source || "?") + '</span><span class="ts">' + ts + '</span></div>';
+        }).join("")
+      : '<div class="empty-hint" style="padding:12px">Событий ещё нет</div>';
+  }
+}
+
+function paintDev(events, sourceLabel) {
+  devEventsRaw = events;
+  devVisits = buildVisits(events);
+  const stats = computeDevStats(events, devVisits);
+  renderOverview(stats, sourceLabel);
+  renderPointsTab(stats);
+  renderHeatmap(stats.bySrc);
+  renderVisitPaths(devVisits);
+}
+
 async function renderDev() {
-  // сначала быстрый локальный кадр
-  const localEvents = normalizeEvents(getQrLog().slice().reverse(), true);
-  applyDevStats(computeQrStats(localEvents), SB_CONFIGURED ? "…" : "локально");
+  const localEvents = getLocalEventsForRange(devRange);
+  paintDev(localEvents, SB_CONFIGURED ? "…" : "локально");
 
   if (!SB_CONFIGURED) return;
 
-  const remote = await fetchQrEventsFromSupabase(2000);
-  if (remote && remote.length >= 0) {
-    const events = normalizeEvents(remote, false);
-    applyDevStats(computeQrStats(events), "supabase");
+  const remote = await fetchRemoteEventsForRange(devRange);
+  if (remote) {
+    paintDev(remote, "supabase");
   } else {
-    applyDevStats(computeQrStats(localEvents), "локально");
+    paintDev(localEvents, "локально");
   }
+}
+
+function switchDevTab(tab) {
+  devTab = tab;
+  document.querySelectorAll(".dev-subtab").forEach(function (b) {
+    b.classList.toggle("active", b.getAttribute("data-devtab") === tab);
+  });
+  document.querySelectorAll(".dev-panel").forEach(function (p) {
+    const match = p.getAttribute("data-panel") === tab;
+    if (match) {
+      p.style.display = "";
+      p.classList.remove("screen-dev-enter");
+      void p.offsetWidth;
+      p.classList.add("screen-dev-enter");
+    } else {
+      p.style.display = "none";
+    }
+  });
+}
+
+function switchDevRange(range) {
+  devRange = range;
+  document.querySelectorAll(".range-pill").forEach(function (b) {
+    b.classList.toggle("active", b.getAttribute("data-range") === range);
+  });
+  renderDev();
 }
 
 function bindDevMode() {
@@ -2653,6 +2815,13 @@ function bindDevMode() {
   window.__devBound = true;
 
   bindHeatmapTabs();
+
+  document.querySelectorAll(".dev-subtab").forEach(function (btn) {
+    btn.onclick = function () { switchDevTab(btn.getAttribute("data-devtab")); };
+  });
+  document.querySelectorAll(".range-pill").forEach(function (btn) {
+    btn.onclick = function () { switchDevRange(btn.getAttribute("data-range")); };
+  });
 
   var chip = document.getElementById("headerProgress");
   if (chip) {
