@@ -151,7 +151,26 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
 #screen-dev .dev-hero {
   text-align: center; padding: 8px 0 16px;
 }
-#screen-dev .dev-hero .dev-badge {
+#screen-dev .dev-hero .venue-switch {
+  display: flex; gap: 6px; margin: 10px 0 4px; flex-wrap: wrap;
+}
+.venue-switch button {
+  flex: 1; min-width: 110px;
+  padding: 9px 12px; border-radius: 11px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface); color: var(--muted);
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.01em;
+}
+.venue-switch button.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-color: rgba(110,200,224,0.45);
+  box-shadow: 0 0 0 1px rgba(110,200,224,0.15);
+}
+.venue-switch button:disabled {
+  opacity: 0.45;
+}
+.dev-badge .dev-owner { color: var(--accent); font-weight: 800; }
+.dev-badge {
   display: inline-block;
   font-family: var(--mono);
   font-size: 10px;
@@ -540,6 +559,85 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
 .study-path + .study-path { margin-top: 6px; }
 .study-path b { color: var(--text); }
 .study-empty { padding: 14px 10px; border: 1px dashed var(--line-strong); border-radius: 11px; color: var(--muted); font-size: 11.5px; text-align: center; line-height: 1.45; }
+.dev-device-item {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
+  padding: 11px 12px; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 12px; margin-bottom: 7px; cursor: pointer;
+}
+.dev-device-item:active { border-color: var(--accent); }
+.dev-device-id { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); }
+.dev-device-meta { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.dev-device-badge {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line);
+  color: var(--text-secondary); white-space: nowrap;
+}
+.dev-device-badge.ret { color: var(--accent); border-color: rgba(110,200,224,0.4); background: var(--accent-soft); }
+.dev-device-detail {
+  background: var(--surface); border: 1px solid var(--line-strong);
+  border-radius: 14px; padding: 12px 12px 14px; margin-bottom: 12px;
+}
+.dev-device-detail h4 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+.dev-device-tl { margin-top: 10px; max-height: 360px; overflow-y: auto; }
+.dev-device-tl-item {
+  display: grid; grid-template-columns: 54px 1fr; gap: 8px;
+  padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px;
+}
+.dev-device-tl-item:last-child { border-bottom: none; }
+.dev-device-tl-time { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.dev-device-tl-main { color: var(--text); font-weight: 600; }
+.dev-device-tl-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+.dev-session-card {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+  margin-bottom: 12px;
+}
+.dev-session-card .dev-session-title {
+  font-size: 15px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.02em;
+}
+.dev-session-card .dev-session-sub {
+  font-size: 11.5px; color: var(--muted); line-height: 1.45; margin-bottom: 10px;
+}
+.dev-session-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px;
+}
+.dev-session-stats .cell {
+  background: var(--overlay-soft); border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 6px; text-align: center;
+}
+.dev-session-stats .cell b {
+  display: block; font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--accent);
+}
+.dev-session-stats .cell span {
+  font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em;
+}
+.dev-tl-step {
+  display: grid; grid-template-columns: 22px 1fr; gap: 10px;
+  padding: 0 0 14px; position: relative;
+}
+.dev-tl-step:last-child { padding-bottom: 0; }
+.dev-tl-step::before {
+  content: "";
+  position: absolute; left: 10px; top: 18px; bottom: 0;
+  width: 1px; background: var(--line-strong);
+}
+.dev-tl-step:last-child::before { display: none; }
+.dev-tl-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--line-strong);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--accent); z-index: 1;
+}
+.dev-tl-step.is-deep .dev-tl-dot { border-color: rgba(224,176,122,0.5); color: var(--warm); }
+.dev-tl-step.is-qr .dev-tl-dot { border-color: rgba(110,200,224,0.45); }
+.dev-tl-body { min-width: 0; padding-top: 2px; }
+.dev-tl-body .t { font-size: 13px; font-weight: 650; color: var(--text); line-height: 1.35; }
+.dev-tl-body .s { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.dev-tl-body .time { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+
 
 
 .heatmap-dots { position: absolute; inset: 0; z-index: 2; }
@@ -570,6 +668,159 @@ html[data-theme="light"] button.brand-365-hit { color: var(--text); }
   color: var(--accent-strong); padding: 7px 14px; border-radius: 100px;
   white-space: nowrap;
 }
+
+
+/* Bartender mode */
+.bottom-nav .nav-tab.bar-tab { color: var(--warm); }
+.bottom-nav .nav-tab.bar-tab .nicon { color: var(--warm); }
+.bottom-nav .nav-tab.bar-tab.active::before { background: var(--warm); box-shadow: 0 0 12px rgba(224,176,122,0.55); }
+#screen-bar .bar-hero { text-align: center; padding: 4px 0 12px; }
+#screen-bar .bar-hero .venue-switch {
+  display: flex; gap: 6px; margin: 10px 0 4px; flex-wrap: wrap;
+}
+.venue-switch button {
+  flex: 1; min-width: 110px;
+  padding: 9px 12px; border-radius: 11px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface); color: var(--muted);
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.01em;
+}
+.venue-switch button.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-color: rgba(110,200,224,0.45);
+  box-shadow: 0 0 0 1px rgba(110,200,224,0.15);
+}
+.venue-switch button:disabled {
+  opacity: 0.45;
+}
+.dev-badge .dev-owner { color: var(--accent); font-weight: 800; }
+.dev-badge {
+  display: inline-block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm);
+  border: 1px solid rgba(224,176,122,0.4); border-radius: 999px; padding: 4px 10px; margin-bottom: 8px;
+}
+#screen-bar .bar-hero h2 { margin: 0 0 4px; font-size: 20px; font-weight: 800; }
+#screen-bar .bar-hero p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.bar-summary {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
+}
+.bar-summary .dev-stat .n { color: var(--warm); }
+.bar-cat {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  margin-bottom: 10px; overflow: hidden;
+}
+.bar-cat-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px; cursor: pointer;
+}
+.bar-cat-head .bar-cat-title { font-size: 13.5px; font-weight: 700; }
+.bar-cat-head .bar-cat-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+/* bar-cat-body animated via grid */
+.bar-ing {
+  display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center;
+  padding: 9px 6px; border-top: 1px solid var(--line);
+}
+.bar-ing-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.bar-ing-name small { display: block; font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 1px; }
+.bar-switch {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 108px;
+  height: 34px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 3px;
+  flex-shrink: 0;
+  isolation: isolate;
+}
+.bar-switch-thumb {
+  position: absolute;
+  top: 3px; bottom: 3px;
+  left: 3px;
+  width: calc((100% - 6px) / 3);
+  border-radius: 999px;
+  background: var(--overlay-soft);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: transform .28s cubic-bezier(0.22, 1, 0.36, 1), background .28s ease, box-shadow .28s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+.bar-switch[data-state="0"] .bar-switch-thumb {
+  transform: translateX(0);
+  background: rgba(208,112,112,0.28);
+  box-shadow: 0 0 0 1px rgba(208,112,112,0.25), 0 1px 4px rgba(0,0,0,0.12);
+}
+.bar-switch[data-state="1"] .bar-switch-thumb {
+  transform: translateX(100%);
+  background: rgba(255,255,255,0.06);
+}
+.bar-switch[data-state="2"] .bar-switch-thumb {
+  transform: translateX(200%);
+  background: rgba(93,186,132,0.3);
+  box-shadow: 0 0 0 1px rgba(93,186,132,0.28), 0 1px 4px rgba(0,0,0,0.12);
+}
+html[data-theme="light"] .bar-switch[data-state="1"] .bar-switch-thumb {
+  background: rgba(60,50,35,0.08);
+}
+.bar-switch button {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .22s ease;
+  border-radius: 999px;
+}
+.bar-switch[data-state="0"] button[data-state="0"] { color: var(--danger); }
+.bar-switch[data-state="1"] button[data-state="1"] { color: var(--text-secondary); }
+.bar-switch[data-state="2"] button[data-state="2"] { color: var(--success); }
+.bar-ing { transition: opacity .22s ease; }
+.bar-ing.out .bar-ing-name { opacity: 0.42; text-decoration: line-through; }
+.bar-ing-name { text-transform: none; }
+.bar-group-gap { height: 6px; }
+.bar-cat-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .32s cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 0 10px;
+}
+.bar-cat-body > .bar-cat-inner { overflow: hidden; min-height: 0; }
+.bar-cat.open .bar-cat-body {
+  grid-template-rows: 1fr;
+  padding-bottom: 10px;
+}
+.bar-cat-head .bar-chevron {
+  font-size: 11px; color: var(--muted); transition: transform .25s ease; margin-left: 8px;
+}
+.bar-cat.open .bar-cat-head .bar-chevron { transform: rotate(180deg); }
+.bar-cat-head { display: flex; justify-content: space-between; align-items: center; }
+.bar-cat-head-left { display: flex; align-items: center; gap: 6px; }
+.bar-actions { display: flex; flex-direction: column; gap: 8px; margin: 12px 0 8px; }
+.bar-make-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+.bar-make-item {
+  display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center;
+  padding: 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 12px;
+}
+.bar-make-item img { width: 48px; height: auto; border-radius: 8px; }
+.bar-make-name { font-size: 13px; font-weight: 700; }
+.bar-make-meta { font-size: 10.5px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
+.bar-make-ok { font-family: var(--mono); font-size: 11px; color: var(--success); font-weight: 700; }
+.bar-make-ok.bar-make-partial { color: var(--warm); }
+.bar-make-text { min-width: 0; flex: 1; }
+.bar-make-why {
+  margin-top: 3px;
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: var(--warm);
+  opacity: 0.92;
+}
+.bar-make-item.is-partial { border-color: rgba(224,176,122,0.35); }
+.bar-search { margin-bottom: 10px; }
 
 /* Screens */
 .screen { display: none; }
@@ -1759,15 +2010,20 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
   <!-- DEV -->
   <section class="screen" id="screen-dev">
     <div class="dev-hero">
-      <div class="dev-badge">Developer</div>
+      <div class="dev-badge">Developer · <span class="dev-owner">Rokvus</span></div>
       <h2>Режим разработчика</h2>
       <p>Гости по QR и интерес к коктейлям</p>
+      <div class="venue-switch" id="devVenueSwitch">
+        <button type="button" data-venue="poseidon" class="active">Посейдон</button>
+        <button type="button" data-venue="ryumochnaya">Рюмочная</button>
+      </div>
     </div>
 
     <div class="dev-subtabs">
       <button type="button" class="dev-subtab active" data-devtab="overview">Обзор</button>
       <button type="button" class="dev-subtab" data-devtab="points">По точкам</button>
       <button type="button" class="dev-subtab" data-devtab="map">Карта</button>
+      <button type="button" class="dev-subtab" data-devtab="devices">Устройства</button>
       <button type="button" class="dev-subtab dev-subtab-split" data-devtab="study">Коктейли</button>
     </div>
 
@@ -1788,23 +2044,20 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
     <div class="dev-panel screen-dev-enter" id="devPanelOverview" data-panel="overview">
       <div class="dev-grid">
         <div class="dev-stat"><div class="n" id="devQrTotal">0</div><div class="l">Сканов</div></div>
-        <div class="dev-stat"><div class="n" id="devUniqueGuests">0</div><div class="l">Гостей</div></div>
+        <div class="dev-stat"><div class="n" id="devUniqueGuests">0</div><div class="l">Гостей (18ч)</div></div>
+        <div class="dev-stat"><div class="n" id="devUniqueDevices">0</div><div class="l">Устройств</div></div>
+        <div class="dev-stat"><div class="n" id="devReturningDevices">0</div><div class="l">Вернулись</div></div>
         <div class="dev-stat"><div class="n" id="devQrPoints">0</div><div class="l">Столов</div></div>
         <div class="dev-stat"><div class="n" id="devAvgTables">0</div><div class="l">Столов за визит</div></div>
         <div class="dev-stat"><div class="n" id="devPeakHour">—</div><div class="l">Пик нагрузки</div></div>
         <div class="dev-stat"><div class="n" id="devMultiShare">0%</div><div class="l">С пересадкой</div></div>
       </div>
-      <div class="dev-compare" id="devCompare">—</div>
-      <div class="dev-zones">
-        <div class="dev-zone"><div class="zn" id="devZoneHall">0</div><div class="zl">Зал</div></div>
-        <div class="dev-zone"><div class="zn" id="devZoneTerrace">0</div><div class="zl">Терраса</div></div>
-        <div class="dev-zone"><div class="zn" id="devZoneBar">0</div><div class="zl">Бар</div></div>
-      </div>
       <button type="button" class="dev-help-toggle" id="devHelpToggle">Как считаем?</button>
       <div class="dev-placeholder dev-legend" id="devLegend" style="display:none;margin-top:8px;margin-bottom:10px;font-size:11.5px">
         <div class="dev-legend-item"><b>Сканы</b> — сколько раз открыли любой QR за период. Один гость может дать несколько сканов.</div>
-        <div class="dev-legend-item"><b>Гость</b> — устройство с общим id. Всё, что оно сканирует в окне 18 часов с первого скана, — один гость. Позже 18 часов — новый.</div>
-        <div class="dev-legend-item"><b>Камера / Instagram / Telegram</b> часто открывают «чистый» браузер — тогда одно устройство может засчитаться новым гостем.</div>
+        <div class="dev-legend-item"><b>Гость (18ч)</b> — визит: активность с одним session id в окне 18 часов. После паузы &gt;18ч — новый гость.</div>
+        <div class="dev-legend-item"><b>Устройств</b> — уникальные device id за выбранный период. Id живёт в браузере постоянно и не сбрасывается через 18ч.</div>
+        <div class="dev-legend-item"><b>Вернулись</b> — за всё время: устройства с 2+ визитами (между визитами пауза &gt;18ч). Не зависит от фильтра периода.</div>
         <div class="dev-legend-item"><b>Столов</b> — сколько разных QR открыли хотя бы раз.</div>
         <div class="dev-legend-item"><b>Столов за визит</b> — среднее число разных столов у одного гостя за визит.</div>
         <div class="dev-legend-item"><b>С пересадкой</b> — доля гостей с 2+ разными столами за визит.</div>
@@ -1813,12 +2066,6 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
 
     <!-- ===== Панель: По точкам ===== -->
     <div class="dev-panel" id="devPanelPoints" data-panel="points" style="display:none">
-      <div class="dev-zone-filters" id="devZoneFilters">
-        <button type="button" class="dev-zfilter active" data-zfilter="all">Все</button>
-        <button type="button" class="dev-zfilter" data-zfilter="hall">Зал</button>
-        <button type="button" class="dev-zfilter" data-zfilter="terrace">Терраса</button>
-        <button type="button" class="dev-zfilter" data-zfilter="bar">Бар</button>
-      </div>
       <table class="dev-table" id="devSrcTable">
         <thead>
           <tr>
@@ -1836,10 +2083,7 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
         <div class="dev-legend-item"><b>Сканы</b> — сколько раз открыли именно этот QR за выбранный период.</div>
         <div class="dev-legend-item"><b>%</b> — доля этой точки от всех сканов за период.</div>
         <div class="dev-legend-item">Число под названием точки («N гост.») — сколько разных визитов хотя бы раз коснулись этого QR. Это не сканы, а уникальные гости.</div>
-        <div class="dev-legend-item"><b>Последние визиты</b> ниже — маршрут одного гостя: «Стол 3 → Бар 1» значит, что один и тот же визит сначала затронул стол 3, потом бар.</div>
       </div>
-      <div class="section-label">Последние визиты</div>
-      <div class="dev-log" id="devLog"><div class="empty-hint" style="padding:12px">Событий ещё нет</div></div>
     </div>
 
     <!-- ===== Панель: Карта ===== -->
@@ -1847,18 +2091,6 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       <div class="heatmap-tabs">
         <button type="button" class="heatmap-tab active" data-zone="hall">Основной зал</button>
         <button type="button" class="heatmap-tab" data-zone="terrace">Терраса</button>
-      </div>
-      <label class="path-toggle">
-        <input type="checkbox" id="heatmapPathsToggle" checked> Маршруты гостей
-      </label>
-      <div class="range-select-wrap" id="visitSelectWrap" style="display:block;margin-bottom:12px">
-        <button type="button" class="range-select-btn" id="visitSelectBtn" style="width:100%;justify-content:space-between">
-          <span id="visitSelectLabel">Все маршруты</span>
-          <span class="range-select-arrow">▾</span>
-        </button>
-        <div class="range-select-menu" id="visitSelectMenu" style="width:100%;max-height:260px;overflow-y:auto">
-          <button type="button" data-visit="all" class="active">Все маршруты</button>
-        </div>
       </div>
       <div class="heatmap-stage" id="heatmapStage">
         <svg class="heatmap-paths" id="heatmapPaths" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
@@ -1868,6 +2100,9 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       <div class="heatmap-legend">
         <span>меньше</span><div class="bar"></div><span>больше</span>
       </div>
+      <label class="path-toggle">
+        <input type="checkbox" id="heatmapPathsToggle" checked> Маршруты гостей
+      </label>
       <div class="heatmap-foot">
         <span class="ts" id="heatmapUpdated">Обновлено: —</span>
         <button type="button" class="nav-btn" id="heatmapRefreshBtn" style="padding:6px 12px;">↻ Обновить</button>
@@ -1877,9 +2112,22 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
         <div class="dev-legend-item"><b>Размер и цвет точки</b> — интенсивность сканов внутри текущей зоны (Зал / Терраса), от бледно-голубого (мало) до кораллового (много). Зал и террасу между собой по цвету не сравнивайте — шкала пересчитывается отдельно для каждой.</div>
         <div class="dev-legend-item"><b>Тап по точке</b> — покажет число сканов и долю от всех сканов в этой зоне.</div>
         <div class="dev-legend-item"><b>Маршруты гостей</b> — линии между столами, которые один и тот же визит посетил по очереди (тот же гость, что и во вкладке «По точкам»).</div>
-        <div class="dev-legend-item">Выбери конкретный визит в списке над картой — увидишь только его путь, с номерами по порядку остановок (1, 2, 3…). «Все маршруты» возвращает общий полупрозрачный слой.</div>
         <div class="dev-legend-item">Карта обновляется сама каждые 30 секунд, пока открыт этот экран.</div>
       </div>
+    </div>
+
+    <!-- ===== Панель: Устройства ===== -->
+    <div class="dev-panel" id="devPanelDevices" data-panel="devices" style="display:none">
+      <div class="study-note">
+        <b>Сессии за 5 дней</b> — каждый визит (session id, окно 18ч). Тап → что делал гость: QR, экраны, коктейли, глубокий просмотр, избранное.
+        Ниже — устройства с постоянным id.
+      </div>
+      <div class="section-label">Сессии</div>
+      <div id="devSessionDetail" style="display:none"></div>
+      <div id="devSessionList"><div class="study-empty">Пока нет сессий</div></div>
+      <div class="section-label">Устройства</div>
+      <div id="devDeviceDetail" style="display:none"></div>
+      <div id="devDeviceList"><div class="study-empty">Пока нет данных</div></div>
     </div>
 
     <!-- ===== Панель: Изучение ===== -->
@@ -1916,7 +2164,7 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
       </div>
     </div>
 
-    <div class="section-label" style="margin-top:20px">⚙️ Управление и экспорт данных</div>
+    <div id="devAdminTools"><div class="section-label" style="margin-top:20px">⚙️ Управление и экспорт данных</div>
     <div class="dev-admin-card">
       <div class="dev-status-row">
         <span class="dev-status-line" id="devSbStatus">Статус: —</span>
@@ -1930,14 +2178,44 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
         <button type="button" class="share-btn" id="devExitBtn" style="margin-top:4px">Выйти из режима разработчика</button>
       </div>
     </div>
+    </div>
   </section>
+
+  <!-- BARTENDER -->
+  <section class="screen" id="screen-bar">
+    <div class="bar-hero">
+      <div class="dev-badge">Bartender · <span class="dev-owner">Rokvus</span></div>
+      <h2>Станция бармена</h2>
+      <p>Отметь, чего нет на баре — покажем, что ещё можно собрать</p>
+      <div class="venue-switch" id="barVenueSwitch">
+        <button type="button" data-venue="poseidon" class="active">Посейдон</button>
+        <button type="button" data-venue="ryumochnaya">Рюмочная</button>
+      </div>
+    </div>
+    <div class="bar-summary">
+      <div class="dev-stat"><div class="n" id="barOutCount">0</div><div class="l">Подтверждено</div></div>
+      <div class="dev-stat"><div class="n" id="barCanCount">0</div><div class="l">Можно собрать</div></div>
+    </div>
+    <div class="search-wrap bar-search">
+      <span class="search-icon">⌕</span>
+      <input type="search" id="barIngSearch" placeholder="Поиск ингредиента…" autocomplete="off">
+    </div>
+    <div id="barCategories"></div>
+    <div class="section-label">Можно приготовить сейчас</div>
+    <div class="bar-make-list" id="barMakeList"></div>
+    <div class="bar-actions">
+      <button type="button" class="nav-btn" id="barResetStock">Сбросить наличие (всё есть)</button>
+      <button type="button" class="share-btn" id="barExitBtn" style="margin-top:2px;background:var(--warm);color:#1a1208">Выйти из режима бармена</button>
+    </div>
+  </section>
+
 </div>
 
 
 <div class="modal-overlay" id="pinModal">
   <div class="pin-modal-card" role="dialog" aria-label="PIN">
-    <h3>Режим разработчика</h3>
-    <p>Введи PIN, чтобы открыть служебный экран</p>
+    <h3>Служебный доступ</h3>
+    <p>Введи PIN: разработчик или бармен</p>
     <input type="password" id="pinInput" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="••••">
     <div class="pin-err" id="pinErr"></div>
     <div class="pin-actions">
@@ -1952,6 +2230,7 @@ button.brand-mark svg { display: block; pointer-events: none; width: 22px; heigh
   <button type="button" class="nav-tab" data-screen="collection"><span class="nicon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M15.5 16.5h4M17.5 14.5v4"/></svg></span>Коллекция</button>
   <button type="button" class="nav-tab" data-screen="discover"><span class="nicon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>Подбор</button>
   <button type="button" class="nav-tab" data-screen="year"><span class="nicon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 18V6M10 18V10M16 18V8M20 18v-4"/><path d="M3 18h18"/></svg></span>Мой год</button>
+  <button type="button" class="nav-tab bar-tab" data-screen="bar" id="barNavTab" style="display:none"><span class="nicon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8 3h8l-1 5H9L8 3z"/><path d="M9 8c0 4 1.5 7 3 9 1.5-2 3-5 3-9"/><path d="M7 21h10"/></svg></span>Бар</button>
   <button type="button" class="nav-tab dev-tab" data-screen="dev" id="devNavTab" style="display:none"><span class="nicon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.1.7.6 1.2 1.3 1.4H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>Dev</button>
 </nav>
 
@@ -2711,10 +2990,100 @@ applyTheme(state.theme || "dark");
 
 
 // ===================== DEV MODE =====================
+
+// ===================== VENUES (изоляция заведений) =====================
+const VENUE_STORAGE_KEY = "cocktail365_venue";
+const VENUES = {
+  poseidon: { id: "poseidon", label: "Посейдон" },
+  ryumochnaya: { id: "ryumochnaya", label: "Рюмочная" }
+};
+let currentVenueId = "poseidon";
+try {
+  const v = localStorage.getItem(VENUE_STORAGE_KEY);
+  if (v && VENUES[v]) currentVenueId = v;
+} catch (e) {}
+
+function getVenueId() { return currentVenueId || "poseidon"; }
+function getVenueLabel() { return (VENUES[getVenueId()] || VENUES.poseidon).label; }
+
+/** Ключ localStorage с привязкой к заведению — статистика и бар не пересекаются */
+function venueKey(base) {
+  return base + "__" + getVenueId();
+}
+
+/** Одноразовая миграция старых ключей Посейдона (без суффикса) */
+function migrateVenueKeysIfNeeded() {
+  if (getVenueId() !== "poseidon") return;
+  const pairs = [
+    ["cocktail365_qr_log_v1", "cocktail365_qr_log_v1__poseidon"],
+    ["cocktail365_behavior_v1", "cocktail365_behavior_v1__poseidon"],
+    ["cocktail365_activity_v1", "cocktail365_activity_v1__poseidon"],
+    ["cocktail365_bar_stock_v1", "cocktail365_bar_stock_v1__poseidon"],
+    ["cocktail365_whitelist_on", "cocktail365_whitelist_on__poseidon"]
+  ];
+  try {
+    pairs.forEach(function (pair) {
+      const oldK = pair[0], newK = pair[1];
+      if (localStorage.getItem(newK) != null) return;
+      const val = localStorage.getItem(oldK);
+      if (val != null) localStorage.setItem(newK, val);
+    });
+  } catch (e) {}
+}
+migrateVenueKeysIfNeeded();
+
+function setVenue(id) {
+  if (!VENUES[id] || id === currentVenueId) {
+    syncVenueSwitchUI();
+    return;
+  }
+  currentVenueId = id;
+  try { localStorage.setItem(VENUE_STORAGE_KEY, id); } catch (e) {}
+  // сброс выбора в списках
+  try { devSelectedSessionId = null; } catch (e) {}
+  try { devSelectedDeviceId = null; } catch (e) {}
+  // перезагрузка bar stock в памяти
+  try {
+    if (typeof barStock !== "undefined") {
+      barStock = {};
+      const raw = localStorage.getItem(venueKey("cocktail365_bar_stock_v1"));
+      if (raw) barStock = JSON.parse(raw) || {};
+    }
+  } catch (e) {}
+  syncVenueSwitchUI();
+  // обновить активные экраны
+  try {
+    const dev = document.getElementById("screen-dev");
+    if (dev && dev.classList.contains("active") && typeof renderDev === "function") renderDev();
+  } catch (e) {}
+  try {
+    const bar = document.getElementById("screen-bar");
+    if (bar && bar.classList.contains("active") && typeof renderBar === "function") renderBar();
+  } catch (e) {}
+  try { showToast("Заведение: " + getVenueLabel()); } catch (e) {}
+}
+
+function syncVenueSwitchUI() {
+  document.querySelectorAll(".venue-switch button").forEach(function (btn) {
+    const id = btn.getAttribute("data-venue");
+    btn.classList.toggle("active", id === getVenueId());
+  });
+}
+
+function bindVenueSwitches() {
+  document.querySelectorAll(".venue-switch button").forEach(function (btn) {
+    btn.onclick = function () {
+      setVenue(btn.getAttribute("data-venue"));
+    };
+  });
+  syncVenueSwitchUI();
+}
+
+
 const DEV_KEY = "cocktail365_dev_v1";
-const QR_LOG_KEY = "cocktail365_qr_log_v1";
+const QR_LOG_KEY_BASE = "cocktail365_qr_log_v1";
 const SESSION_KEY = "cocktail365_session_id";
-const WHITELIST_KEY = "cocktail365_whitelist_on";
+const WHITELIST_KEY_BASE = "cocktail365_whitelist_on";
 const DEV_PIN = "1337";
 let devUnlocked = false;
 try { devUnlocked = localStorage.getItem(DEV_KEY) === "1"; } catch (e) {}
@@ -2752,7 +3121,7 @@ function isWhitelistEnabled() {
   // По умолчанию ВКЛЮЧЁН (раньше был выключен — любой ?src= проходил и логировался).
   // Явное значение в localStorage переопределяет дефолт (можно выключить кнопкой в Dev-режиме).
   try {
-    const v = localStorage.getItem(WHITELIST_KEY);
+    const v = localStorage.getItem(venueKey(WHITELIST_KEY_BASE));
     if (v === "1") return true;
     if (v === "0") return false;
     return true; // дефолт
@@ -2760,7 +3129,7 @@ function isWhitelistEnabled() {
 }
 function setWhitelistEnabled(on) {
   try {
-    localStorage.setItem(WHITELIST_KEY, on ? "1" : "0");
+    localStorage.setItem(venueKey(WHITELIST_KEY_BASE), on ? "1" : "0");
   } catch (e) {}
 }
 
@@ -2776,6 +3145,21 @@ const SB_CONFIGURED = !!(SUPABASE_URL && SUPABASE_ANON_KEY &&
  *  После паузы >18 ч — новый session_id (повторный скан = новый уникальный гость). */
 const SESSION_LAST_KEY = "cocktail365_session_last";
 const SESSION_GAP_MS = 18 * 60 * 60 * 1000;
+const DEVICE_KEY = "cocktail365_device_id";
+
+/** Постоянный id устройства (браузера). Не ротируется через 18ч — для возвратов. */
+function getOrCreateDeviceId() {
+  try {
+    var id = localStorage.getItem(DEVICE_KEY);
+    if (id && /^d_[a-z0-9_-]{8,80}$/i.test(id)) return id;
+    id = "d_" + Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+    localStorage.setItem(DEVICE_KEY, id);
+    return id;
+  } catch (e) {
+    return "d_tmp_" + Date.now().toString(36);
+  }
+}
+
 
 function getOrCreateSessionId() {
   var now = Date.now();
@@ -2802,7 +3186,46 @@ function touchSessionActivity() {
 }
 
 // ===================== COCKTAIL BEHAVIOR ANALYTICS =====================
-const COCKTAIL_EVENT_LOCAL_KEY = "cocktail365_behavior_v1";
+
+const COCKTAIL_EVENT_LOCAL_KEY_BASE = "cocktail365_behavior_v1";
+const ACTIVITY_LOG_KEY_BASE = "cocktail365_activity_v1";
+const ACTIVITY_KEEP_MS = 5 * 24 * 60 * 60 * 1000; // 5 дней
+
+function pruneActivityLog(arr) {
+  const cut = Date.now() - ACTIVITY_KEEP_MS;
+  return (arr || []).filter(function (e) { return (e.ts || 0) >= cut; }).slice(-3000);
+}
+
+function getActivityLog() {
+  try {
+    const raw = localStorage.getItem(venueKey(ACTIVITY_LOG_KEY_BASE));
+    return pruneActivityLog(raw ? JSON.parse(raw) : []);
+  } catch (e) { return []; }
+}
+
+function saveActivityLog(arr) {
+  try { localStorage.setItem(venueKey(ACTIVITY_LOG_KEY_BASE), JSON.stringify(pruneActivityLog(arr))); } catch (e) {}
+}
+
+/** Любое действие гостя в рамках сессии (хранится 5 дней). */
+function trackActivity(eventType, meta) {
+  if (!eventType) return;
+  try {
+    const arr = getActivityLog();
+    arr.push({
+      ts: Date.now(),
+      event_type: eventType,
+      session_id: (typeof getOrCreateSessionId === "function" ? getOrCreateSessionId() : null),
+      device_id: (typeof getOrCreateDeviceId === "function" ? getOrCreateDeviceId() : null),
+      venue_id: (typeof getVenueId === "function" ? getVenueId() : "poseidon"),
+      source: (typeof getBehaviorSource === "function" ? getBehaviorSource() : null),
+      meta: meta || {}
+    });
+    saveActivityLog(arr);
+  } catch (e) {}
+}
+
+
 let behaviorCurrent = null;
 let behaviorTimer = null;
 
@@ -2819,6 +3242,7 @@ function sendCocktailEvent(eventType, cocktail, meta) {
   if (!eventType) return;
   const payload = {
     session_id: getOrCreateSessionId(),
+    device_id: getOrCreateDeviceId(),
     source: getBehaviorSource(),
     event_type: eventType,
     cocktail_id: cocktail ? getCocktailAnalyticsId(cocktail) : null,
@@ -2826,11 +3250,20 @@ function sendCocktailEvent(eventType, cocktail, meta) {
     meta: meta || {}
   };
   try {
-    const raw = localStorage.getItem(COCKTAIL_EVENT_LOCAL_KEY);
+    const raw = localStorage.getItem(venueKey(COCKTAIL_EVENT_LOCAL_KEY_BASE));
     const arr = raw ? JSON.parse(raw) : [];
     arr.push(Object.assign({ ts: Date.now() }, payload));
-    localStorage.setItem(COCKTAIL_EVENT_LOCAL_KEY, JSON.stringify(arr.slice(-1500)));
+    localStorage.setItem(venueKey(COCKTAIL_EVENT_LOCAL_KEY_BASE), JSON.stringify(arr.slice(-1500)));
   } catch (e) {}
+  try {
+    if (typeof trackActivity === "function") {
+      trackActivity(eventType, {
+        cocktail_id: payload.cocktail_id,
+        cocktail_name: payload.cocktail_name,
+        meta: payload.meta || {}
+      });
+    }
+  } catch (e2) {}
   if (!SB_CONFIGURED) return;
   fetch(SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/cocktail_events", {
     method: "POST",
@@ -2861,8 +3294,27 @@ function trackCocktailOpen(c, opts) {
   armDeepViewTimer();
 }
 
+/** Останавливает таймер глубокого просмотра (админка / служебные экраны). */
+function pauseBehaviorTracking() {
+  if (!behaviorCurrent) {
+    if (behaviorTimer) { clearTimeout(behaviorTimer); behaviorTimer = null; }
+    return;
+  }
+  if (behaviorTimer) { clearTimeout(behaviorTimer); behaviorTimer = null; }
+  if (behaviorCurrent.resumedAt) {
+    behaviorCurrent.accumMs += Date.now() - behaviorCurrent.resumedAt;
+    behaviorCurrent.resumedAt = null;
+  }
+}
+
 /** Ставит (или переставляет) таймер на оставшееся до 12с ВИДИМОЕ время просмотра. */
 function armDeepViewTimer() {
+  // на служебных экранах не тикаем
+  try {
+    const active = document.querySelector(".screen.active");
+    if (active && (active.id === "screen-dev" || active.id === "screen-bar")) return;
+  } catch (e) {}
+
   if (!behaviorCurrent || behaviorCurrent.deepSent) return;
   if (document.visibilityState !== "visible") return;
   const remaining = 12000 - behaviorCurrent.accumMs;
@@ -2898,7 +3350,7 @@ document.addEventListener("visibilitychange", function () {
 function getLocalCocktailEventsForRange(range) {
   const b = getRangeBounds(range);
   try {
-    const raw = localStorage.getItem(COCKTAIL_EVENT_LOCAL_KEY);
+    const raw = localStorage.getItem(venueKey(COCKTAIL_EVENT_LOCAL_KEY_BASE));
     const arr = raw ? JSON.parse(raw) : [];
     return (Array.isArray(arr) ? arr : []).filter(function (e) { return (e.ts || 0) >= b.start.getTime() && (e.ts || 0) <= b.end.getTime(); }).sort(function (a,b) { return a.ts-b.ts; });
   } catch (e) { return []; }
@@ -2925,13 +3377,13 @@ async function fetchRemoteCocktailEventsForRange(range) {
 
 function getQrLog() {
   try {
-    const raw = localStorage.getItem(QR_LOG_KEY);
+    const raw = localStorage.getItem(venueKey(QR_LOG_KEY_BASE));
     const arr = raw ? JSON.parse(raw) : [];
     return Array.isArray(arr) ? arr : [];
   } catch (e) { return []; }
 }
 function saveQrLog(arr) {
-  try { localStorage.setItem(QR_LOG_KEY, JSON.stringify(arr.slice(-500))); } catch (e) {}
+  try { localStorage.setItem(venueKey(QR_LOG_KEY_BASE), JSON.stringify(arr.slice(-500))); } catch (e) {}
 }
 
 function pushLocalQrEvent(source, sessionId) {
@@ -2940,6 +3392,8 @@ function pushLocalQrEvent(source, sessionId) {
     src: source,
     source: source,
     session_id: sessionId || null,
+    device_id: (typeof getOrCreateDeviceId === "function" ? getOrCreateDeviceId() : null),
+    venue_id: (typeof getVenueId === "function" ? getVenueId() : "poseidon"),
     event_type: "scan",
     ts: Date.now(),
   });
@@ -2960,6 +3414,7 @@ async function sendQrToSupabase(source, sessionId) {
       body: JSON.stringify({
         source: source,
         session_id: sessionId || null,
+        device_id: (typeof getOrCreateDeviceId === "function" ? getOrCreateDeviceId() : null),
         event_type: "scan",
       }),
     });
@@ -3022,6 +3477,11 @@ function trackQrOpen(src) {
 
   pushLocalQrEvent(clean, sessionId);
   sendQrToSupabase(clean, sessionId).catch(function () {});
+  try {
+    if (typeof trackActivity === "function") {
+      trackActivity("qr_scan", { source: clean });
+    }
+  } catch (e) {}
 }
 
 (function captureSrcOnLoad() {
@@ -3208,12 +3668,51 @@ function computeDevStats(events, visits) {
     };
   });
 
+  // Уникальные устройства за период (device_id; fallback session_id для старых событий)
+  const deviceSet = {};
+  events.forEach(function (e) {
+    const did = e.device_id || (e.session_id ? ("s:" + e.session_id) : null);
+    if (did) deviceSet[did] = 1;
+  });
+  const uniqueDevices = Object.keys(deviceSet).length;
+
+  // Вернувшиеся — за всё время по локальному QR-логу
+  let returningDevices = 0;
+  try {
+    const all = (typeof getQrLog === "function" ? getQrLog() : []).map(function (e) {
+      return {
+        ts: e.ts || 0,
+        source: e.source || e.src || "?",
+        session_id: e.session_id || null,
+        device_id: e.device_id || null
+      };
+    });
+    const byDev = {};
+    all.forEach(function (e) {
+      const did = e.device_id || (e.session_id ? ("s:" + e.session_id) : null);
+      if (!did) return;
+      (byDev[did] = byDev[did] || []).push(e);
+    });
+    Object.keys(byDev).forEach(function (did) {
+      const list = byDev[did].slice().sort(function (a, b) { return a.ts - b.ts; });
+      if (list.length < 2) return;
+      // число визитов с разрывом > 18ч
+      let visitsN = 1;
+      for (let i = 1; i < list.length; i++) {
+        if (list[i].ts - list[i - 1].ts > SESSION_GAP_MS) visitsN++;
+      }
+      if (visitsN >= 2) returningDevices++;
+    });
+  } catch (err) {}
+
   return {
     total: events.length,
     points: Object.keys(bySrc).length,
     bySrc: bySrc,
     uniqueBySrc: uniqueBySrc,
     uniqueGuests: visits.length,
+    uniqueDevices: uniqueDevices,
+    returningDevices: returningDevices,
     avgTables: avgTables,
     multiShare: multiShare,
     peakHour: peakHour,
@@ -3357,55 +3856,28 @@ function renderHeatmap(bySrc) {
 
 const MAX_RENDERED_PATHS = 40;
 let devShowPaths = true;
-let selectedVisitIndex = null; // null = агрегированный режим (все визиты сразу)
 
-/** Схлопывает события одного визита в маршрут внутри текущей зоны карты
- *  (соседние повторы одной точки объединяются в одну остановку). */
-function visitZoneSequence(visit, zoneKey) {
-  const zone = HEATMAP_ZONES[zoneKey];
-  if (!zone) return [];
-  const posById = {};
-  zone.tables.forEach(function (t) { posById[t.id] = t; });
-  const seq = [];
-  (visit || []).forEach(function (e) {
-    const p = posById[e.source];
-    if (!p) return;
-    const last = seq[seq.length - 1];
-    if (!last || last.id !== p.id) seq.push(p);
-  });
-  return seq;
-}
-
-/** Рисует ОДИН выделенный маршрут с пронумерованными остановками — видно порядок движения. */
-function drawSingleVisitPathMarkup(seq) {
-  const pts = seq.map(function (p) { return p.x + "," + p.y; }).join(" ");
-  let html = '<polyline points="' + pts + '" fill="none" stroke="rgba(110,200,224,0.95)" stroke-width="1.6" ' +
-    'stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>';
-  seq.forEach(function (p, i) {
-    html += '<circle cx="' + p.x + '" cy="' + p.y + '" r="3.6" fill="rgba(10,12,16,0.92)" stroke="rgba(110,200,224,0.95)" stroke-width="0.6"/>';
-    html += '<text x="' + p.x + '" y="' + (p.y + 1.3) + '" font-size="3.6" font-weight="700" fill="#eaf6fb" text-anchor="middle" font-family="IBM Plex Mono, monospace">' + (i + 1) + '</text>';
-  });
-  return html;
-}
-
-/** Рисует линии перемещения гостей между столами. Если выбран конкретный визит —
- *  только его маршрут с номерами остановок; иначе — полупрозрачный слой всех недавних визитов. */
+/** Рисует линии перемещения гостей между столами (одна ломаная = один визит одного устройства). */
 function renderVisitPaths(visits) {
   const svg = document.getElementById("heatmapPaths");
   if (!svg) return;
+  if (!devShowPaths) { svg.innerHTML = ""; return; }
   const zone = HEATMAP_ZONES[heatmapZone];
   if (!zone) { svg.innerHTML = ""; return; }
-
-  if (selectedVisitIndex != null && visits && visits[selectedVisitIndex]) {
-    const seq = visitZoneSequence(visits[selectedVisitIndex], heatmapZone);
-    svg.innerHTML = seq.length >= 2 ? drawSingleVisitPathMarkup(seq) : "";
-    return;
-  }
-
-  if (!devShowPaths) { svg.innerHTML = ""; return; }
+  const posById = {};
+  zone.tables.forEach(function (t) { posById[t.id] = t; });
 
   const sequences = (visits || [])
-    .map(function (v) { return visitZoneSequence(v, heatmapZone); })
+    .map(function (v) {
+      const seq = [];
+      v.forEach(function (e) {
+        const p = posById[e.source];
+        if (!p) return;
+        const last = seq[seq.length - 1];
+        if (!last || last.id !== p.id) seq.push(p);
+      });
+      return seq;
+    })
     .filter(function (seq) { return seq.length >= 2; })
     .slice(-MAX_RENDERED_PATHS);
 
@@ -3417,77 +3889,13 @@ function renderVisitPaths(visits) {
   }).join("");
 }
 
-function formatVisitTimeLabel(ts) {
-  const d = new Date(ts || 0);
-  if (isNaN(d.getTime())) return "—";
-  return d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-}
-
-/** Перестраивает список визитов для выбора (только те, что затронули 2+ точки в текущей зоне). */
-function renderVisitPicker(visits) {
-  const menu = document.getElementById("visitSelectMenu");
-  const label = document.getElementById("visitSelectLabel");
-  if (!menu) return;
-
-  const options = [];
-  (visits || []).forEach(function (v, idx) {
-    const seq = visitZoneSequence(v, heatmapZone);
-    if (seq.length >= 2) {
-      options.push({
-        index: idx,
-        ts: v[0] ? (v[0].ts || 0) : 0,
-        path: seq.map(function (p) { return getSourceLabel(p.id); }).join(" → "),
-        stops: seq.length,
-      });
-    }
-  });
-  options.sort(function (a, b) { return b.ts - a.ts; });
-
-  let html = '<button type="button" data-visit="all" class="active">Все маршруты</button>';
-  if (!options.length) {
-    html += '<div style="padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.4">Нет визитов с 2+ точками за период в этой зоне</div>';
-  } else {
-    html += options.slice(0, 30).map(function (o) {
-      return '<button type="button" data-visit="' + o.index + '" style="line-height:1.35">' +
-        formatVisitTimeLabel(o.ts) + ' · ' + o.stops + ' точки<br>' +
-        '<span style="font-weight:400;color:var(--muted);font-size:11px">' + o.path + '</span>' +
-        '</button>';
-    }).join("");
-  }
-  menu.innerHTML = html;
-
-  menu.querySelectorAll("button[data-visit]").forEach(function (btn) {
-    btn.onclick = function (e) {
-      e.stopPropagation();
-      const val = btn.getAttribute("data-visit");
-      menu.querySelectorAll("button[data-visit]").forEach(function (b) { b.classList.remove("active"); });
-      btn.classList.add("active");
-      if (val === "all") {
-        selectedVisitIndex = null;
-        if (label) label.textContent = "Все маршруты";
-      } else {
-        selectedVisitIndex = parseInt(val, 10);
-        const found = options.find(function (o) { return o.index === selectedVisitIndex; });
-        if (label) label.textContent = found ? (formatVisitTimeLabel(found.ts) + " · " + found.stops + " т.") : "Визит";
-      }
-      const wrap = document.getElementById("visitSelectWrap");
-      if (wrap) wrap.classList.remove("open");
-      renderVisitPaths(devVisits);
-    };
-  });
-
-  if (label && selectedVisitIndex == null) label.textContent = "Все маршруты";
-}
-
 function bindHeatmapTabs() {
   document.querySelectorAll(".heatmap-tab").forEach(function (btn) {
     btn.onclick = function () {
       document.querySelectorAll(".heatmap-tab").forEach(function (b) { b.classList.remove("active"); });
       btn.classList.add("active");
       heatmapZone = btn.getAttribute("data-zone");
-      selectedVisitIndex = null;
       renderHeatmap(lastHeatmapCounts);
-      renderVisitPicker(devVisits);
       renderVisitPaths(devVisits);
     };
   });
@@ -3499,21 +3907,6 @@ function bindHeatmapTabs() {
       devShowPaths = pathsToggle.checked;
       renderVisitPaths(devVisits);
     };
-  }
-
-  const visitWrap = document.getElementById("visitSelectWrap");
-  const visitBtn = document.getElementById("visitSelectBtn");
-  const visitMenu = document.getElementById("visitSelectMenu");
-  if (visitWrap && visitBtn && visitMenu) {
-    visitBtn.onclick = function (e) {
-      e.stopPropagation();
-      visitWrap.classList.toggle("open");
-    };
-    document.addEventListener("click", function (e) {
-      if (!visitWrap.classList.contains("open")) return;
-      if (visitWrap.contains(e.target)) return;
-      visitWrap.classList.remove("open");
-    });
   }
 }
 
@@ -3585,12 +3978,24 @@ function tryDevPin() {
     if (err) err.textContent = "Подожди " + sec + " с";
     return;
   }
-  if ((input.value || "").trim() === DEV_PIN) {
+  const pinVal = (input.value || "").trim();
+  if (pinVal === DEV_PIN) {
     try { localStorage.removeItem(PIN_FAIL_KEY); } catch (e) {}
     closePinModal();
     setDevUnlocked(true);
     enterDevScreen();
     showToast("Режим разработчика");
+  } else if (pinVal === "2017") {
+    try { localStorage.removeItem(PIN_FAIL_KEY); } catch (e) {}
+    closePinModal();
+    if (typeof setBarUnlocked === "function") setBarUnlocked(true);
+    if (typeof enterBarScreen === "function") enterBarScreen();
+    else {
+      const tab = document.getElementById("barNavTab");
+      if (tab) tab.style.display = "";
+      if (typeof switchScreen === "function") switchScreen("bar");
+    }
+    showToast("Режим бармена");
   } else {
     fail.n = (fail.n || 0) + 1;
     if (fail.n >= PIN_MAX_FAIL) {
@@ -3605,6 +4010,7 @@ function tryDevPin() {
   }
 }
 function enterDevScreen() {
+  try { if (typeof pauseBehaviorTracking === "function") pauseBehaviorTracking(); } catch (e) {}
   const next = document.getElementById("screen-dev");
   if (!next) return;
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active", "leaving"));
@@ -3776,6 +4182,8 @@ function renderOverview(stats, sourceLabel) {
   const el = function (id) { return document.getElementById(id); };
   if (el("devQrTotal")) el("devQrTotal").textContent = String(stats.total);
   if (el("devUniqueGuests")) el("devUniqueGuests").textContent = String(stats.uniqueGuests);
+  if (el("devUniqueDevices")) el("devUniqueDevices").textContent = String(stats.uniqueDevices != null ? stats.uniqueDevices : 0);
+  if (el("devReturningDevices")) el("devReturningDevices").textContent = String(stats.returningDevices != null ? stats.returningDevices : 0);
   if (el("devQrPoints")) el("devQrPoints").textContent = String(stats.points);
   if (el("devAvgTables")) el("devAvgTables").textContent = stats.avgTables ? stats.avgTables.toFixed(1) : "0";
   if (el("devMultiShare")) el("devMultiShare").textContent = (stats.multiShare != null ? stats.multiShare : 0) + "%";
@@ -3789,10 +4197,7 @@ function renderOverview(stats, sourceLabel) {
       el("devPeakHour").textContent = "—";
     }
   }
-  if (el("devZoneHall")) el("devZoneHall").textContent = String(stats.hall || 0);
-  if (el("devZoneTerrace")) el("devZoneTerrace").textContent = String(stats.terrace || 0);
-  if (el("devZoneBar")) el("devZoneBar").textContent = String(stats.bar || 0);
-
+  
   // Сравнение с предыдущим периодом той же длины (если есть данные)
   const cmp = el("devCompare");
   if (cmp) {
@@ -3876,29 +4281,383 @@ function renderPointsTab(stats) {
     else if (key === "scans") th.textContent = "Сканы" + (active ? (devPointsSortDir > 0 ? " ▴" : " ▾") : "");
     else if (key === "pct") th.textContent = "%" + (active ? (devPointsSortDir > 0 ? " ▴" : " ▾") : "");
   });
-  const logEl = document.getElementById("devLog");
-  if (logEl) {
-    const recent = stats.recentVisits || [];
-    logEl.innerHTML = recent.length
-      ? recent.map(function (v) {
-          const d = new Date(v.ts || 0);
-          const ts = isNaN(d.getTime()) ? "—" : d.toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-          const labels = (v.sources || []).map(getSourceLabel);
-          const path = labels.length > 1
-            ? '<span class="path">' + labels.join(" → ") + '</span>'
-            : '<span class="src">' + (labels[0] || "—") + '</span>';
-          return '<div class="dev-log-item">' + path + '<span class="ts">' + ts + '</span></div>';
-        }).join("")
-      : '<div class="empty-hint" style="padding:12px">Событий ещё нет</div>';
-  }
 }
 
 let lastPrevTotalFromCloud = null;
 
+
+function getCocktailEventsLocal() {
+  try {
+    const raw = localStorage.getItem(venueKey(COCKTAIL_EVENT_LOCAL_KEY_BASE));
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { return []; }
+}
+
+function buildDeviceIndex(qrEvents) {
+  const map = {};
+  function ensure(id) {
+    if (!map[id]) map[id] = { id: id, scans: 0, sources: {}, firstTs: null, lastTs: null, visits: 0, events: [] };
+    return map[id];
+  }
+  (qrEvents || []).forEach(function (e) {
+    const did = e.device_id || (e.session_id ? ("s:" + e.session_id) : null);
+    if (!did) return;
+    const d = ensure(did);
+    d.scans++;
+    const src = e.source || e.src || "?";
+    d.sources[src] = (d.sources[src] || 0) + 1;
+    const ts = e.ts || 0;
+    if (!d.firstTs || ts < d.firstTs) d.firstTs = ts;
+    if (!d.lastTs || ts > d.lastTs) d.lastTs = ts;
+    d.events.push({ kind: "qr", ts: ts, source: src, session_id: e.session_id || null });
+  });
+  getCocktailEventsLocal().forEach(function (e) {
+    const did = e.device_id || (e.session_id ? ("s:" + e.session_id) : null);
+    if (!did) return;
+    const d = ensure(did);
+    const ts = e.ts || 0;
+    if (!d.firstTs || ts < d.firstTs) d.firstTs = ts;
+    if (!d.lastTs || ts > d.lastTs) d.lastTs = ts;
+    d.events.push({
+      kind: "cocktail",
+      ts: ts,
+      event_type: e.event_type || "cocktail_open",
+      cocktail_name: e.cocktail_name || e.cocktail_id || "—",
+      source: e.source || null,
+      meta: e.meta || {},
+      session_id: e.session_id || null
+    });
+  });
+  Object.keys(map).forEach(function (id) {
+    const d = map[id];
+    d.events.sort(function (a, b) { return (a.ts || 0) - (b.ts || 0); });
+    // визиты по разрыву 18ч
+    let visitsN = 0;
+    let last = 0;
+    d.events.forEach(function (ev) {
+      if (!last || (ev.ts - last) > SESSION_GAP_MS) visitsN++;
+      last = ev.ts;
+    });
+    d.visits = visitsN;
+    d.returning = visitsN >= 2;
+    d.cocktailOpens = d.events.filter(function (e) { return e.kind === "cocktail" && e.event_type === "cocktail_open"; }).length;
+    d.deepViews = d.events.filter(function (e) { return e.kind === "cocktail" && e.event_type === "cocktail_deep_view"; }).length;
+  });
+  return map;
+}
+
+let devSelectedDeviceId = null;
+
+
+
+function humanActivityLine(ev) {
+  const m = ev.meta || {};
+  const t = ev.event_type || "";
+  if (t === "qr_scan") return { title: "Скан QR-кода", sub: m.source ? ("стол / точка: " + m.source) : (ev.source || ""), icon: "⌁", cls: "is-qr" };
+  if (t === "screen_home") return { title: "Раздел «Сегодня»", sub: "календарь дня", icon: "1", cls: "" };
+  if (t === "screen_collection") return { title: "Коллекция", sub: "просмотр сетки и сезонов", icon: "▦", cls: "" };
+  if (t === "screen_discover") return { title: "Подбор", sub: "фильтры и поиск", icon: "⌕", cls: "" };
+  if (t === "screen_year") return { title: "Мой год", sub: "статистика и достижения", icon: "◎", cls: "" };
+  if (t === "screen_bar") return { title: "Станция бармена", sub: "", icon: "bartender", cls: "" };
+  if (t === "cocktail_open") return { title: "Открыл коктейль", sub: m.cocktail_name || "", icon: "◇", cls: "" };
+  if (t === "cocktail_deep_view") return { title: "Смотрел дольше 12 секунд", sub: m.cocktail_name || "", icon: "●", cls: "is-deep" };
+  if (t === "cocktail_favorite") return { title: "В избранное", sub: m.cocktail_name || "", icon: "♥", cls: "" };
+  if (t === "cocktail_unfavorite") return { title: "Убрал из избранного", sub: m.cocktail_name || "", icon: "♥", cls: "" };
+  if (t === "cocktail_profile") return { title: "Характеристики (?)", sub: m.cocktail_name || "", icon: "?", cls: "" };
+  if (t === "cocktail_similar") return { title: "Похожий коктейль", sub: m.cocktail_name || "", icon: "→", cls: "" };
+  return { title: t, sub: m.cocktail_name || "", icon: "·", cls: "" };
+}
+
+function buildSessionsFromActivity(rangeStartMs, rangeEndMs) {
+  const acts = typeof getActivityLog === "function" ? getActivityLog() : [];
+  const bySes = {};
+  acts.forEach(function (e) {
+    const ts = e.ts || 0;
+    if (rangeStartMs && ts < rangeStartMs) return;
+    if (rangeEndMs && ts > rangeEndMs) return;
+    const sid = e.session_id || "unknown";
+    (bySes[sid] = bySes[sid] || []).push(e);
+  });
+  const list = Object.keys(bySes).map(function (sid) {
+    const events = bySes[sid].slice().sort(function (a, b) { return (a.ts || 0) - (b.ts || 0); });
+    const first = events[0];
+    const last = events[events.length - 1];
+    const device_id = (last && last.device_id) || (first && first.device_id) || null;
+    const cocktails = {};
+    let deep = 0, scans = 0, screens = {};
+    events.forEach(function (e) {
+      if (e.event_type === "qr_scan") scans++;
+      if (e.event_type === "cocktail_deep_view") deep++;
+      if (e.event_type === "cocktail_open" || e.event_type === "cocktail_deep_view") {
+        const n = (e.meta && e.meta.cocktail_name) || "";
+        if (n) cocktails[n] = 1;
+      }
+      if (String(e.event_type || "").indexOf("screen_") === 0) screens[e.event_type] = 1;
+    });
+    return {
+      session_id: sid,
+      device_id: device_id,
+      events: events,
+      start: first ? first.ts : 0,
+      end: last ? last.ts : 0,
+      n: events.length,
+      cocktailCount: Object.keys(cocktails).length,
+      deep: deep,
+      scans: scans,
+      screenCount: Object.keys(screens).length
+    };
+  });
+  list.sort(function (a, b) { return (b.end || 0) - (a.end || 0); });
+  return list;
+}
+
+let devSelectedSessionId = null;
+
+function renderSessionsList() {
+  const listEl = document.getElementById("devSessionList");
+  const detailEl = document.getElementById("devSessionDetail");
+  if (!listEl) return;
+
+  var rangeStartMs = 0, rangeEndMs = Date.now();
+  try {
+    if (typeof getRangeBounds === "function" && typeof devRange !== "undefined") {
+      var b = getRangeBounds(devRange);
+      rangeStartMs = b.start.getTime();
+      rangeEndMs = b.end.getTime();
+    }
+  } catch (e) {}
+
+  const sessions = buildSessionsFromActivity(rangeStartMs, rangeEndMs);
+
+  // если открыта деталь — список без этой сессии
+  const forList = devSelectedSessionId
+    ? sessions.filter(function (s) { return String(s.session_id) !== String(devSelectedSessionId); })
+    : sessions;
+
+  if (devSelectedSessionId) {
+    const open = sessions.find(function (x) { return String(x.session_id) === String(devSelectedSessionId); });
+    if (open) renderSessionDetail(open);
+    else {
+      devSelectedSessionId = null;
+      if (detailEl) { detailEl.style.display = "none"; detailEl.innerHTML = ""; }
+    }
+  } else if (detailEl) {
+    detailEl.style.display = "none";
+    detailEl.innerHTML = "";
+  }
+
+  if (!sessions.length) {
+    listEl.innerHTML = '<div class="study-empty">За выбранный период сессий нет.<br>Смените период сверху или подождите новых визитов.</div>';
+    return;
+  }
+
+  if (!forList.length && devSelectedSessionId) {
+    listEl.innerHTML = "";
+    return;
+  }
+
+  listEl.innerHTML = forList.slice(0, 40).map(function (s) {
+    const when = s.end ? new Date(s.end).toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
+    const durMin = s.start && s.end ? Math.max(1, Math.round((s.end - s.start) / 60000)) : 0;
+    return '<div class="dev-device-item" data-sid="' + String(s.session_id).replace(/"/g, "&quot;") + '">' +
+      '<div><div class="dev-device-id">' + when + '</div>' +
+      '<div class="dev-device-meta">' + s.cocktailCount + ' кокт. · ' + s.scans + ' QR · ' + s.n + ' действий' +
+      (durMin ? (' · ~' + durMin + ' мин') : '') + '</div></div>' +
+      '<span class="dev-device-badge">открыть</span></div>';
+  }).join("");
+
+  listEl.querySelectorAll(".dev-device-item").forEach(function (el) {
+    el.onclick = function () {
+      devSelectedSessionId = el.getAttribute("data-sid");
+      renderSessionsList(); // перерисует: деталь + список без выбранной
+    };
+  });
+}
+
+function renderSessionDetail(s) {
+  const detailEl = document.getElementById("devSessionDetail");
+  if (!detailEl || !s) return;
+  const start = s.start ? new Date(s.start).toLocaleString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
+  const end = s.end ? new Date(s.end).toLocaleString("ru-RU", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
+  const chronological = (s.events || []).slice().sort(function (a, b) { return (a.ts || 0) - (b.ts || 0); });
+
+  const tl = chronological.map(function (ev) {
+    const meta = Object.assign({}, ev.meta || {});
+    if (meta.meta && typeof meta.meta === "object") {
+      if (meta.meta.seconds && !meta.seconds) meta.seconds = meta.meta.seconds;
+    }
+    const line = humanActivityLine({ event_type: ev.event_type, meta: meta, source: ev.source });
+    let sub = line.sub || "";
+    if (ev.event_type === "cocktail_deep_view") {
+      const sec = meta.seconds || (meta.meta && meta.meta.seconds) || 12;
+      if (sub) sub += " · " + sec + " с";
+      else sub = sec + " с на экране";
+    }
+    const time = ev.ts ? new Date(ev.ts).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "";
+    return '<div class="dev-tl-step ' + (line.cls || "") + '">' +
+      '<div class="dev-tl-dot">' + (line.icon || "·") + '</div>' +
+      '<div class="dev-tl-body"><div class="t">' + line.title + '</div>' +
+      (sub ? '<div class="s">' + sub + '</div>' : '') +
+      (time ? '<div class="time">' + time + '</div>' : '') +
+      '</div></div>';
+  }).join("");
+
+  detailEl.style.display = "";
+  detailEl.innerHTML =
+    '<div class="dev-session-card">' +
+      '<div class="dev-session-title">Визит гостя</div>' +
+      '<div class="dev-session-sub">' + start + ' → ' + end +
+        (s.device_id ? (' · устройство ' + String(s.device_id).slice(0, 12) + '…') : '') +
+      '</div>' +
+      '<div class="dev-session-stats">' +
+        '<div class="cell"><b>' + s.cocktailCount + '</b><span>коктейли</span></div>' +
+        '<div class="cell"><b>' + s.deep + '</b><span>глубже 12с</span></div>' +
+        '<div class="cell"><b>' + s.scans + '</b><span>QR</span></div>' +
+      '</div>' +
+      '<div class="section-label" style="margin-top:4px">Что делал</div>' +
+      '<div>' + (tl || '<div class="study-empty">Нет действий</div>') + '</div>' +
+      '<button type="button" class="nav-btn" id="devSessionDetailClose" style="margin-top:12px;width:100%">Закрыть</button>' +
+    '</div>';
+
+  const close = document.getElementById("devSessionDetailClose");
+  if (close) close.onclick = function () {
+    devSelectedSessionId = null;
+    renderSessionsList();
+  };
+  try { detailEl.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+}
+
+function renderDevicesTab(periodEvents) {
+  if (typeof renderSessionsList === "function") renderSessionsList();
+  const listEl = document.getElementById("devDeviceList");
+  const detailEl = document.getElementById("devDeviceDetail");
+  if (!listEl) return;
+
+  // индекс по всем локальным QR + событиям коктейлей
+  let allQr = [];
+  try { allQr = (typeof getQrLog === "function" ? getQrLog() : []).map(function (e) {
+    return { ts: e.ts || 0, source: e.source || e.src, session_id: e.session_id, device_id: e.device_id };
+  }); } catch (err) {}
+  const index = buildDeviceIndex(allQr);
+
+  // фильтр списка: устройства, встреченные в текущем периоде (если periodEvents переданы)
+  const periodIds = {};
+  (periodEvents || []).forEach(function (e) {
+    const did = e.device_id || (e.session_id ? ("s:" + e.session_id) : null);
+    if (did) periodIds[did] = 1;
+  });
+  let ids = Object.keys(index);
+  if (periodEvents && periodEvents.length) {
+    ids = ids.filter(function (id) { return periodIds[id]; });
+  }
+  ids.sort(function (a, b) {
+    return (index[b].lastTs || 0) - (index[a].lastTs || 0);
+  });
+
+  // период для устройств — уже через periodIds; дополнительно режем first/last по диапазону не требуется
+
+  if (!ids.length) {
+    listEl.innerHTML = '<div class="study-empty">За период нет устройств.<br>Смените период или дождитесь новых визитов.</div>';
+    if (detailEl) { detailEl.style.display = "none"; detailEl.innerHTML = ""; }
+    return;
+  }
+
+  var idsForList = devSelectedDeviceId ? ids.filter(function (id) { return id !== devSelectedDeviceId; }) : ids;
+
+  if (devSelectedDeviceId && index[devSelectedDeviceId]) {
+    renderDeviceDetail(index[devSelectedDeviceId]);
+  } else if (detailEl) {
+    detailEl.style.display = "none";
+    detailEl.innerHTML = "";
+  }
+
+  if (!idsForList.length && devSelectedDeviceId) {
+    listEl.innerHTML = "";
+    return;
+  }
+
+  listEl.innerHTML = idsForList.map(function (id) {
+    const d = index[id];
+    const short = id.length > 18 ? id.slice(0, 10) + "…" + id.slice(-4) : id;
+    const when = d.lastTs ? new Date(d.lastTs).toLocaleString("ru-RU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
+    const badge = d.returning ? '<span class="dev-device-badge ret">возврат</span>' : '<span class="dev-device-badge">новый</span>';
+    return '<div class="dev-device-item" data-did="' + id.replace(/"/g, "&quot;") + '">' +
+      '<div><div class="dev-device-id">' + short + '</div>' +
+      '<div class="dev-device-meta">' + d.scans + ' скан. · ' + d.visits + ' визит. · ' + d.cocktailOpens + ' кокт. · ' + when + '</div></div>' +
+      badge + '</div>';
+  }).join("");
+
+  listEl.querySelectorAll(".dev-device-item").forEach(function (el) {
+    el.onclick = function () {
+      devSelectedDeviceId = el.getAttribute("data-did");
+      renderDevicesTab(periodEvents);
+    };
+  });
+}
+
+function renderDeviceDetail(d) {
+  const detailEl = document.getElementById("devDeviceDetail");
+  if (!detailEl || !d) return;
+  const short = d.id.length > 22 ? d.id.slice(0, 12) + "…" + d.id.slice(-6) : d.id;
+  const srcTop = Object.keys(d.sources).sort(function (a, b) { return d.sources[b] - d.sources[a]; }).slice(0, 5)
+    .map(function (s) { return s + "×" + d.sources[s]; }).join(", ") || "—";
+
+  const typeLabel = {
+    qr: "Скан QR",
+    cocktail_open: "Открыл коктейль",
+    cocktail_deep_view: "Смотрел дольше 12 с",
+    cocktail_favorite: "В избранное",
+    cocktail_unfavorite: "Убрал из избранного",
+    cocktail_profile: "Характеристики (?)",
+    cocktail_similar: "Похожий коктейль"
+  };
+
+  const tl = (d.events || []).slice().sort(function (a, b) { return (b.ts || 0) - (a.ts || 0); }).slice(0, 80).map(function (ev) {
+    const time = ev.ts ? new Date(ev.ts).toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "—";
+    let title, sub;
+    if (ev.kind === "qr") {
+      title = "Скан QR · " + (ev.source || "—");
+      sub = ev.session_id ? ("сессия " + String(ev.session_id).slice(0, 12)) : "";
+    } else {
+      const et = ev.event_type || "cocktail_open";
+      title = (typeLabel[et] || et) + (ev.cocktail_name ? (" · " + ev.cocktail_name) : "");
+      const bits = [];
+      if (ev.source) bits.push("точка " + ev.source);
+      if (ev.meta && ev.meta.seconds) bits.push(ev.meta.seconds + " с");
+      if (ev.meta && ev.meta.on === false) bits.push("убрал");
+      if (ev.meta && ev.meta.on === true) bits.push("добавил");
+      sub = bits.join(" · ");
+    }
+    return '<div class="dev-device-tl-item"><div class="dev-device-tl-time">' + time + '</div>' +
+      '<div><div class="dev-device-tl-main">' + title + '</div>' +
+      (sub ? '<div class="dev-device-tl-sub">' + sub + '</div>' : '') + '</div></div>';
+  }).join("");
+
+  detailEl.style.display = "";
+  detailEl.innerHTML =
+    '<h4>Устройство ' + short + '</h4>' +
+    '<div class="dev-device-meta" style="margin-bottom:8px">' +
+      d.visits + ' визит. · ' + d.scans + ' скан. · ' + d.cocktailOpens + ' открытий · ' + d.deepViews + ' глуб. · ' +
+      (d.returning ? 'возвращался' : 'без возврата') +
+    '</div>' +
+    '<div class="dev-device-meta">Точки: ' + srcTop + '</div>' +
+    '<div class="dev-device-tl">' + (tl || '<div class="study-empty">Нет событий</div>') + '</div>' +
+    '<button type="button" class="nav-btn" id="devDeviceDetailClose" style="margin-top:10px;width:100%">Закрыть</button>';
+
+  const close = document.getElementById("devDeviceDetailClose");
+  if (close) close.onclick = function () {
+    devSelectedDeviceId = null;
+    try { renderDevicesTab(typeof devEventsRaw !== "undefined" ? devEventsRaw : []); } catch (e) {
+      detailEl.style.display = "none";
+      detailEl.innerHTML = "";
+    }
+  };
+}
+
+
 function paintDev(events, sourceLabel, prevTotalOverride) {
   devEventsRaw = events;
   devVisits = buildVisits(events);
-  selectedVisitIndex = null;
   const stats = computeDevStats(events, devVisits);
   // Сравнение: сначала облако (если уже есть), иначе локальный лог
   try {
@@ -3918,8 +4677,8 @@ function paintDev(events, sourceLabel, prevTotalOverride) {
   renderOverview(stats, sourceLabel);
   renderPointsTab(stats);
   renderHeatmap(stats.bySrc);
-  renderVisitPicker(devVisits);
   renderVisitPaths(devVisits);
+  if (typeof renderDevicesTab === "function") renderDevicesTab(events);
   loadStudyAnalytics();
 }
 
@@ -3961,6 +4720,8 @@ function switchDevTab(tab) {
       p.style.display = "none";
     }
   });
+  var tools = document.getElementById("devAdminTools");
+  if (tools) tools.style.display = (tab === "overview") ? "" : "none";
 }
 
 function switchDevRange(range) {
@@ -4303,6 +5064,22 @@ function switchScreen(name) {
     if (name === "discover") renderDiscover();
     if (name === "year") renderYear();
     if (name === "dev") { renderDev(); startHeatmapAutoRefresh(); }
+    if (name === "bar") {
+      renderBar();
+      if (window.__barRestoreScrollY == null) {
+        scrollBarTop();
+        setTimeout(scrollBarTop, 50);
+        setTimeout(scrollBarTop, 150);
+      }
+    }
+    try {
+      if (name === "dev" || name === "bar") {
+        if (typeof pauseBehaviorTracking === "function") pauseBehaviorTracking();
+      }
+      if (typeof trackActivity === "function" && name && name !== "dev") {
+        trackActivity("screen_" + name, {});
+      }
+    } catch (e) {}
     return;
   }
   const activate = () => {
@@ -4325,6 +5102,22 @@ function switchScreen(name) {
       renderDev();
       startHeatmapAutoRefresh();
     }
+    if (name === "bar") {
+      renderBar();
+      if (window.__barRestoreScrollY == null) {
+        scrollBarTop();
+        setTimeout(scrollBarTop, 50);
+        setTimeout(scrollBarTop, 150);
+      }
+    }
+    try {
+      if (name === "dev" || name === "bar") {
+        if (typeof pauseBehaviorTracking === "function") pauseBehaviorTracking();
+      }
+      if (typeof trackActivity === "function" && name && name !== "dev") {
+        trackActivity("screen_" + name, {});
+      }
+    } catch (e) {}
   };
   if (current) {
     current.classList.add("leaving");
@@ -4477,7 +5270,7 @@ function renderHome() {
   const backBtn = document.getElementById("backBtn");
   if (cameFrom) {
     backBtn.style.display = "block";
-    const labels = { collection: "← К коллекции", discover: "← К подбору", home: "← К календарю" };
+    const labels = { collection: "← К коллекции", discover: "← К подбору", home: "← К календарю", bar: "← К станции бармена" };
     backBtn.textContent = labels[cameFrom] || "← Назад";
   } else backBtn.style.display = "none";
 
@@ -4594,7 +5387,25 @@ function renderHome() {
   notes.value = state.notes[key] || "";
   notes.oninput = e => { state.notes[key] = e.target.value; saveState(); };
 
-  if (isExtra || cameFrom) {
+  if (cameFrom === "bar") {
+    document.getElementById("dayNavRow").style.display = "";
+    document.getElementById("altRow").style.display = "none";
+    document.getElementById("altSectionLabel").style.display = "none";
+    const prev = document.getElementById("prevBtn");
+    const next = document.getElementById("nextBtn");
+    const n = (typeof barMakeableQueue !== "undefined" && barMakeableQueue.length) ? barMakeableQueue.length : 0;
+    const idx = (typeof barMakeableIndex === "number" ? barMakeableIndex : 0) + 1;
+    prev.disabled = false;
+    next.disabled = n > 0 ? (barMakeableIndex >= n - 1) : true;
+    prev.innerHTML = '<span class="day-nav-arrow">←</span> к списку';
+    next.innerHTML = (n ? (idx + '/' + n + ' ') : '') + 'ещё <span class="day-nav-arrow">→</span>';
+    prev.onclick = function () {
+      if (typeof barSwipeBackToList === "function") barSwipeBackToList();
+    };
+    next.onclick = function () {
+      if (typeof barSwipeNextMakeable === "function") barSwipeNextMakeable();
+    };
+  } else if (isExtra || cameFrom) {
     // Из коллекции / подбора / альтернативы — без листания дней
     document.getElementById("dayNavRow").style.display = "none";
     if (isExtra) {
@@ -4609,8 +5420,20 @@ function renderHome() {
     document.getElementById("dayNavRow").style.display = "";
     document.getElementById("altRow").style.display = "";
     document.getElementById("altSectionLabel").style.display = "";
-    document.getElementById("prevBtn").disabled = currentDay <= 1;
-    document.getElementById("nextBtn").disabled = currentDay >= 365;
+    const prevB = document.getElementById("prevBtn");
+    const nextB = document.getElementById("nextBtn");
+    prevB.disabled = currentDay <= 1;
+    nextB.disabled = currentDay >= 365;
+    prevB.innerHTML = '<span class="day-nav-arrow">←</span> пред. день';
+    nextB.innerHTML = 'след. день <span class="day-nav-arrow">→</span>';
+    prevB.onclick = function () {
+      cameFrom = null; viewedExtra = null;
+      if (currentDay > 1) { animateDayCard(-1); currentDay--; renderHome(); }
+    };
+    nextB.onclick = function () {
+      cameFrom = null; viewedExtra = null;
+      if (currentDay < 365) { animateDayCard(1); currentDay++; renderHome(); }
+    };
     renderAlts(c);
   }
   renderHeaderProgress();
@@ -5652,6 +6475,11 @@ function bindEvents() {
       returnToCollection();
       return;
     }
+    if (t === "bar") {
+      if (typeof barSwipeBackToList === "function") barSwipeBackToList();
+      else { cameFrom = null; viewedExtra = null; switchScreen("bar"); }
+      return;
+    }
     cameFrom = null;
     viewedExtra = null;
     if (t) switchScreen(t);
@@ -5831,10 +6659,17 @@ function bindEvents() {
   // Swipe on home — touch + pointer
   const home = document.getElementById("screen-home");
   let sx = 0, sy = 0, homeArmed = false, homeLocked = null, homePid = null;
-  const homeIgnore = (t) => t && t.closest && t.closest(
-    "input, textarea, .theme-menu, .profile-popup, .notes-wrap, .stars-row, .fav-btn, .profile-btn, " +
-    ".drink-name, .drink-origin, .drink-desc, .pairing, .ingredients-block"
-  );
+  const homeIgnore = (t) => {
+    if (!t || !t.closest) return false;
+    // из бармена свайп можно начинать почти с любого места карточки
+    if (cameFrom === "bar") {
+      return !!t.closest("input, textarea, .theme-menu, .profile-popup, .notes-wrap, .stars-row, button, a");
+    }
+    return !!t.closest(
+      "input, textarea, .theme-menu, .profile-popup, .notes-wrap, .stars-row, .fav-btn, .profile-btn, " +
+      ".drink-name, .drink-origin, .drink-desc, .pairing, .ingredients-block"
+    );
+  };
 
   const homeArm = (x, y, target) => {
     if (homeIgnore(target)) { homeArmed = false; homeLocked = null; return; }
@@ -5843,15 +6678,29 @@ function bindEvents() {
   const homeMove = (x, y) => {
     if (!homeArmed) return;
     const dx = x - sx, dy = y - sy;
-    if (homeLocked === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
-      homeLocked = Math.abs(dx) > Math.abs(dy) * 0.85 ? "h" : "v";
+    const bias = cameFrom === "bar" ? 0.65 : 0.85;
+    if (homeLocked === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      homeLocked = Math.abs(dx) > Math.abs(dy) * bias ? "h" : "v";
     }
   };
   const homeDoSwipe = (dx, dy) => {
-    if (!(Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.05)) return;
-    // Из коллекции — только свайп назад (вправо), без листания соседних коктейлей
+    const fromBar = cameFrom === "bar";
+    const minDx = fromBar ? 28 : 36;
+    const ratio = fromBar ? 0.85 : 1.05;
+    if (!(Math.abs(dx) > minDx && Math.abs(dx) > Math.abs(dy) * ratio)) return;
+    // Из коллекции — только свайп назад (вправо)
     if (cameFrom === "collection") {
       if (dx > 0) returnToCollection();
+      return;
+    }
+    // Из станции бармена: назад → список, вперёд → следующий доступный
+    if (fromBar) {
+      if (dx > 0) {
+        if (typeof barSwipeBackToList === "function") barSwipeBackToList();
+        else { cameFrom = null; viewedExtra = null; switchScreen("bar"); }
+      } else if (dx < 0) {
+        if (typeof barSwipeNextMakeable === "function") barSwipeNextMakeable();
+      }
       return;
     }
     if (cameFrom || viewedExtra) {
@@ -5919,6 +6768,7 @@ function init() {
       storageAvailable = true;
     } catch (e) { storageAvailable = false; }
     bindEvents();
+  if (typeof bindVenueSwitches === "function") bindVenueSwitches();
     renderHome();
     renderHeaderProgress();
     if (!storageAvailable) {
@@ -5934,6 +6784,7 @@ function init() {
   }
   // Dev-режим ВСЕГДА, даже если остальной init упал
   try { bindDevMode(); } catch (e) { console.error("bindDevMode", e); }
+  try { bindBarMode(); } catch (e) { console.error("bindBarMode", e); }
 }
 
 if (document.readyState === "loading") {
@@ -5943,6 +6794,719 @@ if (document.readyState === "loading") {
 
 
 
+
+
+
+
+// ===================== BARTENDER MODE =====================
+const BAR_UNLOCK_KEY = "cocktail365_bar_v1";
+const BAR_STOCK_KEY_BASE = "cocktail365_bar_stock_v1";
+let barUnlocked = false;
+try { barUnlocked = localStorage.getItem(BAR_UNLOCK_KEY) === "1"; } catch (e) {}
+
+/** 0 = нет, 1 = не подтверждено (НЕ доступно для сборки), 2 = есть */
+let barStock = {};
+try {
+  const raw = localStorage.getItem(venueKey(BAR_STOCK_KEY_BASE));
+  if (raw) barStock = JSON.parse(raw) || {};
+} catch (e) { barStock = {}; }
+
+/** Очередь «можно собрать» для свайпа в карточке */
+let barMakeableQueue = [];
+let barMakeableIndex = 0;
+
+function saveBarStock() {
+  try { localStorage.setItem(venueKey(BAR_STOCK_KEY_BASE), JSON.stringify(barStock)); } catch (e) {}
+}
+
+function setBarUnlocked(on) {
+  barUnlocked = !!on;
+  try { localStorage.setItem(BAR_UNLOCK_KEY, on ? "1" : "0"); } catch (e) {}
+  const tab = document.getElementById("barNavTab");
+  if (tab) tab.style.display = on ? "" : "none";
+}
+
+function scrollBarTop() {
+  try {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    const scr = document.getElementById("screen-bar");
+    if (scr) scr.scrollTop = 0;
+  } catch (e) {}
+}
+
+function enterBarScreen() {
+  setBarUnlocked(true);
+  switchScreen("bar");
+  scrollBarTop();
+}
+
+function exitBarMode() {
+  setBarUnlocked(false);
+  switchScreen("home");
+  showToast("Режим бармена выключен");
+}
+
+const BAR_ING_DB = [
+  // spirits — ром
+  { key: "rum_white", label: "Белый ром", cat: "spirits", group: "a-rum", order: 1 },
+  { key: "rum_gold", label: "Золотой ром", cat: "spirits", group: "a-rum", order: 2 },
+  { key: "rum_dark", label: "Тёмный ром", cat: "spirits", group: "a-rum", order: 3 },
+  { key: "rum_spiced", label: "Пряный ром", cat: "spirits", group: "a-rum", order: 4 },
+  { key: "rum_agricole", label: "Ром agricole", cat: "spirits", group: "a-rum", order: 5 },
+  { key: "rum_coconut", label: "Кокосовый ром", cat: "spirits", group: "a-rum", order: 6 },
+  // виски
+  { key: "whiskey_bourbon", label: "Бурбон", cat: "spirits", group: "a-whiskey", order: 1 },
+  { key: "whiskey_rye", label: "Ржаной виски", cat: "spirits", group: "a-whiskey", order: 2 },
+  { key: "whiskey_scotch", label: "Скотч", cat: "spirits", group: "a-whiskey", order: 3 },
+  { key: "whiskey_irish", label: "Ирландский виски", cat: "spirits", group: "a-whiskey", order: 4 },
+  { key: "whiskey_japanese", label: "Японский виски", cat: "spirits", group: "a-whiskey", order: 5 },
+  { key: "whiskey_tennessee", label: "Теннессийский виски", cat: "spirits", group: "a-whiskey", order: 6 },
+  // агава
+  { key: "tequila", label: "Текила", cat: "spirits", group: "a-agave", order: 1 },
+  { key: "mezcal", label: "Мескаль", cat: "spirits", group: "a-agave", order: 2 },
+  // прочий крепкий
+  { key: "vodka", label: "Водка", cat: "spirits", group: "a-vodka", order: 1 },
+  { key: "gin", label: "Джин", cat: "spirits", group: "a-gin", order: 1 },
+  { key: "cognac", label: "Коньяк", cat: "spirits", group: "a-brandy", order: 1 },
+  { key: "brandy", label: "Бренди", cat: "spirits", group: "a-brandy", order: 2 },
+  { key: "apple_brandy", label: "Кальвадос / applejack", cat: "spirits", group: "a-brandy", order: 3 },
+  { key: "pisco", label: "Писко", cat: "spirits", group: "a-latam", order: 1 },
+  { key: "cachaca", label: "Кашаса", cat: "spirits", group: "a-latam", order: 2 },
+  { key: "absinthe", label: "Абсент", cat: "spirits", group: "a-other", order: 1 },
+  // liqueurs
+  { key: "campari", label: "Кампари", cat: "liqueurs", group: "b-bitter", order: 1 },
+  { key: "aperol", label: "Апероль", cat: "liqueurs", group: "b-bitter", order: 2 },
+  { key: "sweet_vermouth", label: "Сладкий вермут", cat: "liqueurs", group: "b-vermouth", order: 1 },
+  { key: "dry_vermouth", label: "Сухой вермут", cat: "liqueurs", group: "b-vermouth", order: 2 },
+  { key: "orange_liqueur", label: "Апельсиновый ликёр", cat: "liqueurs", group: "b-citrus", order: 1 },
+  { key: "coffee_liqueur", label: "Кофейный ликёр", cat: "liqueurs", group: "b-coffee", order: 1 },
+  { key: "amaretto", label: "Амаретто", cat: "liqueurs", group: "b-nut", order: 1 },
+  { key: "cherry_liqueur", label: "Вишнёвый ликёр", cat: "liqueurs", group: "b-fruit", order: 1 },
+  { key: "maraschino", label: "Мараскино", cat: "liqueurs", group: "b-fruit", order: 2 },
+  { key: "peach_liqueur", label: "Персиковый ликёр", cat: "liqueurs", group: "b-fruit", order: 3 },
+  { key: "coconut_liqueur", label: "Кокосовый ликёр / крем", cat: "liqueurs", group: "b-fruit", order: 4 },
+  { key: "passoa", label: "Ликёр маракуйи", cat: "liqueurs", group: "b-fruit", order: 5 },
+  { key: "chartreuse", label: "Шартрез", cat: "liqueurs", group: "b-herbal", order: 1 },
+  { key: "benedictine", label: "Bénédictine", cat: "liqueurs", group: "b-herbal", order: 2 },
+  { key: "fernet", label: "Fernet-Branca", cat: "liqueurs", group: "b-herbal", order: 3 },
+  { key: "cynar", label: "Cynar", cat: "liqueurs", group: "b-herbal", order: 4 },
+  { key: "galliano", label: "Galliano", cat: "liqueurs", group: "b-herbal", order: 5 },
+  { key: "drambuie", label: "Drambuie", cat: "liqueurs", group: "b-herbal", order: 6 },
+  { key: "irish_cream", label: "Irish cream", cat: "liqueurs", group: "b-cream", order: 1 },
+  { key: "bitters_angostura", label: "Биттер Angostura", cat: "liqueurs", group: "b-bitters", order: 1 },
+  { key: "bitters_peychaud", label: "Биттер Peychaud's", cat: "liqueurs", group: "b-bitters", order: 2 },
+  { key: "bitters_orange", label: "Апельсиновый биттер", cat: "liqueurs", group: "b-bitters", order: 3 },
+  // syrups
+  { key: "sugar_syrup", label: "Сахарный сироп", cat: "syrups", group: "c-base", order: 1 },
+  { key: "honey_syrup", label: "Медовый сироп", cat: "syrups", group: "c-base", order: 2 },
+  { key: "agave_syrup", label: "Агавовый сироп", cat: "syrups", group: "c-base", order: 3 },
+  { key: "maple_syrup", label: "Кленовый сироп", cat: "syrups", group: "c-base", order: 4 },
+  { key: "orgeat", label: "Миндальный сироп (оршад)", cat: "syrups", group: "c-nut", order: 1 },
+  { key: "grenadine", label: "Гренадин", cat: "syrups", group: "c-fruit", order: 1 },
+  { key: "raspberry_syrup", label: "Малиновый сироп", cat: "syrups", group: "c-fruit", order: 2 },
+  { key: "cherry_syrup", label: "Вишнёвый сироп", cat: "syrups", group: "c-fruit", order: 3 },
+  { key: "coconut_syrup", label: "Кокосовый сироп", cat: "syrups", group: "c-fruit", order: 4 },
+  { key: "passion_syrup", label: "Сироп маракуйи", cat: "syrups", group: "c-fruit", order: 5 },
+  { key: "pineapple_syrup", label: "Ананасовый сироп", cat: "syrups", group: "c-fruit", order: 6 },
+  { key: "elderflower", label: "Сироп бузины", cat: "syrups", group: "c-floral", order: 1 },
+  // citrus
+  { key: "lemon_juice", label: "Лимонный сок", cat: "citrus", group: "d-citrus", order: 1 },
+  { key: "lime_juice", label: "Лаймовый сок", cat: "citrus", group: "d-citrus", order: 2 },
+  // juices
+  { key: "orange_juice", label: "Апельсиновый сок", cat: "juices", group: "e-juice", order: 1 },
+  { key: "grapefruit_juice", label: "Грейпфрутовый сок", cat: "juices", group: "e-juice", order: 2 },
+  { key: "pineapple_juice", label: "Ананасовый сок", cat: "juices", group: "e-juice", order: 3 },
+  { key: "cranberry_juice", label: "Клюквенный сок", cat: "juices", group: "e-juice", order: 4 },
+  { key: "apple_juice", label: "Яблочный сок", cat: "juices", group: "e-juice", order: 5 },
+  { key: "cherry_juice", label: "Вишнёвый сок", cat: "juices", group: "e-juice", order: 6 },
+  { key: "apricot_juice", label: "Абрикосовый сок", cat: "juices", group: "e-juice", order: 7 },
+  { key: "carrot_juice", label: "Морковный сок", cat: "juices", group: "e-juice", order: 8 },
+  { key: "tomato_juice", label: "Томатный сок / Clamato", cat: "juices", group: "e-juice", order: 9 },
+  // mixers
+  { key: "soda", label: "Содовая", cat: "mixers", group: "f-mix", order: 1 },
+  { key: "tonic", label: "Тоник", cat: "mixers", group: "f-mix", order: 2 },
+  { key: "ginger_beer", label: "Имбирное пиво", cat: "mixers", group: "f-mix", order: 3 },
+  { key: "cola", label: "Кола", cat: "mixers", group: "f-mix", order: 4 },
+  { key: "sparkling", label: "Игристое", cat: "mixers", group: "f-spark", order: 1 },
+  { key: "wine", label: "Вино", cat: "mixers", group: "f-spark", order: 2 },
+  { key: "beer", label: "Пиво / стаут", cat: "mixers", group: "f-spark", order: 3 },
+  // other
+  { key: "egg_white", label: "Яичный белок", cat: "other", group: "g-other", order: 1 },
+  { key: "cream", label: "Сливки / молоко", cat: "other", group: "g-other", order: 2 },
+  { key: "coffee", label: "Кофе", cat: "other", group: "g-other", order: 3 },
+  { key: "mint", label: "Мята", cat: "other", group: "g-fresh", order: 1 },
+  { key: "basil", label: "Базилик", cat: "other", group: "g-fresh", order: 2 },
+  { key: "sugar", label: "Сахар", cat: "other", group: "g-other", order: 4 },
+];
+
+const BAR_ING_BY_KEY = {};
+BAR_ING_DB.forEach(function (x) { BAR_ING_BY_KEY[x.key] = x; });
+
+/** Группы взаимозаменяемости: «ром» в рецепте закрывается любым подтверждённым ромом */
+const BAR_ANY_OF = {
+  rum: ["rum_white", "rum_gold", "rum_dark", "rum_spiced", "rum_agricole", "rum_coconut"],
+  whiskey: ["whiskey_bourbon", "whiskey_rye", "whiskey_scotch", "whiskey_irish", "whiskey_japanese", "whiskey_tennessee"],
+  brandy_family: ["cognac", "brandy", "apple_brandy"],
+};
+
+const BAR_CAT_LABELS = {
+  spirits: "Крепкий алкоголь",
+  liqueurs: "Ликёры и биттеры",
+  syrups: "Сиропы и сладость",
+  citrus: "Цитрус / кислота",
+  juices: "Соки",
+  mixers: "Миксеры и игристое",
+  other: "Прочее",
+};
+const BAR_CAT_ORDER = ["spirits", "liqueurs", "syrups", "citrus", "juices", "mixers", "other"];
+
+function normalizeIngredient(raw) {
+  if (!raw) return null;
+  let s = String(raw).toLowerCase().trim().replace(/\s+/g, " ");
+  const noParen = s.replace(/\s*\([^)]*\)/g, "").trim();
+
+  if (/^цедра|колотый лёд|^лёд$|оливка|маринован|соль$|перец|мускат|корица|^вишня$|^апельсин$|^лайм$|^лимон$|долька|украшен|специи$|табаско|вустер/.test(noParen)) {
+    return null;
+  }
+
+  const rules = [
+    [/angostura/, "bitters_angostura"],
+    [/peychaud/, "bitters_peychaud"],
+    [/апельсиновый биттер|orange bitters/, "bitters_orange"],
+    [/сахарный сироп|сироп 1:1|тростниковый сироп/, "sugar_syrup"],
+    [/медовый сироп|^мёд$/, "honey_syrup"],
+    [/агавовый сироп|сироп агавы/, "agave_syrup"],
+    [/кленовый сироп/, "maple_syrup"],
+    [/малиновый сироп/, "raspberry_syrup"],
+    [/вишнёвый сироп|вишневый сироп/, "cherry_syrup"],
+    [/кокосовый сироп/, "coconut_syrup"],
+    [/сироп маракуйи|маракуйя сироп|passion/, "passion_syrup"],
+    [/ананасовый сироп/, "pineapple_syrup"],
+    [/сироп бузины|бузина/, "elderflower"],
+    [/orgeat|оршад|миндальный сироп/, "orgeat"],
+    [/гренадин/, "grenadine"],
+    [/лимонный сок|сок лимона/, "lemon_juice"],
+    [/лаймовый сок|сок лайма|лаймовый кордиал/, "lime_juice"],
+    [/апельсиновый сок|сок апельсина/, "orange_juice"],
+    [/грейпфрутовый сок|сок грейпфрута/, "grapefruit_juice"],
+    [/ананасовый сок|сок ананаса/, "pineapple_juice"],
+    [/клюквенный сок/, "cranberry_juice"],
+    [/яблочный сок|сок яблока/, "apple_juice"],
+    [/вишнёвый сок|вишневый сок/, "cherry_juice"],
+    [/абрикосовый сок/, "apricot_juice"],
+    [/морковный сок/, "carrot_juice"],
+    [/томатный сок|clamato/, "tomato_juice"],
+    [/содовая|газированная вода/, "soda"],
+    [/тоник/, "tonic"],
+    [/имбирное пиво|имбирный эль/, "ginger_beer"],
+    [/кола/, "cola"],
+    [/просекко|игристое вино|^игристое$|шампанск/, "sparkling"],
+    [/красное вино|белое вино|^вино$|херес|портвейн/, "wine"],
+    [/пиво|стаут/, "beer"],
+    [/кокосовый ром/, "rum_coconut"],
+    [/ром agricole|agricole/, "rum_agricole"],
+    [/пряный ром/, "rum_spiced"],
+    [/золотой ром/, "rum_gold"],
+    [/белый ром|светлый ром/, "rum_white"],
+    [/тёмный ром|выдержанный ром|demerara/, "rum_dark"],
+    [/^ром$|ром |несколько ромов/, "rum"],
+    [/бурбон/, "whiskey_bourbon"],
+    [/ржаной виски|ржаной/, "whiskey_rye"],
+    [/скотч|бленд скотч|islaу/, "whiskey_scotch"],
+    [/ирландский виски/, "whiskey_irish"],
+    [/японский виски/, "whiskey_japanese"],
+    [/теннессийский/, "whiskey_tennessee"],
+    [/^виски$/, "whiskey"],
+    [/коньяк/, "cognac"],
+    [/бренди/, "brandy"],
+    [/кальвадос|applejack/, "apple_brandy"],
+    [/водка/, "vodka"],
+    [/джин|sloe gin/, "gin"],
+    [/текила|reposado|blanco/, "tequila"],
+    [/мескаль/, "mezcal"],
+    [/писко/, "pisco"],
+    [/кашаса/, "cachaca"],
+    [/абсент/, "absinthe"],
+    [/кампари|campari/, "campari"],
+    [/апероль|aperol/, "aperol"],
+    [/сладкий вермут|пунто|punt e mes/, "sweet_vermouth"],
+    [/сухой вермут/, "dry_vermouth"],
+    [/кофейный ликёр/, "coffee_liqueur"],
+    [/трипл-сек|cointreau|курасао|curaçao|блю кюрасо|апельсиновый ликёр|orange cura/, "orange_liqueur"],
+    [/benedictine|bénédictine/, "benedictine"],
+    [/chartreuse|шартрез/, "chartreuse"],
+    [/maraschino|мараскино/, "maraschino"],
+    [/вишнёвый ликёр|cherry heering|вишнёвая настойка/, "cherry_liqueur"],
+    [/персиковый ликёр/, "peach_liqueur"],
+    [/кокосовый крем|кокосовый ликёр/, "coconut_liqueur"],
+    [/ликёр маракуйи|midori/, "passoa"],
+    [/амаретто/, "amaretto"],
+    [/drambuie/, "drambuie"],
+    [/fernet/, "fernet"],
+    [/cynar/, "cynar"],
+    [/galliano/, "galliano"],
+    [/irish cream/, "irish_cream"],
+    [/белок|яйцо/, "egg_white"],
+    [/сливки|молоко/, "cream"],
+    [/мята/, "mint"],
+    [/базилик/, "basil"],
+    [/кофе|эспрессо/, "coffee"],
+    [/^сахар$/, "sugar"],
+  ];
+
+  for (let i = 0; i < rules.length; i++) {
+    if (rules[i][0].test(s) || rules[i][0].test(noParen)) return rules[i][1];
+  }
+  return null;
+}
+
+function getStockState(key) {
+  const v = barStock[key];
+  if (v === 0 || v === 2) return v;
+  return 1;
+}
+
+/** Статус одного ключа: "yes" | "no" | "unknown" (с учётом групп ром/виски) */
+function ingredientStockStatus(key) {
+  function statusOf(k) {
+    const st = getStockState(k);
+    if (st === 2) return "yes";
+    if (st === 0) return "no";
+    return "unknown";
+  }
+  if (key === "rum") {
+    const list = BAR_ANY_OF.rum;
+    if (list.some(function (k) { return statusOf(k) === "yes"; })) return "yes";
+    if (list.every(function (k) { return statusOf(k) === "no"; })) return "no";
+    return "unknown";
+  }
+  if (key === "whiskey") {
+    const list = BAR_ANY_OF.whiskey;
+    if (list.some(function (k) { return statusOf(k) === "yes"; })) return "yes";
+    if (list.every(function (k) { return statusOf(k) === "no"; })) return "no";
+    return "unknown";
+  }
+  if (key === "brandy_family") {
+    const list = BAR_ANY_OF.brandy_family;
+    if (list.some(function (k) { return statusOf(k) === "yes"; })) return "yes";
+    if (list.every(function (k) { return statusOf(k) === "no"; })) return "no";
+    return "unknown";
+  }
+  return statusOf(key);
+}
+
+function isIngredientAvailable(key) {
+  return ingredientStockStatus(key) === "yes";
+}
+
+/** Только декор/лёд — не блокируют «можно». Всё остальное из состава учитывается. */
+function isSkippableIngredient(raw) {
+  if (!raw) return true;
+  const s = String(raw).toLowerCase().trim().replace(/\s+/g, " ");
+  const noParen = s.replace(/\s*\([^)]*\)/g, "").trim();
+  return /^цедра|^лёд$|^лед$|колотый лёд|колотый лед|кубик|оливка|маринованн|^соль$|^перец$|мускатный|корица на|украшен|долька (лимона|лайма|апельсина)|^вишня$|^апельсин$|^лайм$|^лимон$|долек|для гарнир|мист /.test(noParen)
+    || /^(цедра|гарнир)/.test(noParen);
+}
+
+/**
+ * Разбор состава для склада.
+ * «Можно» — только если каждая значимая позиция состава есть на ✓.
+ * Не в справочнике / на · → неподтверждено → «частично».
+ */
+function analyzeCocktailStock(c) {
+  const unknownLabels = [];
+  const unknownKeys = [];
+  let unknown = 0;
+  let missing = 0;
+  let confirmed = 0;
+  const seen = {};
+
+  (c.ingredients || []).forEach(function (raw) {
+    if (isSkippableIngredient(raw)) return;
+
+    const key = normalizeIngredient(raw);
+    const labelFromRaw = String(raw).replace(/\s*\([^)]*\)/g, "").trim();
+
+    if (key) {
+      if (seen["k:" + key]) return;
+      seen["k:" + key] = 1;
+      const st = ingredientStockStatus(key);
+      if (st === "yes") {
+        confirmed++;
+      } else if (st === "no") {
+        missing++;
+      } else {
+        unknown++;
+        unknownKeys.push(key);
+        const lab = (BAR_ING_BY_KEY[key] && BAR_ING_BY_KEY[key].label) || labelFromRaw || key;
+        if (unknownLabels.indexOf(lab) === -1) unknownLabels.push(lab);
+      }
+      return;
+    }
+
+    // нет в справочнике склада — всё равно требует наличия, иначе не «можно»
+    const norm = labelFromRaw.toLowerCase();
+    if (seen["r:" + norm]) return;
+    seen["r:" + norm] = 1;
+    unknown++;
+    if (unknownLabels.indexOf(labelFromRaw) === -1) unknownLabels.push(labelFromRaw);
+  });
+
+  if (missing > 0) {
+    return { show: false, partial: false, unknown: unknown, missing: missing, confirmed: confirmed, keys: unknownKeys, labels: unknownLabels };
+  }
+  // ничего не подтверждено — не показываем
+  if (confirmed < 1) {
+    return { show: false, partial: false, unknown: unknown, missing: 0, confirmed: 0, keys: unknownKeys, labels: unknownLabels };
+  }
+  // любой пробел в отметках → частично (и показываем)
+  if (unknown > 0) {
+    return { show: true, partial: true, unknown: unknown, missing: 0, confirmed: confirmed, keys: unknownKeys, labels: unknownLabels };
+  }
+  return { show: true, partial: false, unknown: 0, missing: 0, confirmed: confirmed, keys: [], labels: [] };
+}
+
+function cocktailRequiredKeys(c) {
+  const keys = [];
+  const seen = {};
+  (c.ingredients || []).forEach(function (raw) {
+    if (isSkippableIngredient(raw)) return;
+    const k = normalizeIngredient(raw);
+    if (!k || seen[k]) return;
+    seen[k] = true;
+    keys.push(k);
+  });
+  return keys;
+}
+
+function canMakeCocktail(c) {
+  return analyzeCocktailStock(c).show;
+}
+
+/** Подписи того, чего не хватает для полного «можно» */
+function barUnknownLabels(keys, labels) {
+  if (labels && labels.length) return labels.slice();
+  if (!keys || !keys.length) return [];
+  return keys.map(function (k) {
+    if (BAR_ING_BY_KEY[k] && BAR_ING_BY_KEY[k].label) return BAR_ING_BY_KEY[k].label;
+    if (k === "rum") return "Ром";
+    if (k === "whiskey") return "Виски";
+    if (k === "brandy_family") return "Коньяк / бренди";
+    return k;
+  });
+}
+
+
+function buildBarCatalog() {
+  const counts = {};
+  const pool = (typeof calendarCocktails !== "undefined" ? calendarCocktails : [])
+    .concat(typeof extraCocktails !== "undefined" ? extraCocktails : []);
+  pool.forEach(function (c) {
+    if (!c) return;
+    (c.ingredients || []).forEach(function (raw) {
+      const k = normalizeIngredient(raw);
+      if (!k) return;
+      // generic rum/whiskey → count toward first concrete if listed, else skip generic in UI
+      if (k === "rum" || k === "whiskey" || k === "brandy_family") return;
+      if (!BAR_ING_BY_KEY[k]) return;
+      counts[k] = (counts[k] || 0) + 1;
+    });
+  });
+  // всегда показываем базовые позиции склада даже с 0 коктейлей
+  BAR_ING_DB.forEach(function (meta) {
+    if (counts[meta.key] == null) counts[meta.key] = 0;
+  });
+  const byCat = {};
+  Object.keys(counts).forEach(function (k) {
+    const meta = BAR_ING_BY_KEY[k];
+    if (!meta) return;
+    if (!byCat[meta.cat]) byCat[meta.cat] = [];
+    byCat[meta.cat].push({ key: k, n: counts[k], label: meta.label, group: meta.group, order: meta.order });
+  });
+  Object.keys(byCat).forEach(function (cat) {
+    byCat[cat].sort(function (a, b) {
+      if (a.group !== b.group) return a.group < b.group ? -1 : 1;
+      if (a.order !== b.order) return a.order - b.order;
+      return a.label.localeCompare(b.label, "ru");
+    });
+  });
+  return byCat;
+}
+
+function collectMakeable() {
+  const pool = (calendarCocktails || []).concat(extraCocktails || []);
+  const seen = {};
+  const makeable = [];
+  pool.forEach(function (c) {
+    if (!c) return;
+    const id = (c.nameEn || c.name || "").toLowerCase();
+    if (!id || seen[id]) return;
+    seen[id] = true;
+    const a = analyzeCocktailStock(c);
+    if (!a.show) return;
+    c._barPartial = a.partial;
+    c._barUnknown = a.unknown;
+    c._barUnknownKeys = a.keys || [];
+    c._barUnknownLabels = a.labels || [];
+    makeable.push(c);
+  });
+  // сначала полные «можно», потом «частично»
+  makeable.sort(function (a, b) {
+    const pa = a._barPartial ? 1 : 0;
+    const pb = b._barPartial ? 1 : 0;
+    if (pa !== pb) return pa - pb;
+    return (a.name || "").localeCompare(b.name || "", "ru");
+  });
+  return makeable;
+}
+
+let barOpenCat = "";
+let barIngQuery = "";
+
+function renderBar() {
+  const byCat = buildBarCatalog();
+  let confirmed = 0;
+  BAR_ING_DB.forEach(function (meta) {
+    if (getStockState(meta.key) === 2) confirmed++;
+  });
+  const outEl = document.getElementById("barOutCount");
+  if (outEl) outEl.textContent = String(confirmed);
+
+  const makeable = collectMakeable();
+  barMakeableQueue = makeable.slice();
+  const canEl = document.getElementById("barCanCount");
+  if (canEl) canEl.textContent = String(makeable.length);
+
+  const wrap = document.getElementById("barCategories");
+  if (wrap) {
+    const q = (barIngQuery || "").toLowerCase().trim();
+    wrap.innerHTML = "";
+    BAR_CAT_ORDER.forEach(function (cat) {
+      const items = (byCat[cat] || []).filter(function (it) {
+        if (!q) return true;
+        return it.label.toLowerCase().indexOf(q) !== -1 || it.key.indexOf(q) !== -1;
+      });
+      if (!items.length) return;
+      const okInCat = items.filter(function (it) { return getStockState(it.key) === 2; }).length;
+      const catEl = document.createElement("div");
+      catEl.className = "bar-cat" + (barOpenCat === cat ? " open" : "");
+      catEl.setAttribute("data-cat", cat);
+      const head = document.createElement("div");
+      head.className = "bar-cat-head";
+      head.innerHTML =
+        '<div class="bar-cat-head-left">' +
+          '<div class="bar-cat-title">' + (BAR_CAT_LABELS[cat] || cat) + '</div>' +
+          '<span class="bar-chevron">▾</span>' +
+        '</div>' +
+        '<div class="bar-cat-meta">' + items.length + (okInCat ? ' · есть: ' + okInCat : '') + '</div>';
+      head.onclick = function () {
+        barOpenCat = barOpenCat === cat ? "" : cat;
+        renderBar();
+        // открытая вкладка — к началу списка категорий / экрана
+        requestAnimationFrame(function () {
+          try {
+            const screen = document.getElementById("screen-bar");
+            const el = wrap.querySelector('.bar-cat[data-cat="' + cat + '"]');
+            if (barOpenCat && el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 12;
+              window.scrollTo({ top: Math.max(0, top), left: 0, behavior: "smooth" });
+            } else if (screen) {
+              window.scrollTo({ top: screen.offsetTop || 0, left: 0, behavior: "smooth" });
+            }
+          } catch (e) {}
+        });
+      };
+      catEl.appendChild(head);
+      const body = document.createElement("div");
+      body.className = "bar-cat-body";
+      const inner = document.createElement("div");
+      inner.className = "bar-cat-inner";
+      let prevGroup = null;
+      items.forEach(function (it) {
+        if (prevGroup && prevGroup !== it.group) {
+          const gap = document.createElement("div");
+          gap.className = "bar-group-gap";
+          inner.appendChild(gap);
+        }
+        prevGroup = it.group;
+        const st = getStockState(it.key);
+        const row = document.createElement("div");
+        row.className = "bar-ing" + (st === 0 ? " out" : "");
+        row.innerHTML =
+          '<div class="bar-ing-name">' + it.label +
+            (it.n ? '<small>в ' + it.n + ' кокт.</small>' : '<small>в базе не встречен</small>') +
+          '</div>' +
+          '<div class="bar-switch" data-key="' + it.key + '" data-state="' + st + '">' +
+            '<span class="bar-switch-thumb"></span>' +
+            '<button type="button" data-state="0" title="Нет">✕</button>' +
+            '<button type="button" data-state="1" title="Не подтверждено">·</button>' +
+            '<button type="button" data-state="2" title="Есть">✓</button>' +
+          '</div>';
+        inner.appendChild(row);
+      });
+      body.appendChild(inner);
+      catEl.appendChild(body);
+      wrap.appendChild(catEl);
+    });
+    wrap.querySelectorAll(".bar-switch button").forEach(function (btn) {
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        const sw = btn.parentElement;
+        const key = sw.getAttribute("data-key");
+        const st = parseInt(btn.getAttribute("data-state"), 10);
+        if (st === 1) delete barStock[key];
+        else barStock[key] = st;
+        saveBarStock();
+        sw.setAttribute("data-state", String(st));
+        const row = sw.closest(".bar-ing");
+        if (row) row.classList.toggle("out", st === 0);
+        // счётчики + список
+        let confirmed2 = 0;
+        BAR_ING_DB.forEach(function (meta) {
+          if (getStockState(meta.key) === 2) confirmed2++;
+        });
+        const outEl2 = document.getElementById("barOutCount");
+        if (outEl2) outEl2.textContent = String(confirmed2);
+        const makeable2 = collectMakeable();
+        barMakeableQueue = makeable2.slice();
+        const canEl2 = document.getElementById("barCanCount");
+        if (canEl2) canEl2.textContent = String(makeable2.length);
+        renderBarMakeList(makeable2);
+      };
+    });
+  }
+
+  renderBarMakeList(makeable);
+}
+
+function renderBarMakeList(makeable) {
+  const list = document.getElementById("barMakeList");
+  if (!list) return;
+  if (!makeable) makeable = collectMakeable();
+  barMakeableQueue = makeable.slice();
+  if (!makeable.length) {
+    list.innerHTML = '<div class="study-empty">Пока пусто.<br>«Можно» — только из того, что отмечено ✓. Любая позиция состава без ✓ (даже «мороженое» и т.п.) — «частично».</div>';
+    return;
+  }
+  list.innerHTML = makeable.slice(0, 60).map(function (c) {
+    const img = c.image || "";
+    const meta = [(c.profile && c.profile.base) || "", c.glass || ""].filter(Boolean).join(" · ");
+    const partial = !!c._barPartial;
+    const missingLabels = partial ? barUnknownLabels(c._barUnknownKeys || [], c._barUnknownLabels || []) : [];
+    const why = missingLabels.length
+      ? ('не отмечено: ' + missingLabels.join(', '))
+      : (partial ? 'есть неподтверждённые позиции' : '');
+    const badge = partial
+      ? '<div class="bar-make-ok bar-make-partial">частично</div>'
+      : '<div class="bar-make-ok">можно</div>';
+    return '<div class="bar-make-item' + (partial ? ' is-partial' : '') + '" data-name="' + (c.nameEn || c.name || "").replace(/"/g, "&quot;") + '">' +
+      '<img src="' + img + '" alt="">' +
+      '<div class="bar-make-text"><div class="bar-make-name">' + (c.name || "") + '</div>' +
+      '<div class="bar-make-meta">' + meta + '</div>' +
+      (why ? '<div class="bar-make-why">' + why + '</div>' : '') +
+      '</div>' +
+      badge + '</div>';
+  }).join("");
+  list.querySelectorAll(".bar-make-item").forEach(function (el) {
+    el.onclick = function () {
+      const name = el.getAttribute("data-name");
+      openMakeableCocktail(name);
+    };
+  });
+}
+
+let barReturnScrollY = 0;
+
+function openMakeableCocktail(name) {
+  try { barReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0; } catch (e) { barReturnScrollY = 0; }
+  if (!barMakeableQueue.length) barMakeableQueue = collectMakeable();
+  let idx = barMakeableQueue.findIndex(function (x) {
+    return (x.nameEn || x.name || "").toLowerCase() === (name || "").toLowerCase();
+  });
+  if (idx < 0) {
+    const pool2 = (calendarCocktails || []).concat(extraCocktails || []);
+    const c = pool2.find(function (x) {
+      return (x.nameEn || x.name || "").toLowerCase() === (name || "").toLowerCase();
+    });
+    if (!c) return;
+    barMakeableQueue = [c];
+    idx = 0;
+  }
+  barMakeableIndex = idx;
+  showBarMakeableAt(idx);
+}
+
+function showBarMakeableAt(idx) {
+  if (!barMakeableQueue.length) return;
+  if (idx < 0) idx = 0;
+  if (idx >= barMakeableQueue.length) idx = barMakeableQueue.length - 1;
+  barMakeableIndex = idx;
+  const c = barMakeableQueue[idx];
+  if (!c) return;
+  cameFrom = "bar";
+  if (c.day) { viewedExtra = null; currentDay = c.day; }
+  else viewedExtra = c;
+  const home = document.getElementById("screen-home");
+  const already = home && home.classList.contains("active");
+  if (already) {
+    animateDayCard(1);
+    renderHome();
+    scrollHomeTop();
+  } else {
+    switchScreen("home");
+    scrollHomeTopAfterSwitch();
+  }
+}
+
+function barSwipeNextMakeable() {
+  if (!barMakeableQueue.length) barMakeableQueue = collectMakeable();
+  if (barMakeableIndex < barMakeableQueue.length - 1) {
+    showBarMakeableAt(barMakeableIndex + 1);
+  } else {
+    showToast("Это последний из доступных");
+  }
+}
+
+function barSwipeBackToList() {
+  cameFrom = null;
+  viewedExtra = null;
+  var y = typeof barReturnScrollY === "number" ? barReturnScrollY : 0;
+  window.__barRestoreScrollY = y;
+  switchScreen("bar");
+  function restore() {
+    var yy = window.__barRestoreScrollY;
+    if (yy == null) return;
+    try { window.scrollTo({ top: yy, left: 0, behavior: "auto" }); } catch (e) {}
+  }
+  requestAnimationFrame(function () {
+    restore();
+    setTimeout(restore, 40);
+    setTimeout(restore, 120);
+    setTimeout(function () { window.__barRestoreScrollY = null; }, 200);
+  });
+}
+
+function bindBarMode() {
+  setBarUnlocked(barUnlocked);
+  const exit = document.getElementById("barExitBtn");
+  if (exit) exit.onclick = exitBarMode;
+  const reset = document.getElementById("barResetStock");
+  if (reset) reset.onclick = function () {
+    barStock = {};
+    saveBarStock();
+    renderBar();
+    showToast("Сброшено — подтвердите наличие заново");
+  };
+  const search = document.getElementById("barIngSearch");
+  if (search) {
+    search.oninput = function () {
+      barIngQuery = search.value || "";
+      renderBar();
+    };
+  }
+}
 
 // ===== DEV HOTSPOT HARD BIND (1 tap on 365 → PIN) =====
 (function () {
@@ -6011,6 +7575,11 @@ if (document.readyState === "loading") {
               if (tab) tab.style.display = "";
             }
           }
+        } else if (val === "2017") {
+          forceClosePinModal();
+          try { localStorage.setItem("cocktail365_bar_v1", "1"); } catch (_) {}
+          if (typeof setBarUnlocked === "function") setBarUnlocked(true);
+          if (typeof enterBarScreen === "function") enterBarScreen();
         } else if (err) {
           err.textContent = "Неверный PIN";
           if (input) { input.value = ""; input.focus(); }
